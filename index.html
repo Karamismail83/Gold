@@ -1,638 +1,327 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة وتوثيق مشتريات الذهب</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        gold: {
-                            400: '#facc15',
-                            500: '#eab308',
-                            600: '#ca8a04',
-                            700: '#a16207',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- React & React DOM CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        @media print {
-            .no-print { display: none !important; }
-            .print-only { display: block !important; }
-            body { background: white !important; color: black !important; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سجل مشتريات الذهب</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f0ea;--surface:#ffffff;--ink:#1a1a1a;--muted:#6e6a5e;--line:#ddd8c8;--accent:#151515;--accent-ink:#f0d17a;--brass:#b8912f;--pos:#1d7a4a;--neg:#b3392f;--k24:#c9a227;--k21:#1f8f7f;--k18:#c0456f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}}
+:root[data-theme="dark"]{--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Cairo",system-ui,sans-serif}
+h1,h2,.num-lg{font-family:"Amiri","Cairo",sans-serif;font-weight:600;margin:0}
+h2{font-size:1.3rem;margin-bottom:14px}
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding:12px 16px 110px}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:6px 0 12px}
+header h1{font-size:1.4rem}
+.tools{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:18px}
+.seg button{border:0;background:none;padding:11px;cursor:pointer;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;padding:12px 2px;cursor:pointer;font-size:.82rem;color:var(--muted);border-top:3px solid transparent}
+nav button[aria-current="page"]{color:var(--accent);font-weight:600;border-top-color:var(--brass)}
+@media(min-width:800px){nav{position:static;border:1px solid var(--line);border-radius:10px;margin-bottom:20px;padding:0;overflow:hidden}nav button{font-size:1rem;border-top:0;border-bottom:3px solid transparent}nav button[aria-current="page"]{border-bottom-color:var(--brass)}.wrap{padding-bottom:40px}}
+.view[hidden]{display:none}
+.hero{padding:26px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.hero small{opacity:.8;display:block}
+.num-lg{font-size:clamp(2rem,9vw,3.4rem);line-height:1.1}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+.k3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.k3 label{font-size:.82rem}
+.k4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.k4 label{font-size:1.1rem;white-space:nowrap;text-align:center;font-weight:600;margin-bottom:6px}.k4 input{text-align:center}.k4 input{padding:10px 4px}.tval{display:block;padding:10px 4px;border:1px solid var(--brass);border-radius:8px;background:color-mix(in srgb,var(--brass) 16%,var(--surface));font-weight:600;font-size:.85rem;text-align:center;overflow-wrap:anywhere;min-height:44px}
+.hint{font-size:.8rem;color:var(--muted);margin-top:4px}
+a{color:var(--accent)}
+.ledger{width:100%;border-collapse:collapse}
+.ledger td{padding:11px 0;border-bottom:1px solid var(--line)}
+.ledger tr:last-child td{border:0}
+.ledger td:last-child{text-align:start;font-weight:600;font-variant-numeric:tabular-nums}
+.ledger small{color:var(--muted);font-weight:400;display:block}
+.pos{color:var(--pos)}.neg{color:var(--neg)}
+.item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border:0}
+.thumb{width:56px;height:56px;border-radius:8px;background:var(--bg);border:1px solid var(--line);object-fit:cover;display:grid;place-items:center;color:var(--brass);font-family:"Amiri";font-size:1.1rem}
+.item b{display:block}.item span{color:var(--muted);font-size:.88rem}
+.del{border:0;background:none;color:var(--neg);cursor:pointer;padding:8px}
+.empty{color:var(--muted);padding:12px 0}
+.verdict{padding:14px;border-radius:8px;border-inline-start:4px solid var(--brass);background:var(--bg)}
+.sheet{max-width:100%;border-radius:8px;margin-top:10px;border:1px solid var(--line)}
+.kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;padding:12px 14px;background-image:linear-gradient(color-mix(in srgb,var(--c) 12%,transparent),color-mix(in srgb,var(--c) 12%,transparent))}
+.kcard b{display:flex;align-items:center;gap:8px;font-weight:600}
+.kcard b::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--c)}
+.kcard{padding:10px 8px}.kcard b{font-size:.9rem;gap:5px}.kcard b::before{width:9px;height:9px}.kcard .num-lg{font-size:1.4rem}.kcard span{font-size:.75rem;line-height:1.4}
+.kcard small{display:inline;font-size:.9rem;margin-inline-start:4px;font-family:Cairo;color:var(--muted)}
+.kcard span{display:block;color:var(--muted);font-size:.85rem}
+.grp{margin-bottom:14px}
+.gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-radius:8px;border-inline-start:6px solid var(--c);background:color-mix(in srgb,var(--c) 18%,var(--surface));font-weight:600}
+.gh span{font-weight:400;color:var(--muted);font-size:.9rem}
+.grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:600}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+#printArea{display:none}
+.pa{background:#fff;color:#111;font-family:Cairo,system-ui,sans-serif;padding:8px}
+.pa h1{font-size:20px;margin:0 0 2px}.pa p{margin:0 0 12px;color:#555;font-size:13px}
+.pg{margin:0 0 14px;border:1.5px solid var(--c);border-radius:8px;overflow:hidden}
+.pg .gh{background:color-mix(in srgb,var(--c) 28%,#fff);border-radius:0;color:#111}
+.pg .gh span{color:#333}
+.pr{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:6px 12px;border-top:1px solid #ddd;break-inside:avoid;font-size:14px}
+.pr .thumb{width:48px;height:48px;border:2px solid var(--c);color:var(--c);background:#fff}
+.pr small{display:block;color:#555}
+.pa .tot{font-weight:600;border-top:2px solid #111;padding-top:8px;display:flex;justify-content:space-between}
+@media print{.wrap{display:none!important}#printArea{display:block}body{background:#fff}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300 min-h-screen">
+<body>
+<div class="wrap">
+<header>
+  <h1 data-i="title"></h1>
+  <div class="tools">
+    <button class="btn" id="lang"></button>
+    <button class="btn" id="theme"></button>
+  </div>
+</header>
+<div class="seg" role="group" id="seg"></div>
 
-    <div id="root"></div>
+<nav id="nav"></nav>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+<main>
+<section class="view" data-v="home">
+  <div class="kgrid" id="kgrid"></div>
+  <div class="panel"><h2 data-i="rateTitle"></h2><div class="k3 k4"><div><label for="h24" class="kl" style="color:var(--k24)">24</label><input id="h24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h21" class="kl" style="color:var(--k21)">21</label><input id="h21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h18" class="kl" style="color:var(--k18)">18</label><input id="h18" type="number" min="0" step="any" inputmode="decimal"></div><div><label class="kl" data-i="totalVal"></label><output id="tval" class="tval">-</output></div></div></div>
+  <div class="panel"><table class="ledger" id="ledger"></table></div>
+  <div class="btns"><button class="btn primary" id="pdf" data-i="savePdf"></button><button class="btn" id="png" data-i="savePng"></button></div>
+</section>
 
-        function GoldApp() {
-            // State Variables
-            const [lang, setLang] = useState('ar');
-            const [isDark, setIsDark] = useState(true);
-            const [activeCategory, setActiveCategory] = useState('Gold yassmin');
-            
-            // Market Rates State
-            const [screenPrice24, setScreenPrice24] = useState(''); // SAR per gram 24K
-            const [sarToEgp, setSarToEgp] = useState('');
-            const [priceSheetImg, setPriceSheetImg] = useState(null);
+<section class="view" data-v="add" hidden>
+  <div class="panel">
+    <h2 data-i="add"></h2>
+    <form id="form" class="fields">
+      <div><label for="type" data-i="type"></label><select id="type"></select></div>
+      <div><label for="karat" data-i="karat"></label><select id="karat"><option>18</option><option selected>21</option><option>24</option></select></div>
+      <div><label for="weight" data-i="weight"></label><input id="weight" type="number" min="0" step="any" inputmode="decimal" required></div>
+      <div><label for="date" data-i="date"></label><input id="date" type="date" required></div>
+      <div><label for="gp" data-i="gramPrice"></label><input id="gp" type="number" min="0" step="any" inputmode="decimal"></div>
+      <div><label for="fee" data-i="fee"></label><input id="fee" type="number" min="0" step="any" inputmode="decimal"></div>
+      <div class="full"><label for="total" data-i="total"></label><input id="total" type="number" min="0" step="any" inputmode="decimal"><div class="hint" data-i="totalHint"></div></div>
+      <div class="full"><label for="photo" data-i="photo"></label><input id="photo" type="file" accept="image/*"></div>
+      <div class="full"><label for="notes" data-i="notes"></label><textarea id="notes" rows="2"></textarea></div>
+      <button class="btn primary full" type="submit" data-i="save"></button>
+    </form>
+  </div>
+</section>
 
-            // Year Filter for Comparison
-            const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+<section class="view" data-v="items" hidden>
+  <div class="panel"><h2 data-i="items"></h2><div id="list"></div></div>
+</section>
 
-            // Items List
-            const [items, setItems] = useState([
-                {
-                    id: 1,
-                    category: 'Gold yassmin',
-                    type: 'خاتم',
-                    typeEn: 'Ring',
-                    karat: 21,
-                    weight: 5.5,
-                    date: '2025-05-10',
-                    gramBuyPrice: 280,
-                    makingFee: 25,
-                    totalCost: 1677.5,
-                    image: null,
-                    notes: 'خاتم ذهب أنيق'
-                }
-            ]);
+<section class="view" data-v="rates" hidden>
+  <div class="panel">
+    <h2 data-i="market"></h2>
+    <label for="sheet" data-i="sheet"></label><input id="sheet" type="file" accept="image/*">
+    <div class="verdict" id="pstat" style="margin-top:10px" aria-live="polite"></div>
+    <table class="ledger" id="ptbl" style="margin-top:8px"></table>
+    <img id="sheetImg" class="sheet" alt="" hidden>
+    <div class="hint"><a href="https://sbaik.sa/%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%B0%D9%87%D8%A8/page-236935306" target="_blank" rel="noreferrer" data-i="rateLink"></a></div>
+  </div>
+  <details class="panel" open><summary data-i="manual"></summary><div class="fields" style="margin-top:12px">
+    <div class="full k3"><div><label for="p24" data-i="price24"></label><input id="p24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p21" data-i="price21"></label><input id="p21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p18" data-i="price18"></label><input id="p18" type="number" min="0" step="any" inputmode="decimal"></div></div>
+    <div><label for="pdate" data-i="pdate"></label><input id="pdate" type="date"></div>
+    <div><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div>
+    <div class="full hint" data-i="pHint"></div>
+    <div class="full btns"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div>
+  </div></details>
+</section>
 
-            // Form State
-            const [form, setForm] = useState({
-                type: 'خاتم',
-                karat: 21,
-                weight: '',
-                date: new Date().toISOString().split('T')[0],
-                gramBuyPrice: '',
-                makingFee: '',
-                totalCostManual: '',
-                image: null,
-                notes: ''
-            });
+<section class="view" data-v="zakat" hidden>
+  <div class="panel"><h2 data-i="zakat"></h2><div class="verdict" id="zakat"></div></div>
+  <div class="panel">
+    <h2 data-i="years"></h2>
+    <label for="year" data-i="pickYear"></label><select id="year"></select>
+    <table class="ledger" id="yearTbl" style="margin-top:8px"></table>
+  </div>
+</section>
+</main>
+</div>
+<div id="printArea"></div>
 
-            // Toggle Dark Mode
-            useEffect(() => {
-                if (isDark) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            }, [isDark]);
+<script>
+const T={
+ar:{title:"سجل مشتريات الذهب",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",print:"طباعة",savePdf:"حفظ PDF (مجمّع حسب العيار)",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",summary:"الحساب والربح (قيمة الخام بدون مصنعية)",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",cost:"إجمالي التكلفة",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",need:"أدخل سعر كل عيار من صفحة الأسعار لحساب القيم.",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
+en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",print:"Print",savePdf:"Save PDF (grouped by karat)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP rate",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",summary:"Profit (raw value, making fees excluded)",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",cost:"Total cost",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",need:"Enter the price of each karat on the Rates page to calculate values.",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
+};
+const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["rates","nRates"],["zakat","nZakat"]];
+const $=id=>document.getElementById(id);
+const K=[24,21,18],KC={24:"#c9a227",21:"#1f8f7f",18:"#c0456f"};
+const PRESET=null; // مثال: {date:"2026-10-06",p24:"",p21:"",p18:"",egp:""}
+let S={lang:"ar",theme:"",cat:CATS[0],p24:"",p21:"",p18:"",pdate:"",egp:"",items:[],year:new Date().getFullYear()};
+let sheetData=null,photoData=null,view="home",pmsg="";
+try{const r=localStorage.getItem("gold-v2");if(r)Object.assign(S,JSON.parse(r))}catch(e){}
+if(PRESET&&PRESET.date>(S.pdate||"")){S.pdate=PRESET.date;["p24","p21","p18","egp"].forEach(k=>{if(PRESET[k]!==undefined)S[k]=PRESET[k]})}
+const price=k=>{const o=parseFloat(S["p"+k]);if(o)return o;return(parseFloat(S.p24)||0)*k/24};
+const save=()=>{try{localStorage.setItem("gold-v2",JSON.stringify(S))}catch(e){try{localStorage.setItem("gold-v2",JSON.stringify({...S,items:S.items.map(i=>({...i,image:null}))}))}catch(e2){}}};
+const n=(v,d=2)=>Number(v).toLocaleString("en-US",{maximumFractionDigits:d});
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const read=(f,cb)=>{if(!f)return cb(null);const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)};
+const isDark=()=>S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
 
-            // Dictionary
-            const t = {
-                ar: {
-                    title: "سجل ومشتريات الذهب",
-                    langToggle: "English",
-                    categoryYassmin: "Gold yassmin",
-                    categoryKaram: "Karam Gold",
-                    marketHeader: "أسعار السوق وصرف العملات",
-                    screenPriceLabel: "سعر الشاشة عيار 24 (ريال)",
-                    sarToEgpLabel: "سعر صرف الريال (جنيه)",
-                    sbaikLink: "رابط أسعار الذهب بالسعودية",
-                    uploadSheet: "رفع صورة أسعار الذهب",
-                    addItemTitle: "إضافة قطعة جديدة",
-                    itemType: "نوع القطعة",
-                    karat: "العيار",
-                    weight: "الوزن (جرام)",
-                    date: "تاريخ الشراء",
-                    buyPrice: "سعر خام الجرام (اختياري)",
-                    makingFee: "المصنعية للجرام (اختياري)",
-                    totalCost: "إجمالي الشراء (تلقائي/يدوي)",
-                    itemImage: "صورة القطعة (اختياري)",
-                    notes: "ملاحظات (اختياري)",
-                    addBtn: "تسجيل القطعة",
-                    summaryTitle: "ملخص الحسابات والربح (بدون مصنعية عند البيع)",
-                    totalWeight: "إجمالي الوزن",
-                    totalCostSAR: "إجمالي التكلفة (SAR)",
-                    totalCostEGP: "إجمالي التكلفة (EGP)",
-                    currentValSAR: "القيمة الحالية بالخام (SAR)",
-                    currentValEGP: "القيمة الحالية بالخام (EGP)",
-                    profitSAR: "إجمالي الربح/الخسارة (SAR)",
-                    profitEGP: "إجمالي الربح/الخسارة (EGP)",
-                    zakatTitle: "حساب زكاة الذهب",
-                    zakatNisabMsg: "إجمالي الذهب النقي (عيار 24): ",
-                    zakatEligible: "بلغ النصاب الشرعي (85 جرام عيار 24 فأكثر). الزكاة المستحقة (2.5%):",
-                    zakatNotEligible: "لم يبلغ النصاب الشرعي لزكاة الذهب (85 جرام من عيار 24 الخالص).",
-                    yearCompareTitle: "مقارنة الأعوام",
-                    selectYear: "اختر السنة للمقارنة:",
-                    yearSummary: "رصيد الذهب لسنة",
-                    printBtn: "طباعة التقرير / PDF",
-                    noItems: "لا توجد قطع مسجلة في هذا التصنيف حالياً.",
-                    delete: "حذف",
-                    types: {
-                        'أسورة': 'أسورة',
-                        'خاتم': 'خاتم',
-                        'حلق': 'حلق',
-                        'غويشة': 'غويشة',
-                        'سلسلة': 'سلسلة',
-                        'انسيال': 'انسيال'
-                    }
-                },
-                en: {
-                    title: "Gold Portfolio & Tracker",
-                    langToggle: "عربي",
-                    categoryYassmin: "Gold yassmin",
-                    categoryKaram: "Karam Gold",
-                    marketHeader: "Market & Currency Rates",
-                    screenPriceLabel: "24K Market Price (SAR/g)",
-                    sarToEgpLabel: "SAR to EGP Rate",
-                    sbaikLink: "Saudi Gold Rates Link",
-                    uploadSheet: "Upload Gold Rate Sheet",
-                    addItemTitle: "Add New Item",
-                    itemType: "Item Type",
-                    karat: "Karat",
-                    weight: "Weight (grams)",
-                    date: "Purchase Date",
-                    buyPrice: "Raw Gram Price (Optional)",
-                    makingFee: "Making Fee/g (Optional)",
-                    totalCost: "Total Cost (Auto/Manual)",
-                    itemImage: "Item Photo (Optional)",
-                    notes: "Notes (Optional)",
-                    addBtn: "Save Item",
-                    summaryTitle: "Summary & Profit (Excl. Making Fees on Sale)",
-                    totalWeight: "Total Weight",
-                    totalCostSAR: "Total Cost (SAR)",
-                    totalCostEGP: "Total Cost (EGP)",
-                    currentValSAR: "Current Raw Value (SAR)",
-                    currentValEGP: "Current Raw Value (EGP)",
-                    profitSAR: "Total Profit/Loss (SAR)",
-                    profitEGP: "Total Profit/Loss (EGP)",
-                    zakatTitle: "Zakat Calculation",
-                    zakatNisabMsg: "Total Pure Gold (24K Equivalent): ",
-                    zakatEligible: "Reached Nisab threshold (85g 24K). Due Zakat (2.5%):",
-                    zakatNotEligible: "Below Nisab threshold (85g 24K pure gold).",
-                    yearCompareTitle: "Yearly Comparison",
-                    selectYear: "Select Year:",
-                    yearSummary: "Gold Balance for year",
-                    printBtn: "Print Report / PDF",
-                    noItems: "No items registered in this category.",
-                    delete: "Delete",
-                    types: {
-                        'أسورة': 'Bracelet',
-                        'خاتم': 'Ring',
-                        'حلق': 'Earring',
-                        'غويشة': 'Bangle',
-                        'سلسلة': 'Necklace',
-                        'انسيال': 'Anklet-Chain'
-                    }
-                }
-            };
+function go(v){view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.dataset.v!==v);document.querySelectorAll("#nav button").forEach(b=>b.toggleAttribute("aria-current",b.dataset.v===v)||0);document.querySelectorAll("#nav button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});window.scrollTo(0,0)}
 
-            const curT = t[lang];
+function render(){
+  const t=T[S.lang];
+  document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==="ar"?"rtl":"ltr";
+  if(S.theme)document.documentElement.dataset.theme=S.theme;
+  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t[e.dataset.i]);
+  document.title=t.title;$("lang").textContent=t.lang;$("theme").textContent=isDark()?t.light:t.dark;
+  $("seg").innerHTML=CATS.map(c=>`<button type="button" aria-pressed="${c===S.cat}" data-c="${c}">${c}</button>`).join("");
+  $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}>${t[k]}</button>`).join("");
+  const tv=$("type").value;$("type").innerHTML=Object.entries(t.types).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");if(tv)$("type").value=tv;
+  ["p24","p21","p18","egp","pdate"].forEach(id=>{if(document.activeElement!==$(id))$(id).value=S[id]||""});
+  [24,21,18].forEach(k=>{const e=$("h"+k);if(document.activeElement!==e)e.value=S["p"+k]||""});
+  $("sheetImg").hidden=!sheetData;if(sheetData)$("sheetImg").src=sheetData;
 
-            // Image Handlers
-            const handleImageUpload = (e, setImgFunc) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => setImgFunc(reader.result);
-                    reader.readAsDataURL(file);
-                }
-            };
+  $("ptbl").innerHTML=K.map(k=>`<tr><td><span style="color:var(--k${k})">●</span> ${t.karat2} ${k}</td><td>${price(k)?n(price(k))+" SAR":"-"}</td></tr>`).join("");
+  $("pstat").textContent=pmsg||(S.pdate?t.updated+" "+S.pdate:t.noPrices);
+  const its=S.items.filter(i=>i.category===S.cat);
+  const w=its.reduce((a,i)=>a+i.weight,0),pure=its.reduce((a,i)=>a+i.weight*i.karat/24,0);
+  const cost=its.reduce((a,i)=>a+i.totalCost,0),p=parseFloat(S.p24)||0,r=parseFloat(S.egp)||0;
+  const val=its.reduce((a,i)=>a+i.weight*price(i.karat),0),pr=val-cost,hasP=K.some(k=>price(k)>0);
+  $("tval").textContent=hasP?n(val):"-";
+  $("kgrid").innerHTML=K.map(k=>{const g=its.filter(i=>i.karat===k),gw=g.reduce((a,i)=>a+i.weight,0),pk=price(k);return `<div class="kcard" style="--c:var(--k${k})"><b>${t.karat2} ${k}</b><div class="num-lg">${n(gw)}<small>${t.g}</small></div><span>${g.length} ${t.pcs}${pk&&gw?" · "+n(gw*pk)+" SAR":""}</span></div>`}).join("");
+    const both=x=>n(x)+" SAR"+(r?`<small>${n(x*r)} EGP</small>`:"");
+  $("ledger").innerHTML=(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr><tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:"");
 
-            // Form Submit
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (!form.weight) return;
+  const row=i=>`<div class="item">${i.image?`<img class="thumb" src="${i.image}" alt="">`:`<div class="thumb">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
+  $("list").innerHTML=its.length?K.map(k=>{const g=its.filter(i=>i.karat===k).sort((a,b)=>b.date.localeCompare(a.date));if(!g.length)return"";return `<div class="grp" style="--c:var(--k${k})"><div class="gh"><b>${t.karat2} ${k}</b><span>${g.length} ${t.pcs} · ${n(g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>${g.map(row).join("")}</div>`}).join(""):`<div class="empty">${t.none}</div>`;
 
-                const weightNum = parseFloat(form.weight) || 0;
-                const gramPriceNum = parseFloat(form.gramBuyPrice) || 0;
-                const feeNum = parseFloat(form.makingFee) || 0;
-                
-                let calculatedTotal = 0;
-                if (gramPriceNum > 0 || feeNum > 0) {
-                    calculatedTotal = (gramPriceNum + feeNum) * weightNum;
-                } else {
-                    calculatedTotal = parseFloat(form.totalCostManual) || 0;
-                }
+  $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR)`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
+  const ys=[...new Set([new Date().getFullYear(),...S.items.map(i=>new Date(i.date).getFullYear())])].sort((a,b)=>b-a);
+  $("year").innerHTML=ys.map(y=>`<option ${y==S.year?"selected":""}>${y}</option>`).join("");
+  const yi=its.filter(i=>new Date(i.date).getFullYear()==S.year);
+  $("yearTbl").innerHTML=`<tr><td>${t.yCount}</td><td>${yi.length}</td></tr><tr><td>${t.yWeight}</td><td>${n(yi.reduce((a,i)=>a+i.weight,0))} ${t.g}</td></tr><tr><td>${t.yCost}</td><td>${n(yi.reduce((a,i)=>a+i.totalCost,0))} SAR</td></tr>`;
+}
 
-                const newItem = {
-                    id: Date.now(),
-                    category: activeCategory,
-                    type: form.type,
-                    typeEn: curT.types[form.type] || form.type,
-                    karat: parseInt(form.karat),
-                    weight: weightNum,
-                    date: form.date || new Date().toISOString().split('T')[0],
-                    gramBuyPrice: gramPriceNum,
-                    makingFee: feeNum,
-                    totalCost: calculatedTotal,
-                    image: form.image,
-                    notes: form.notes
-                };
-
-                setItems([...items, newItem]);
-                setForm({
-                    type: 'خاتم',
-                    karat: 21,
-                    weight: '',
-                    date: new Date().toISOString().split('T')[0],
-                    gramBuyPrice: '',
-                    makingFee: '',
-                    totalCostManual: '',
-                    image: null,
-                    notes: ''
-                });
-            };
-
-            const handleDelete = (id) => {
-                setItems(items.filter(item => item.id !== id));
-            };
-
-            // Calculations
-            const categoryItems = items.filter(item => item.category === activeCategory);
-            
-            const totalWeight = categoryItems.reduce((acc, item) => acc + item.weight, 0);
-            const totalCostSAR = categoryItems.reduce((acc, item) => acc + item.totalCost, 0);
-            
-            // Calculate 24K equivalent weight for current category
-            const totalPureWeight24 = categoryItems.reduce((acc, item) => {
-                return acc + (item.weight * (item.karat / 24));
-            }, 0);
-
-            // Current Raw Market Value (Excluding making fees)
-            const marketRate24 = parseFloat(screenPrice24) || 0;
-            const currentRawValSAR = categoryItems.reduce((acc, item) => {
-                const itemRate = marketRate24 * (item.karat / 24);
-                return acc + (item.weight * itemRate);
-            }, 0);
-
-            const egpRate = parseFloat(sarToEgp) || 0;
-            const totalCostEGP = totalCostSAR * egpRate;
-            const currentRawValEGP = currentRawValSAR * egpRate;
-
-            const profitSAR = currentRawValSAR - totalCostSAR;
-            const profitEGP = currentRawValEGP - totalCostEGP;
-
-            // Yearly Comparison Data
-            const yearItems = categoryItems.filter(item => new Date(item.date).getFullYear() === parseInt(selectedYear));
-            const yearTotalWeight = yearItems.reduce((acc, item) => acc + item.weight, 0);
-            const yearTotalCost = yearItems.reduce((acc, item) => acc + item.totalCost, 0);
-
-            return (
-                <div class="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
-                    
-                    {/* Header Controls */}
-                    <header class="flex flex-wrap justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow no-print gap-4">
-                        <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                            <h1 class="text-2xl font-bold text-gold-600 dark:text-gold-400">{curT.title}</h1>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <button onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')} class="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg text-sm font-semibold">
-                                {curT.langToggle}
-                            </button>
-                            <button onClick={() => setIsDark(!isDark)} class="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg text-sm font-semibold">
-                                {isDark ? '☀️ Light' : '🌙 Dark'}
-                            </button>
-                            <button onClick={() => window.print()} class="px-4 py-1.5 bg-gold-500 hover:bg-gold-600 text-black font-bold rounded-lg text-sm">
-                                {curT.printBtn}
-                            </button>
-                        </div>
-                    </header>
-
-                    {/* Main Categories Navigation */}
-                    <div class="flex justify-center gap-4 no-print">
-                        {['Gold yassmin', 'Karam Gold'].map(cat => (
-                            <button 
-                                key={cat}
-                                onClick={() => setActiveCategory(cat)}
-                                class={`px-6 py-3 rounded-xl font-bold transition-all shadow-md ${
-                                    activeCategory === cat 
-                                    ? 'bg-gold-500 text-black scale-105' 
-                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'
-                                }`}
-                            >
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Market Rates Section */}
-                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow no-print space-y-4">
-                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400 border-b pb-2 border-gray-200 dark:border-gray-700">
-                            {curT.marketHeader}
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.screenPriceLabel}</label>
-                                <input 
-                                    type="number" 
-                                    value={screenPrice24} 
-                                    onChange={(e) => setScreenPrice24(e.target.value)}
-                                    placeholder="مثال: 320"
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                                <a 
-                                    href="https://sbaik.sa/%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%B0%D9%87%D8%A8/page-236935306" 
-                                    target="_blank" 
-                                    rel="noreferrer"
-                                    class="text-xs text-blue-500 underline mt-1 block"
-                                >
-                                    🔗 {curT.sbaikLink}
-                                </a>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.sarToEgpLabel}</label>
-                                <input 
-                                    type="number" 
-                                    value={sarToEgp} 
-                                    onChange={(e) => setSarToEgp(e.target.value)}
-                                    placeholder="مثال: 13.0"
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.uploadSheet}</label>
-                                <input 
-                                    type="file" 
-                                    accept="image/*"
-                                    onChange={(e) => handleImageUpload(e, setPriceSheetImg)}
-                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-600"
-                                />
-                                {priceSheetImg && (
-                                    <div class="mt-2">
-                                        <img src={priceSheetImg} alt="Gold Rates" class="h-16 rounded object-cover border" />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Summary Cards */}
-                    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 border-gold-500">
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.totalWeight}</p>
-                            <p class="text-2xl font-bold">{totalWeight.toFixed(2)} <span class="text-sm">جرام</span></p>
-                        </div>
-                        
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 border-blue-500">
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.totalCostSAR}</p>
-                            <p class="text-xl font-bold">{totalCostSAR.toLocaleString()} SAR</p>
-                            {egpRate > 0 && <p class="text-xs text-gray-400">{totalCostEGP.toLocaleString()} EGP</p>}
-                        </div>
-
-                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 border-amber-500">
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.currentValSAR}</p>
-                            <p class="text-xl font-bold">{currentRawValSAR.toLocaleString()} SAR</p>
-                            {egpRate > 0 && <p class="text-xs text-gray-400">{currentRawValEGP.toLocaleString()} EGP</p>}
-                        </div>
-
-                        <div class={`bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 ${profitSAR >= 0 ? 'border-green-500' : 'border-red-500'}`}>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.profitSAR}</p>
-                            <p class={`text-xl font-bold ${profitSAR >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                {profitSAR.toLocaleString()} SAR
-                            </p>
-                            {egpRate > 0 && (
-                                <p class={`text-xs ${profitEGP >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                    {profitEGP.toLocaleString()} EGP
-                                </p>
-                            )}
-                        </div>
-                    </section>
-
-                    {/* Add Item Form */}
-                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow no-print">
-                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400 mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
-                            {curT.addItemTitle} ({activeCategory})
-                        </h2>
-                        <form onSubmit={handleSubmit} class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.itemType} *</label>
-                                <select 
-                                    value={form.type} 
-                                    onChange={(e) => setForm({...form, type: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                    {Object.keys(curT.types).map(tKey => (
-                                        <option key={tKey} value={tKey}>{curT.types[tKey]}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.karat} *</label>
-                                <select 
-                                    value={form.karat} 
-                                    onChange={(e) => setForm({...form, karat: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                    <option value="18">18</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="24">24</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.weight} *</label>
-                                <input 
-                                    type="number" 
-                                    step="0.01" 
-                                    required
-                                    value={form.weight} 
-                                    onChange={(e) => setForm({...form, weight: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.date}</label>
-                                <input 
-                                    type="date" 
-                                    value={form.date} 
-                                    onChange={(e) => setForm({...form, date: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.buyPrice}</label>
-                                <input 
-                                    type="number" 
-                                    step="0.1" 
-                                    value={form.gramBuyPrice} 
-                                    onChange={(e) => setForm({...form, gramBuyPrice: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.makingFee}</label>
-                                <input 
-                                    type="number" 
-                                    step="0.1" 
-                                    value={form.makingFee} 
-                                    onChange={(e) => setForm({...form, makingFee: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.totalCost}</label>
-                                <input 
-                                    type="number" 
-                                    placeholder="يدوي في حال ترك الأعلاه فارغاً"
-                                    value={form.totalCostManual} 
-                                    onChange={(e) => setForm({...form, totalCostManual: e.target.value})}
-                                    disabled={form.gramBuyPrice > 0 || form.makingFee > 0}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 disabled:opacity-50"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.itemImage}</label>
-                                <input 
-                                    type="file" 
-                                    accept="image/*"
-                                    onChange={(e) => handleImageUpload(e, (img) => setForm({...form, image: img}))}
-                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-600"
-                                />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium mb-1">{curT.notes}</label>
-                                <input 
-                                    type="text" 
-                                    value={form.notes} 
-                                    onChange={(e) => setForm({...form, notes: e.target.value})}
-                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </div>
-
-                            <div class="md:col-span-3 flex justify-end">
-                                <button type="submit" class="px-6 py-2.5 bg-gold-500 hover:bg-gold-600 text-black font-bold rounded-lg shadow">
-                                    {curT.addBtn}
-                                </button>
-                            </div>
-                        </form>
-                    </section>
-
-                    {/* Zakat Section */}
-                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow space-y-2 border-l-4 border-emerald-500">
-                        <h2 class="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-                            {curT.zakatTitle}
-                        </h2>
-                        <p class="text-sm">
-                            {curT.zakatNisabMsg} <strong>{totalPureWeight24.toFixed(2)} جرام</strong>
-                        </p>
-                        {totalPureWeight24 >= 85 ? (
-                            <div class="p-3 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 rounded-lg text-sm">
-                                ✅ {curT.zakatEligible} 
-                                <strong class="block text-base mt-1">
-                                    {(totalPureWeight24 * 0.025).toFixed(2)} جرام عيار 24 
-                                    {marketRate24 > 0 && ` ≈ ${(totalPureWeight24 * 0.025 * marketRate24).toFixed(2)} SAR`}
-                                    {marketRate24 > 0 && egpRate > 0 && ` (≈ ${(totalPureWeight24 * 0.025 * marketRate24 * egpRate).toFixed(2)} EGP)`}
-                                </strong>
-                            </div>
-                        ) : (
-                            <div class="p-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg text-sm">
-                                ℹ️ {curT.zakatNotEligible}
-                            </div>
-                        )}
-                    </section>
-
-                    {/* Yearly Comparison Tool */}
-                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow no-print space-y-3">
-                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400">
-                            {curT.yearCompareTitle}
-                        </h2>
-                        <div class="flex items-center gap-4">
-                            <label class="text-sm font-medium">{curT.selectYear}</label>
-                            <input 
-                                type="number" 
-                                value={selectedYear} 
-                                onChange={(e) => setSelectedYear(e.target.value)}
-                                class="p-2 border rounded-lg w-28 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                        </div>
-                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-sm space-y-1">
-                            <p><strong>{curT.yearSummary} {selectedYear}:</strong></p>
-                            <p>إجمالي الوزن: {yearTotalWeight.toFixed(2)} جرام</p>
-                            <p>إجمالي التكلفة: {yearTotalCost.toLocaleString()} SAR</p>
-                        </div>
-                    </section>
-
-                    {/* Registered Items List / Cards */}
-                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow space-y-4">
-                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400 border-b pb-2 border-gray-200 dark:border-gray-700">
-                            سجل القطع المسجلة ({activeCategory})
-                        </h2>
-
-                        {categoryItems.length === 0 ? (
-                            <p class="text-gray-500 text-center py-6">{curT.noItems}</p>
-                        ) : (
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {categoryItems.map(item => (
-                                    <div key={item.id} class="border dark:border-gray-700 rounded-xl p-4 flex flex-col justify-between bg-gray-50 dark:bg-gray-900/50 shadow-sm">
-                                        <div class="space-y-2">
-                                            {item.image && (
-                                                <img src={item.image} alt="Gold Item" class="w-full h-40 object-cover rounded-lg mb-2" />
-                                            )}
-                                            <div class="flex justify-between items-center border-b dark:border-gray-700 pb-2">
-                                                <span class="font-bold text-gold-600 dark:text-gold-400">
-                                                    {lang === 'ar' ? item.type : item.typeEn}
-                                                </span>
-                                                <span class="text-xs bg-gold-500 text-black px-2 py-0.5 rounded font-bold">
-                                                    عيار {item.karat}
-                                                </span>
-                                            </div>
-                                            <p class="text-sm">الوزن: <strong>{item.weight} جرام</strong></p>
-                                            <p class="text-sm">التاريخ: {item.date}</p>
-                                            {item.gramBuyPrice > 0 && <p class="text-xs text-gray-500">سعر الجرام: {item.gramBuyPrice} SAR</p>}
-                                            {item.makingFee > 0 && <p class="text-xs text-gray-500">المصنعية: {item.makingFee} SAR</p>}
-                                            <p class="text-sm font-bold text-gray-700 dark:text-gray-200">
-                                                إجمالي التكلفة: {item.totalCost.toLocaleString()} SAR
-                                            </p>
-                                            {item.notes && <p class="text-xs text-gray-400 italic">ملاحظات: {item.notes}</p>}
-                                        </div>
-
-                                        <div class="mt-4 pt-2 border-t dark:border-gray-700 flex justify-end no-print">
-                                            <button 
-                                                onClick={() => handleDelete(item.id)}
-                                                class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold rounded"
-                                            >
-                                                {curT.delete}
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </section>
-
-                </div>
-            );
-        }
-
-        ReactDOM.createRoot(document.getElementById('root')).render(<GoldApp />);
-    </script>
+$("seg").onclick=e=>{const c=e.target.dataset.c;if(c){S.cat=c;save();render()}};
+$("nav").onclick=e=>{const v=e.target.dataset.v;if(v)go(v)};
+$("lang").onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";save();render()};
+$("theme").onclick=()=>{S.theme=isDark()?"light":"dark";save();render()};
+const groupsOf=()=>{const its=S.items.filter(i=>i.category===S.cat);return K.map(k=>[k,its.filter(i=>i.karat===k).sort((a,b)=>b.date.localeCompare(a.date))]).filter(g=>g[1].length)};
+const printNow=()=>{
+  const t=T[S.lang],gs=groupsOf();if(!gs.length)return;
+  const all=gs.flatMap(g=>g[1]),tw=all.reduce((a,i)=>a+i.weight,0),tv=all.reduce((a,i)=>a+i.weight*price(i.karat),0);
+  $("printArea").innerHTML=`<div class="pa"><h1>${t.title} - ${esc(S.cat)}</h1><p>${new Date().toLocaleDateString(S.lang==="ar"?"ar-SA-u-nu-latn":"en-GB")}</p>`+gs.map(([k,g])=>`<div class="pg" style="--c:${KC[k]}"><div class="gh"><b>${t.karat2} ${k}</b><span>${g.length} ${t.pcs} · ${n(g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>${g.map(i=>`<div class="pr">${i.image?`<img class="thumb" src="${i.image}" alt="">`:`<div class="thumb">${k}</div>`}<div><b>${t.types[i.type]||i.type}</b><small>${i.date}${i.notes?" · "+esc(i.notes):""}</small></div><b>${n(i.weight)} ${t.g}</b></div>`).join("")}</div>`).join("")+`<div class="tot"><span>${t.grand}: ${all.length} ${t.pcs}</span><span>${n(tw)} ${t.g}${tv?" · "+n(tv)+" SAR":""}</span></div></div>`;
+  window.print();
+};
+const buildCanvas=async()=>{
+  const t=T[S.lang],rtl=S.lang==="ar",gs=groupsOf();if(!gs.length)return null;
+  try{await document.fonts.ready}catch(e){}
+  const all=gs.flatMap(g=>g[1]),imgs={};
+  await Promise.all(all.filter(i=>i.image).map(i=>new Promise(r=>{const im=new Image();im.onload=()=>{imgs[i.id]=im;r()};im.onerror=r;im.src=i.image})));
+  const W=1100,P=40,RH=84,GH=56,F='"Cairo",system-ui,sans-serif';
+  const H=P*2+90+gs.reduce((a,[,g])=>a+GH+g.length*RH+24,0)+60;
+  const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  x.fillStyle="#fff";x.fillRect(0,0,W,H);x.direction=rtl?"rtl":"ltr";x.textBaseline="middle";
+  const sx=(o,w)=>rtl?W-P-o-w:P+o,ax=o=>rtl?W-P-o:P+o,ex=()=>rtl?P:W-P,al=rtl?"right":"left",ol=rtl?"left":"right";
+  const tx=(s,X,Y,A,f,col)=>{x.font=f+" "+F;x.fillStyle=col;x.textAlign=A;x.fillText(s,X,Y)};
+  let y=P;const cuts=[];
+  tx(t.title+" - "+S.cat,ax(0),y+20,al,"700 34px","#111");
+  tx(new Date().toLocaleDateString(rtl?"ar-SA-u-nu-latn":"en-GB"),ax(0),y+62,al,"400 20px","#555");
+  y+=100;
+  gs.forEach(([k,g])=>{
+    const col=KC[k];
+    x.globalAlpha=.25;x.fillStyle=col;x.fillRect(P,y,W-2*P,GH);x.globalAlpha=1;
+    x.fillStyle=col;x.fillRect(sx(0,10),y,10,GH);
+    tx(t.karat2+" "+k,ax(26),y+GH/2,al,"700 26px","#111");
+    tx(g.length+" "+t.pcs+" · "+n(g.reduce((a,i)=>a+i.weight,0))+" "+t.g,ex(),y+GH/2,ol,"600 22px","#111");
+    y+=GH;
+    g.forEach(i=>{
+      x.strokeStyle="#ddd";x.lineWidth=1;x.beginPath();x.moveTo(P,y+RH);x.lineTo(W-P,y+RH);x.stroke();
+      const tl=sx(0,64),ty=y+10;
+      if(imgs[i.id]){const im=imgs[i.id],q=Math.min(im.width,im.height);x.drawImage(im,(im.width-q)/2,(im.height-q)/2,q,q,tl,ty,64,64)}
+      else tx(String(k),tl+32,ty+32,"center","700 24px",col);
+      x.strokeStyle=col;x.lineWidth=3;x.strokeRect(tl,ty,64,64);
+      tx(t.types[i.type]||i.type,ax(80),y+28,al,"600 24px","#111");
+      tx(i.date+(i.notes?" · "+i.notes:""),ax(80),y+58,al,"400 18px","#555");
+      tx(n(i.weight)+" "+t.g,ex(),y+RH/2,ol,"700 26px","#111");
+      y+=RH;cuts.push(y);
+    });
+    y+=24;cuts.push(y);
+  });
+  const tw=all.reduce((a,i)=>a+i.weight,0),tv=all.reduce((a,i)=>a+i.weight*price(i.karat),0);
+  x.fillStyle="#111";x.fillRect(P,y,W-2*P,2);
+  tx(t.grand+": "+all.length+" "+t.pcs,ax(0),y+36,al,"700 24px","#111");
+  tx(n(tw)+" "+t.g+(tv?" · "+n(tv)+" SAR":""),ex(),y+36,ol,"700 24px","#111");
+  return{c,cuts};
+};
+const dl=async(name,data)=>{
+  try{const d=window.claude?await window.claude.use("downloads"):null;if(d){await d.save({filename:name,data});return}}catch(e){return}
+  const a=document.createElement("a");a.href=URL.createObjectURL(data);a.download=name;document.body.appendChild(a);a.click();a.remove();
+};
+const fname=ext=>"gold-"+S.cat.replace(/\s+/g,"-")+"."+ext;
+$("png").onclick=async()=>{const r=await buildCanvas();if(r)r.c.toBlob(b=>dl(fname("png"),b))};
+$("pdf").onclick=async()=>{
+  const r=await buildCanvas();if(!r||!window.jspdf)return;
+  const {c,cuts}=r,PH=Math.round(c.width*1.414),pdf=new window.jspdf.jsPDF({unit:"px",format:[c.width,PH]});
+  let st=0,first=true;
+  while(st<c.height-1){
+    let en=Math.min(c.height,st+PH);
+    if(en<c.height){const k=cuts.filter(v=>v>st+40&&v<=en).pop();if(k)en=k}
+    const sl=document.createElement("canvas");sl.width=c.width;sl.height=en-st;const x=sl.getContext("2d");
+    x.fillStyle="#fff";x.fillRect(0,0,sl.width,sl.height);x.drawImage(c,0,st,c.width,en-st,0,0,c.width,en-st);
+    if(!first)pdf.addPage([c.width,PH]);first=false;
+    pdf.addImage(sl.toDataURL("image/jpeg",.92),"JPEG",0,0,c.width,en-st);st=en;
+  }
+  dl(fname("pdf"),pdf.output("blob"));
+};
+$("bak").onclick=()=>dl("gold-backup.json",new Blob([JSON.stringify(S)],{type:"application/json"}));
+$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(Array.isArray(o.items)){Object.assign(S,o);save();render()}}catch(x){}};r.readAsText(f);e.target.value=""};
+["p24","p21","p18","egp","pdate"].forEach(id=>{$(id).oninput=e=>{S[id]=e.target.value;save();render()}});
+[24,21,18].forEach(k=>{$("h"+k).oninput=e=>{S["p"+k]=e.target.value;save();render()}});
+$("year").onchange=e=>{S.year=+e.target.value;save();render()};
+const shrink=f=>new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const q=Math.min(1,1800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*q);c.height=Math.round(im.height*q);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(),"image/jpeg",.85)};im.onerror=rej;im.src=u});
+const PROMPT='This image is a screenshot of current gold prices in Saudi Arabia. Extract the price per gram in Saudi riyals for 24K, 21K and 18K. If both buy and sell prices appear, use the sell price. If prices are per ounce, tola or gold pound (8 g of 21K), convert to per gram. Reply with only JSON: {"p24":number|null,"p21":number|null,"p18":number|null,"date":"YYYY-MM-DD"|null,"basis":"one short Arabic phrase saying which price you used"}. Use null for anything not visible. Never guess.';
+$("sheet").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;const t=T[S.lang];
+  read(f,d=>{sheetData=d;render()});
+  pmsg=t.reading;render();
+  try{
+    const sample=window.claude?await window.claude.use("sample"):null;
+    if(!sample){pmsg=t.noAI;return}
+    const r=await sample.json(PROMPT,{images:await shrink(f),modelTier:"default"});
+    const num=v=>{v=parseFloat(v);return v>0?String(v):""};
+    const v={p24:num(r.p24),p21:num(r.p21),p18:num(r.p18)};
+    if(!Object.values(v).some(Boolean)){pmsg=t.fail;return}
+    Object.assign(S,v,{pdate:/^\d{4}-\d\d-\d\d$/.test(r.date||"")?r.date:new Date().toISOString().slice(0,10)});
+    pmsg=t.done+(r.basis?" - "+r.basis:"");save();
+  }catch(err){pmsg=err&&err.code==="not_granted"?t.noAI:t.fail}
+  finally{render();e.target.value=""}
+};
+$("photo").onchange=e=>read(e.target.files[0],d=>photoData=d);
+$("list").onclick=e=>{const id=e.target.dataset.d;if(id){S.items=S.items.filter(i=>i.id!=id);save();render()}};
+$("form").onsubmit=e=>{
+  e.preventDefault();
+  const w=parseFloat($("weight").value)||0;if(!w)return;
+  const gp=parseFloat($("gp").value)||0,fee=parseFloat($("fee").value)||0;
+  const totalCost=(gp||fee)?(gp+fee)*w:(parseFloat($("total").value)||0);
+  S.items.push({id:Date.now(),category:S.cat,type:$("type").value,karat:+$("karat").value,weight:w,date:$("date").value,gramBuyPrice:gp,makingFee:fee,totalCost,image:photoData,notes:$("notes").value.trim()});
+  photoData=null;$("form").reset();$("date").value=new Date().toISOString().slice(0,10);$("karat").value=21;
+  save();render();go("items");
+};
+$("date").value=new Date().toISOString().slice(0,10);
+render();go("home");
+</script>
 </body>
 </html>
