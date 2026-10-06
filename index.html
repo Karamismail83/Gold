@@ -1,3 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سجل مشتريات الذهب</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f0ea;--surface:#ffffff;--ink:#1a1a1a;--muted:#6e6a5e;--line:#ddd8c8;--accent:#151515;--accent-ink:#f0d17a;--brass:#b8912f;--pos:#1d7a4a;--neg:#b3392f;--k24:#c9a227;--k21:#1f8f7f;--k18:#c0456f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}}
+:root[data-theme="dark"]{--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Cairo",system-ui,sans-serif}
+h1,h2,.num-lg{font-family:"Amiri","Cairo",sans-serif;font-weight:600;margin:0}
+h2{font-size:1.3rem;margin-bottom:14px}
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:860px;margin:0 auto;padding:12px 16px 110px}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:6px 0 12px}
+header h1{font-size:1.4rem}
+.tools{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.btn[disabled]{opacity:.6;cursor:progress}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:18px}
+.seg button{border:0;background:none;padding:11px;cursor:pointer;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;padding:12px 2px;cursor:pointer;font-size:.82rem;color:var(--muted);border-top:3px solid transparent}
+nav button[aria-current="page"]{color:var(--accent);font-weight:600;border-top-color:var(--brass)}
+@media(min-width:800px){nav{position:static;border:1px solid var(--line);border-radius:10px;margin-bottom:20px;padding:0;overflow:hidden}nav button{font-size:1rem;border-top:0;border-bottom:3px solid transparent}nav button[aria-current="page"]{border-bottom-color:var(--brass)}.wrap{padding-bottom:40px}}
+.view[hidden]{display:none}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+.k3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.k3 label{font-size:.82rem}
+.k4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.k4 label{font-size:1.1rem;white-space:nowrap;text-align:center;font-weight:600;margin-bottom:6px}.k4 input{text-align:center;padding:10px 4px}.tval{display:block;padding:10px 4px;border:1px solid var(--brass);border-radius:8px;background:color-mix(in srgb,var(--brass) 16%,var(--surface));font-weight:600;font-size:.85rem;text-align:center;overflow-wrap:anywhere;min-height:44px}
+.hint{font-size:.8rem;color:var(--muted);margin-top:4px}
+a{color:var(--accent)}
+.ledger{width:100%;border-collapse:collapse}
+.ledger td{padding:11px 0;border-bottom:1px solid var(--line)}
+.ledger tr:last-child td{border:0}
+.ledger td:last-child{text-align:start;font-weight:600;font-variant-numeric:tabular-nums}
+.ledger small{color:var(--muted);font-weight:400;display:block}
+.pos{color:var(--pos)}.neg{color:var(--neg)}
+.item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border:0}
+.thumb{width:56px;height:56px;border-radius:8px;background:var(--bg);border:1px solid var(--line);object-fit:cover;display:grid;place-items:center;color:var(--brass);font-family:"Amiri";font-size:1.1rem}
+.item b{display:block}.item span{color:var(--muted);font-size:.88rem}
+.del{border:0;background:none;color:var(--neg);cursor:pointer;padding:8px}
+.empty{color:var(--muted);padding:12px 0}
+.verdict{padding:14px;border-radius:8px;border-inline-start:4px solid var(--brass);background:var(--bg)}
+.sheet{max-width:100%;border-radius:8px;margin-top:10px;border:1px solid var(--line)}
+.kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;padding:10px 8px;background-image:linear-gradient(color-mix(in srgb,var(--c) 12%,transparent),color-mix(in srgb,var(--c) 12%,transparent))}
+.kcard b{display:flex;align-items:center;gap:5px;font-weight:600;font-size:.9rem}
+.kcard b::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
+.kcard .num-lg{font-size:1.4rem}
+.kcard small{display:inline;font-size:.9rem;margin-inline-start:4px;font-family:Cairo;color:var(--muted)}
+.kcard span{display:block;color:var(--muted);font-size:.75rem;line-height:1.4}
+.grp{margin-bottom:14px}
+.gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-radius:8px;border-inline-start:6px solid var(--c);background:color-mix(in srgb,var(--c) 18%,var(--surface));font-weight:600}
+.gh span{font-weight:400;color:var(--muted);font-size:.9rem}
+.grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:600}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 data-i="title"></h1>
+  <div class="tools">
+    <button class="btn" id="lang"></button>
+    <button class="btn" id="theme"></button>
+  </div>
+</header>
+<div class="seg" role="group" id="seg"></div>
+
+<nav id="nav"></nav>
+
+<main>
+<section class="view" data-v="home">
+  <div class="kgrid" id="kgrid"></div>
+  <div class="panel"><h2 data-i="rateTitle"></h2><div class="k3 k4"><div><label for="h24" class="kl" style="color:var(--k24)">24</label><input id="h24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h21" class="kl" style="color:var(--k21)">21</label><input id="h21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h18" class="kl" style="color:var(--k18)">18</label><input id="h18" type="number" min="0" step="any" inputmode="decimal"></div><div><label class="kl" data-i="totalVal"></label><output id="tval" class="tval">-</output></div></div></div>
+  <div class="panel"><table class="ledger" id="ledger"></table></div>
+  <div class="btns"><button class="btn primary" id="pdf" data-i="savePdf"></button><button class="btn" id="png" data-i="savePng"></button></div>
+  <div class="hint" id="busy" aria-live="polite"></div>
+</section>
+
+<section class="view" data-v="add" hidden>
+  <div class="panel">
+    <h2 data-i="add"></h2>
+    <form id="form" class="fields">
+      <div><label for="type" data-i="type"></label><select id="type"></select></div>
+      <div><label for="karat" data-i="karat"></label><select id="karat"><option>18</option><option selected>21</option><option>24</option></select></div>
+      <div><label for="weight" data-i="weight"></label><input id="weight" type="number" min="0" step="any" inputmode="decimal" required></div>
+      <div><label for="date" data-i="date"></label><input id="date" type="date" required></div>
+      <div><label for="gp" data-i="gramPrice"></label><input id="gp" type="number" min="0" step="any" inputmode="decimal"></div>
+      <div><label for="fee" data-i="fee"></label><input id="fee" type="number" min="0" step="any" inputmode="decimal"></div>
+      <div class="full"><label for="total" data-i="total"></label><input id="total" type="number" min="0" step="any" inputmode="decimal"><div class="hint" data-i="totalHint"></div></div>
+      <div class="full"><label for="photo" data-i="photo"></label><input id="photo" type="file" accept="image/*"></div>
+      <div class="full"><label for="notes" data-i="notes"></label><textarea id="notes" rows="2"></textarea></div>
+      <button class="btn primary full" type="submit" data-i="save"></button>
+    </form>
+  </div>
+</section>
+
+<section class="view" data-v="items" hidden>
+  <div class="panel"><h2 data-i="items"></h2><div id="list"></div></div>
+</section>
+
+<section class="view" data-v="rates" hidden>
+  <div class="panel">
+    <h2 data-i="market"></h2>
+    <label for="sheet" data-i="sheet"></label><input id="sheet" type="file" accept="image/*">
+    <div class="verdict" id="pstat" style="margin-top:10px" aria-live="polite"></div>
+    <table class="ledger" id="ptbl" style="margin-top:8px"></table>
+    <img id="sheetImg" class="sheet" alt="" hidden>
+    <div class="hint"><a href="https://sbaik.sa/%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%B0%D9%87%D8%A8/page-236935306" target="_blank" rel="noreferrer" data-i="rateLink"></a></div>
+  </div>
+  <details class="panel" open><summary data-i="manual"></summary><div class="fields" style="margin-top:12px">
+    <div class="full k3"><div><label for="p24" data-i="price24"></label><input id="p24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p21" data-i="price21"></label><input id="p21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p18" data-i="price18"></label><input id="p18" type="number" min="0" step="any" inputmode="decimal"></div></div>
+    <div><label for="pdate" data-i="pdate"></label><input id="pdate" type="date"></div>
+    <div><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div>
+    <div class="full hint" data-i="pHint"></div>
+    <div class="full btns"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div>
+  </div></details>
+</section>
+
+<section class="view" data-v="zakat" hidden>
+  <div class="panel"><h2 data-i="zakat"></h2><div class="verdict" id="zakat"></div></div>
+  <div class="panel">
+    <h2 data-i="years"></h2>
+    <label for="year" data-i="pickYear"></label><select id="year"></select>
+    <table class="ledger" id="yearTbl" style="margin-top:8px"></table>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+const T={
+ar:{title:"سجل مشتريات الذهب",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
+en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP rate",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
+};
+const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["rates","nRates"],["zakat","nZakat"]];
+const $=id=>document.getElementById(id);
+const K=[24,21,18],KC={24:"#f5a623",21:"#33c47a",18:"#e8566e"};
+let S={lang:"ar",theme:"",cat:CATS[0],p24:"",p21:"",p18:"",pdate:"",egp:"",items:[],year:new Date().getFullYear()};
+let sheetData=null,photoData=null,view="home",pmsg="";
+try{const r=localStorage.getItem("gold-v2");if(r)Object.assign(S,JSON.parse(r))}catch(e){}
+/* الصور تُحفظ بالجودة الأصلية في IndexedDB (لا حد صغير مثل localStorage) */
+const IDB=new Promise(res=>{try{const q=indexedDB.open("gold-img",1);q.onupgradeneeded=()=>q.result.createObjectStore("i");q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)}catch(e){res(null)}});
+const idb=async(m,k,v)=>{const d=await IDB;if(!d)return;return new Promise(r=>{try{const s=d.transaction("i",m==="get"?"readonly":"readwrite").objectStore("i");const q=m==="get"?s.get(k):m==="put"?s.put(v,k):s.delete(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r()}catch(e){r()}})};
+S.items.forEach(i=>{if(typeof i.image!=="string")i.image=null});
+(async()=>{for(const i of S.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=(await idb("get",i.id))||null}save();render()})();
+const price=k=>{const o=parseFloat(S["p"+k]);if(o)return o;return(parseFloat(S.p24)||0)*k/24};
+const save=()=>{try{localStorage.setItem("gold-v2",JSON.stringify({...S,items:S.items.map(i=>({...i,image:null}))}))}catch(e){}};
+const n=(v,d=2)=>Number(v).toLocaleString("en-US",{maximumFractionDigits:d});
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const read=(f,cb)=>{if(!f)return cb(null);const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)};
+const isDark=()=>S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+
+function go(v){view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.dataset.v!==v);document.querySelectorAll("#nav button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});window.scrollTo(0,0)}
+
+function render(){
+  const t=T[S.lang];
+  document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==="ar"?"rtl":"ltr";
+  if(S.theme)document.documentElement.dataset.theme=S.theme;
+  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t[e.dataset.i]);
+  document.title=t.title;$("lang").textContent=t.lang;$("theme").textContent=isDark()?t.light:t.dark;
+  $("seg").innerHTML=CATS.map(c=>`<button type="button" aria-pressed="${c===S.cat}" data-c="${c}">${c}</button>`).join("");
+  $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}>${t[k]}</button>`).join("");
+  const tv=$("type").value;$("type").innerHTML=Object.entries(t.types).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");if(tv)$("type").value=tv;
+  ["p24","p21","p18","egp","pdate"].forEach(id=>{if(document.activeElement!==$(id))$(id).value=S[id]||""});
+  [24,21,18].forEach(k=>{const e=$("h"+k);if(document.activeElement!==e)e.value=S["p"+k]||""});
+  $("sheetImg").hidden=!sheetData;if(sheetData)$("sheetImg").src=sheetData;
+
+  $("ptbl").innerHTML=K.map(k=>`<tr><td><span style="color:var(--k${k})">●</span> ${t.karat2} ${k}</td><td>${price(k)?n(price(k))+" SAR":"-"}</td></tr>`).join("");
+  $("pstat").textContent=pmsg||(S.pdate?t.updated+" "+S.pdate:t.noPrices);
+  const its=S.items.filter(i=>i.category===S.cat);
+  const pure=its.reduce((a,i)=>a+i.weight*i.karat/24,0);
+  const cost=its.reduce((a,i)=>a+i.totalCost,0),p=parseFloat(S.p24)||0,r=parseFloat(S.egp)||0;
+  const val=its.reduce((a,i)=>a+i.weight*price(i.karat),0),pr=val-cost,hasP=K.some(k=>price(k)>0);
+  $("tval").textContent=hasP?n(val):"-";
+  $("kgrid").innerHTML=K.map(k=>{const g=its.filter(i=>i.karat===k),gw=g.reduce((a,i)=>a+i.weight,0),pk=price(k);return `<div class="kcard" style="--c:var(--k${k})"><b>${t.karat2} ${k}</b><div class="num-lg">${n(gw)}<small>${t.g}</small></div><span>${g.length} ${t.pcs}${pk&&gw?" · "+n(gw*pk)+" SAR":""}</span></div>`}).join("");
+  const both=x=>n(x)+" SAR"+(r?`<small>${n(x*r)} EGP</small>`:"");
+  $("ledger").innerHTML=(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr><tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:"");
+
+  const row=i=>`<div class="item">${i.image?`<img class="thumb" src="${i.image}" alt="">`:`<div class="thumb">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
+  $("list").innerHTML=its.length?K.map(k=>{const g=its.filter(i=>i.karat===k).sort((a,b)=>b.date.localeCompare(a.date));if(!g.length)return"";return `<div class="grp" style="--c:var(--k${k})"><div class="gh"><b>${t.karat2} ${k}</b><span>${g.length} ${t.pcs} · ${n(g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>${g.map(row).join("")}</div>`}).join(""):`<div class="empty">${t.none}</div>`;
+
+  $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR)`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
+  const ys=[...new Set([new Date().getFullYear(),...S.items.map(i=>new Date(i.date).getFullYear())])].sort((a,b)=>b-a);
+  $("year").innerHTML=ys.map(y=>`<option ${y==S.year?"selected":""}>${y}</option>`).join("");
+  const yi=its.filter(i=>new Date(i.date).getFullYear()==S.year);
+  $("yearTbl").innerHTML=`<tr><td>${t.yCount}</td><td>${yi.length}</td></tr><tr><td>${t.yWeight}</td><td>${n(yi.reduce((a,i)=>a+i.weight,0))} ${t.g}</td></tr><tr><td>${t.yCost}</td><td>${n(yi.reduce((a,i)=>a+i.totalCost,0))} SAR</td></tr>`;
+}
+
+$("seg").onclick=e=>{const c=e.target.dataset.c;if(c){S.cat=c;save();render()}};
+$("nav").onclick=e=>{const v=e.target.dataset.v;if(v)go(v)};
+$("lang").onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";save();render()};
+$("theme").onclick=()=>{S.theme=isDark()?"light":"dark";save();render()};
+
+/* ================= التقرير: صفحات A4 داكنة، الصور بدقتها الأصلية ================= */
+const TG={"سلسلة":"neck","انسيال":"neck","غويشة":"brace","أسورة":"brace","خاتم":"ring","حلق":"ear","سبيكة":"bar"},SECS=["neck","brace","ring","ear","bar"];
+const W=1240,H=1754,SC=2,GOLD="#f0d17a",LINE="#c9a24a",PANEL="#2e1623";
+const loadImg=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+const buildReport=async()=>{
+  const t=T[S.lang],rtl=S.lang==="ar",its=S.items.filter(i=>i.category===S.cat);if(!its.length)return null;
+  try{await Promise.all(["700 20px Cairo","400 16px Cairo","600 16px Cairo","700 20px Amiri"].map(f=>document.fonts.load(f,"عAa")))}catch(e){}
+  const imgs={};await Promise.all(its.filter(i=>i.image).map(async i=>{imgs[i.id]=await loadImg(i.image)}));
+  const M=70,G=14,CO=7,cw=(W-2*M-G*(CO-1))/CO,th=cw+46,LIM=H-110,yr=new Date().getFullYear();
+  const al=rtl?"right":"left",ol=rtl?"left":"right",sx=rtl?W-M:M,ex=rtl?M:W-M;
+  const F=(w,s)=>`${w} ${s}px "Cairo",system-ui,sans-serif`,SER=(s)=>`700 ${s}px ${rtl?'"Amiri","Cairo"':'Georgia,"Times New Roman"'},serif`;
+  const pages=[];let pg,y;
+  const tx=(s,X,Y,A,f,c,ls)=>{const x=pg.x;x.font=f;x.fillStyle=c;x.textAlign=A;x.textBaseline="middle";if("letterSpacing"in x)x.letterSpacing=ls||"0px";x.fillText(s,X,Y);if("letterSpacing"in x)x.letterSpacing="0px"};
+  const rr=(a,b,w,h,r)=>{const x=pg.x;x.beginPath();x.roundRect?x.roundRect(a,b,w,h,r):x.rect(a,b,w,h)};
+  const pill=(cx,cy,w,h,col,s,fs)=>{rr(cx-w/2,cy-h/2,w,h,h/2);pg.x.fillStyle=col;pg.x.fill();tx(s,cx,cy+1,"center",F(700,fs||18),"#1a0a12")};
+  const newPage=first=>{
+    const c=document.createElement("canvas");c.width=W*SC;c.height=H*SC;const x=c.getContext("2d");x.scale(SC,SC);x.direction=rtl?"rtl":"ltr";
+    pg={c,x,photos:[]};pages.push(pg);
+    const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#1c0b14");g.addColorStop(1,"#0b0508");x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.strokeStyle=LINE;x.lineWidth=2;rr(24,24,W-48,H-48,30);x.stroke();x.globalAlpha=.45;x.lineWidth=1;rr(36,36,W-72,H-72,22);x.stroke();x.globalAlpha=1;
+    const hh=first?180:96;x.lineWidth=1.5;x.strokeStyle=LINE;rr(M-14,64,W-2*M+28,hh,26);x.stroke();
+    tx(S.cat.toUpperCase(),sx,64+(first?66:hh/2),al,SER(first?58:36),GOLD,rtl?"0px":"8px");
+    if(first){tx(t.sub,sx,64+128,al,F(500,15),"#d8c49a",rtl?"0px":"5px");
+      rr(ex-(rtl?0:150),84,150,64,18);x.fillStyle=GOLD;x.fill();tx(String(yr),ex+(rtl?75:-75),117,"center",SER(40),"#1a0a12");
+      [18,21,24].forEach((k,i)=>pill(ex+(rtl?1:-1)*(i*52+26)+(rtl?0:0)-(rtl?-0:0),176,46,26,KC[k],k+"K",14))}
+    else tx(yr+"",ex,64+hh/2,ol,F(600,18),"#d8c49a","3px");
+    y=64+hh+40;
+  };
+  const secHead=(label,meta,cont)=>{
+    const x=pg.x;tx("◆ "+label+(cont?" · "+t.cont:""),sx,y+16,al,SER(28),GOLD,rtl?"0px":"6px");
+    const mw=Math.max(150,meta.length*11+40);rr(ex-(rtl?0:mw),y,mw,32,16);x.strokeStyle=LINE;x.lineWidth=1.2;x.stroke();tx(meta,ex+(rtl?mw/2:-mw/2),y+17,"center",F(600,16),"#f3e2b0");
+    x.globalAlpha=.4;x.fillStyle=LINE;const a=rtl?M+mw+16:sx+label.length*28+40,b=rtl?sx-label.length*28-40:W-M-mw-16;if(Math.abs(b-a)>40)x.fillRect(Math.min(a,b),y+16,Math.abs(b-a),1);x.globalAlpha=1;y+=58;
+  };
+  const tile=(i,idx)=>{
+    const c=idx%CO,X=rtl?W-M-cw-c*(cw+G):M+c*(cw+G),x=pg.x,col=KC[i.karat],s=cw-12;
+    rr(X,y,cw,th,16);x.fillStyle="#2a1420";x.fill();x.strokeStyle=col;x.lineWidth=3;x.stroke();
+    rr(X+6,y+6,s,s,10);x.fillStyle="#7a2b45";x.fill();
+    if(imgs[i.id])pg.photos.push({id:i.id,x:X+6,y:y+6,s});else tx(String(i.karat),X+cw/2,y+6+s/2,"center",SER(44),col);
+    pill(X+cw/2,y+cw+18,cw-26,30,col,(i.weight?n(i.weight):"—")+" g",18);
+  };
+  newPage(true);
+  SECS.forEach(sec=>{
+    const g=its.filter(i=>TG[i.type]===sec).sort((a,b)=>b.karat-a.karat||a.date.localeCompare(b.date));if(!g.length)return;
+    const meta=g.length+" "+t.pcs+" · "+n(g.reduce((a,i)=>a+i.weight,0))+" g";
+    if(y+58+th>LIM)newPage();secHead(t.sec[sec],meta);
+    g.forEach((i,idx)=>{if(idx>0&&idx%CO===0){y+=th+G;if(y+th>LIM){newPage();secHead(t.sec[sec],meta,1)}}tile(i,idx)});
+    y+=th+36;
+  });
+  /* صفحة الملخص */
+  newPage();const x=pg.x;
+  tx("◆ "+t.glance,sx,y+16,al,SER(28),GOLD,rtl?"0px":"6px");y+=62;
+  const cw3=(W-2*M-2*G*2)/3;
+  const cards=SECS.map(sec=>[t.sec[sec],its.filter(i=>TG[i.type]===sec)]).filter(c=>c[1].length);
+  cards.forEach(([nm,g],ci)=>{
+    const X=rtl?W-M-cw3-(ci%3)*(cw3+G*2):M+(ci%3)*(cw3+G*2),Y=y+Math.floor(ci/3)*210;
+    rr(X,Y,cw3,190,22);x.fillStyle=PANEL;x.fill();x.strokeStyle=LINE;x.lineWidth=1.5;x.stroke();
+    tx(nm,X+cw3/2,Y+28,"center",F(600,17),GOLD,rtl?"0px":"4px");
+    tx(n(g.reduce((a,i)=>a+i.weight,0),1)+" g",X+cw3/2,Y+76,"center",SER(46),"#fbeec6");
+    tx(g.length+" "+t.pcs,X+cw3/2,Y+110,"center",F(400,15),"#d8c49a");
+    const ks=[18,21,24].filter(k=>g.some(i=>i.karat===k));
+    ks.forEach((k,r)=>{const yy=Y+136+(ks.length>2?r*0:0);const cx=X+cw3*(r+.5)/ks.length;pill(cx,yy,Math.min(86,cw3/ks.length-10),28,KC[k],k+"K",15);tx(n(g.filter(i=>i.karat===k).reduce((a,i)=>a+i.weight,0))+" g",cx,yy+30,"center",F(700,15),"#f3e2b0")});
+  });
+  y+=Math.ceil(cards.length/3)*210+20;
+  tx("◆ "+t.byKarat,sx,y+16,al,SER(28),GOLD,rtl?"0px":"6px");y+=62;
+  const hold=(k,Y)=>its.filter(i=>i.karat===k&&new Date(i.date).getFullYear()<=Y).reduce((a,i)=>a+i.weight,0);
+  K.slice().reverse().forEach((k,ki)=>{
+    const X=rtl?W-M-cw3-ki*(cw3+G*2):M+ki*(cw3+G*2),a=hold(k,yr-1),b=hold(k,yr),d=b-a,col=KC[k];
+    rr(X,y,cw3,330,24);x.fillStyle=PANEL;x.fill();x.strokeStyle=col;x.lineWidth=2.5;x.stroke();
+    x.fillStyle=col;x.fillRect(X+14,y,cw3-28,8);
+    x.beginPath();x.arc(X+cw3/2,y+88,56,0,7);x.fillStyle="#2a4050";x.fill();x.lineWidth=5;x.strokeStyle=GOLD;x.stroke();
+    tx(k+"K",X+cw3/2,y+88,"center",F(600,40),GOLD);
+    [[yr-1,a,"#fbeec6"],[yr,b,col]].forEach(([yy,v,c],r)=>{rr(X+16,y+166+r*58,cw3-32,46,14);x.fillStyle="#3a1c2b";x.fill();tx(String(yy),X+30+(rtl?cw3-60:0),y+190+r*58,al,F(600,15),"#d8c49a","2px");tx(n(v)+" g",X+cw3-30-(rtl?cw3-60:0),y+190+r*58,ol,F(700,22),c)});
+    pill(X+cw3/2,y+296,cw3-32,38,d>=0?"#33c47a":"#e8566e",(d>=0?"▲ +":"▼ ")+n(d)+" g",20);
+  });
+  y+=360;
+  const tw=its.reduce((a,i)=>a+i.weight,0),pw=its.filter(i=>new Date(i.date).getFullYear()<=yr-1).reduce((a,i)=>a+i.weight,0),tv=its.reduce((a,i)=>a+i.weight*price(i.karat),0);
+  rr(M,y,W-2*M,tv?150:120,22);x.fillStyle=PANEL;x.fill();x.strokeStyle=GOLD;x.lineWidth=2;x.stroke();
+  tx(t.tot,sx+(rtl?-30:30),y+30,al,F(600,16),GOLD,rtl?"0px":"4px");
+  tx((yr-1)+"",sx+(rtl?-30:30),y+68,al,F(500,18),"#d8c49a");tx(n(pw)+" g",ex+(rtl?30:-30),y+68,ol,SER(34),"#fbeec6");
+  tx(yr+"",sx+(rtl?-30:30),y+104,al,F(500,18),"#d8c49a");tx(n(tw)+" g",ex+(rtl?30:-30),y+104,ol,SER(44),GOLD);
+  if(tv)tx(t.val+": "+n(tv)+" SAR",sx+(rtl?-30:30),y+136,al,F(600,15),"#d8c49a");
+  /* تذييل */
+  pages.forEach((p,k)=>{pg=p;tx("YASSMIN GOLD · "+yr,sx,H-64,al,F(500,14),"#a98f55","4px");tx((k+1)+" / "+pages.length,ex,H-64,ol,F(500,14),"#a98f55","3px");
+    p.x.globalAlpha=.7;p.x.fillStyle=GOLD;p.x.beginPath();p.x.moveTo(W/2,H-72);p.x.lineTo(W/2+6,H-66);p.x.lineTo(W/2,H-60);p.x.lineTo(W/2-6,H-66);p.x.fill();p.x.globalAlpha=1});
+  return{pages,imgs};
+};
+/* قص مربع من الصورة الأصلية بدون تصغير (حتى 2000px) */
+const crop=(im,max=2000)=>{const q=Math.min(im.naturalWidth,im.naturalHeight),o=Math.min(q,max),c=document.createElement("canvas");c.width=c.height=o;const x=c.getContext("2d");x.imageSmoothingQuality="high";x.drawImage(im,(im.naturalWidth-q)/2,(im.naturalHeight-q)/2,q,q,0,0,o,o);return c};
+const dl=async(name,data)=>{
+  try{const d=window.claude?await window.claude.use("downloads"):null;if(d){await d.save({filename:name,data});return}}catch(e){return}
+  const a=document.createElement("a");a.href=URL.createObjectURL(data);a.download=name;document.body.appendChild(a);a.click();a.remove();
+};
+const fname=ext=>"gold-"+S.cat.replace(/\s+/g,"-")+"."+ext;
+const busy=async(btn,fn)=>{btn.disabled=true;$("busy").textContent=T[S.lang].making;await new Promise(r=>setTimeout(r,30));try{await fn()}catch(e){console.error(e)}$("busy").textContent="";btn.disabled=false};
+$("pdf").onclick=e=>busy(e.currentTarget,async()=>{
+  const R=await buildReport();if(!R||!window.jspdf)return;
+  const pdf=new window.jspdf.jsPDF({unit:"px",format:[W,H],compress:true});
+  R.pages.forEach((p,k)=>{
+    if(k)pdf.addPage([W,H]);
+    pdf.addImage(p.c.toDataURL("image/jpeg",.98),"JPEG",0,0,W,H,undefined,"NONE");
+    p.photos.forEach(ph=>pdf.addImage(crop(R.imgs[ph.id]).toDataURL("image/jpeg",.98),"JPEG",ph.x,ph.y,ph.s,ph.s,undefined,"NONE"));
+  });
+  await dl(fname("pdf"),pdf.output("blob"));
+});
+$("png").onclick=e=>busy(e.currentTarget,async()=>{
+  const R=await buildReport();if(!R)return;
+  const c=document.createElement("canvas");c.width=W*SC;c.height=H*SC*R.pages.length;const x=c.getContext("2d");x.imageSmoothingQuality="high";
+  R.pages.forEach((p,k)=>{x.drawImage(p.c,0,k*H*SC);p.photos.forEach(ph=>{const im=R.imgs[ph.id],q=Math.min(im.naturalWidth,im.naturalHeight);x.drawImage(im,(im.naturalWidth-q)/2,(im.naturalHeight-q)/2,q,q,ph.x*SC,k*H*SC+ph.y*SC,ph.s*SC,ph.s*SC)})});
+  const b=await new Promise(r=>c.toBlob(r,"image/png"));await dl(fname("png"),b);
+});
+$("bak").onclick=()=>dl("gold-backup.json",new Blob([JSON.stringify(S)],{type:"application/json"}));
+$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result);if(Array.isArray(o.items)){for(const i of o.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=null}Object.assign(S,o);save();render()}}catch(x){}};r.readAsText(f);e.target.value=""};
+["p24","p21","p18","egp","pdate"].forEach(id=>{$(id).oninput=e=>{S[id]=e.target.value;save();render()}});
+[24,21,18].forEach(k=>{$("h"+k).oninput=e=>{S["p"+k]=e.target.value;save();render()}});
+$("year").onchange=e=>{S.year=+e.target.value;save();render()};
+const shrink=f=>new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const q=Math.min(1,1800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*q);c.height=Math.round(im.height*q);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(),"image/jpeg",.85)};im.onerror=rej;im.src=u});
+const PROMPT='This image is a screenshot of current gold prices in Saudi Arabia. Extract the price per gram in Saudi riyals for 24K, 21K and 18K. If both buy and sell prices appear, use the sell price. If prices are per ounce, tola or gold pound (8 g of 21K), convert to per gram. Reply with only JSON: {"p24":number|null,"p21":number|null,"p18":number|null,"date":"YYYY-MM-DD"|null,"basis":"one short Arabic phrase saying which price you used"}. Use null for anything not visible. Never guess.';
 $("sheet").onchange=async e=>{
   const f=e.target.files[0];if(!f)return;const t=T[S.lang];
   read(f,d=>{sheetData=d;render()});
