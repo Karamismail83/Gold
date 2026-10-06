@@ -160,7 +160,7 @@ try{const r=localStorage.getItem("gold-v2");if(r)Object.assign(S,JSON.parse(r))}
 const IDB=new Promise(res=>{try{const q=indexedDB.open("gold-img",1);q.onupgradeneeded=()=>q.result.createObjectStore("i");q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)}catch(e){res(null)}});
 const idb=async(m,k,v)=>{const d=await IDB;if(!d)return;return new Promise(r=>{try{const s=d.transaction("i",m==="get"?"readonly":"readwrite").objectStore("i");const q=m==="get"?s.get(k):m==="put"?s.put(v,k):s.delete(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r()}catch(e){r()}})};
 S.items.forEach(i=>{if(typeof i.image!=="string")i.image=null});
-(async()=>{for(const i of S.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=(await idb("get",i.id))||null}save();render()})();
+setTimeout(async()=>{for(const i of S.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=(await idb("get",i.id))||null}save();render()},0);
 const price=k=>{const o=parseFloat(S["p"+k]);if(o)return o;return(parseFloat(S.p24)||0)*k/24};
 const save=()=>{try{localStorage.setItem("gold-v2",JSON.stringify({...S,items:S.items.map(i=>({...i,image:null}))}))}catch(e){}};
 const n=(v,d=2)=>Number(v).toLocaleString("en-US",{maximumFractionDigits:d});
@@ -216,7 +216,7 @@ const loadImg=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.o
 const buildReport=async()=>{
   const t=T[S.lang],rtl=S.lang==="ar",its=S.items.filter(i=>i.category===S.cat);if(!its.length)return null;
   try{await Promise.all(["700 20px Cairo","400 16px Cairo","600 16px Cairo","700 20px Amiri"].map(f=>document.fonts.load(f,"عAa")))}catch(e){}
-  const imgs={};await Promise.all(its.filter(i=>i.image).map(async i=>{imgs[i.id]=await loadImg(i.image)}));
+  const imgs={};for(const i of its.filter(i=>i.image)){const im=await loadImg(i.image);if(im)imgs[i.id]=crop(im).toDataURL("image/jpeg",.98)}
   const M=70,G=14,CO=7,cw=(W-2*M-G*(CO-1))/CO,th=cw+46,LIM=H-110,yr=new Date().getFullYear();
   const al=rtl?"right":"left",ol=rtl?"left":"right",sx=rtl?W-M:M,ex=rtl?M:W-M;
   const F=(w,s)=>`${w} ${s}px "Cairo",system-ui,sans-serif`,SER=(s)=>`700 ${s}px ${rtl?'"Amiri","Cairo"':'Georgia,"Times New Roman"'},serif`;
@@ -309,14 +309,14 @@ $("pdf").onclick=e=>busy(e.currentTarget,async()=>{
   R.pages.forEach((p,k)=>{
     if(k)pdf.addPage([W,H]);
     pdf.addImage(p.c.toDataURL("image/jpeg",.98),"JPEG",0,0,W,H,undefined,"NONE");
-    p.photos.forEach(ph=>pdf.addImage(crop(R.imgs[ph.id]).toDataURL("image/jpeg",.98),"JPEG",ph.x,ph.y,ph.s,ph.s,undefined,"NONE"));
+    p.photos.forEach(ph=>pdf.addImage(R.imgs[ph.id],"JPEG",ph.x,ph.y,ph.s,ph.s,undefined,"NONE"));
   });
   await dl(fname("pdf"),pdf.output("blob"));
 });
 $("png").onclick=e=>busy(e.currentTarget,async()=>{
   const R=await buildReport();if(!R)return;
-  const c=document.createElement("canvas");c.width=W*SC;c.height=H*SC*R.pages.length;const x=c.getContext("2d");x.imageSmoothingQuality="high";
-  R.pages.forEach((p,k)=>{x.drawImage(p.c,0,k*H*SC);p.photos.forEach(ph=>{const im=R.imgs[ph.id],q=Math.min(im.naturalWidth,im.naturalHeight);x.drawImage(im,(im.naturalWidth-q)/2,(im.naturalHeight-q)/2,q,q,ph.x*SC,k*H*SC+ph.y*SC,ph.s*SC,ph.s*SC)})});
+  const N=R.pages.length,f=Math.min(SC,Math.sqrt(1.6e7/(W*H*N))),c=document.createElement("canvas");c.width=Math.round(W*f);c.height=Math.round(H*f*N);const x=c.getContext("2d");x.imageSmoothingQuality="high";
+  for(let k=0;k<N;k++){const p=R.pages[k];x.drawImage(p.c,0,k*H*f,W*f,H*f);for(const ph of p.photos){const im=await loadImg(R.imgs[ph.id]);if(im)x.drawImage(im,ph.x*f,k*H*f+ph.y*f,ph.s*f,ph.s*f)}}
   const b=await new Promise(r=>c.toBlob(r,"image/png"));await dl(fname("png"),b);
 });
 $("bak").onclick=()=>dl("gold-backup.json",new Blob([JSON.stringify(S)],{type:"application/json"}));
