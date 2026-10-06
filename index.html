@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة وتوثيق مشتريات الذهب</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- React & React DOM CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300 min-h-screen">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function GoldApp() {
+            // State Variables
+            const [lang, setLang] = useState('ar');
+            const [isDark, setIsDark] = useState(true);
+            const [activeCategory, setActiveCategory] = useState('Gold yassmin');
+            
+            // Market Rates State
+            const [screenPrice24, setScreenPrice24] = useState(''); // SAR per gram 24K
+            const [sarToEgp, setSarToEgp] = useState('');
+            const [priceSheetImg, setPriceSheetImg] = useState(null);
+
+            // Year Filter for Comparison
+            const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+            // Items List
+            const [items, setItems] = useState([
+                {
+                    id: 1,
+                    category: 'Gold yassmin',
+                    type: 'خاتم',
+                    typeEn: 'Ring',
+                    karat: 21,
+                    weight: 5.5,
+                    date: '2025-05-10',
+                    gramBuyPrice: 280,
+                    makingFee: 25,
+                    totalCost: 1677.5,
+                    image: null,
+                    notes: 'خاتم ذهب أنيق'
+                }
+            ]);
+
+            // Form State
+            const [form, setForm] = useState({
+                type: 'خاتم',
+                karat: 21,
+                weight: '',
+                date: new Date().toISOString().split('T')[0],
+                gramBuyPrice: '',
+                makingFee: '',
+                totalCostManual: '',
+                image: null,
+                notes: ''
+            });
+
+            // Toggle Dark Mode
+            useEffect(() => {
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }, [isDark]);
+
+            // Dictionary
+            const t = {
+                ar: {
+                    title: "سجل ومشتريات الذهب",
+                    langToggle: "English",
+                    categoryYassmin: "Gold yassmin",
+                    categoryKaram: "Karam Gold",
+                    marketHeader: "أسعار السوق وصرف العملات",
+                    screenPriceLabel: "سعر الشاشة عيار 24 (ريال)",
+                    sarToEgpLabel: "سعر صرف الريال (جنيه)",
+                    sbaikLink: "رابط أسعار الذهب بالسعودية",
+                    uploadSheet: "رفع صورة أسعار الذهب",
+                    addItemTitle: "إضافة قطعة جديدة",
+                    itemType: "نوع القطعة",
+                    karat: "العيار",
+                    weight: "الوزن (جرام)",
+                    date: "تاريخ الشراء",
+                    buyPrice: "سعر خام الجرام (اختياري)",
+                    makingFee: "المصنعية للجرام (اختياري)",
+                    totalCost: "إجمالي الشراء (تلقائي/يدوي)",
+                    itemImage: "صورة القطعة (اختياري)",
+                    notes: "ملاحظات (اختياري)",
+                    addBtn: "تسجيل القطعة",
+                    summaryTitle: "ملخص الحسابات والربح (بدون مصنعية عند البيع)",
+                    totalWeight: "إجمالي الوزن",
+                    totalCostSAR: "إجمالي التكلفة (SAR)",
+                    totalCostEGP: "إجمالي التكلفة (EGP)",
+                    currentValSAR: "القيمة الحالية بالخام (SAR)",
+                    currentValEGP: "القيمة الحالية بالخام (EGP)",
+                    profitSAR: "إجمالي الربح/الخسارة (SAR)",
+                    profitEGP: "إجمالي الربح/الخسارة (EGP)",
+                    zakatTitle: "حساب زكاة الذهب",
+                    zakatNisabMsg: "إجمالي الذهب النقي (عيار 24): ",
+                    zakatEligible: "بلغ النصاب الشرعي (85 جرام عيار 24 فأكثر). الزكاة المستحقة (2.5%):",
+                    zakatNotEligible: "لم يبلغ النصاب الشرعي لزكاة الذهب (85 جرام من عيار 24 الخالص).",
+                    yearCompareTitle: "مقارنة الأعوام",
+                    selectYear: "اختر السنة للمقارنة:",
+                    yearSummary: "رصيد الذهب لسنة",
+                    printBtn: "طباعة التقرير / PDF",
+                    noItems: "لا توجد قطع مسجلة في هذا التصنيف حالياً.",
+                    delete: "حذف",
+                    types: {
+                        'أسورة': 'أسورة',
+                        'خاتم': 'خاتم',
+                        'حلق': 'حلق',
+                        'غويشة': 'غويشة',
+                        'سلسلة': 'سلسلة',
+                        'انسيال': 'انسيال'
+                    }
+                },
+                en: {
+                    title: "Gold Portfolio & Tracker",
+                    langToggle: "عربي",
+                    categoryYassmin: "Gold yassmin",
+                    categoryKaram: "Karam Gold",
+                    marketHeader: "Market & Currency Rates",
+                    screenPriceLabel: "24K Market Price (SAR/g)",
+                    sarToEgpLabel: "SAR to EGP Rate",
+                    sbaikLink: "Saudi Gold Rates Link",
+                    uploadSheet: "Upload Gold Rate Sheet",
+                    addItemTitle: "Add New Item",
+                    itemType: "Item Type",
+                    karat: "Karat",
+                    weight: "Weight (grams)",
+                    date: "Purchase Date",
+                    buyPrice: "Raw Gram Price (Optional)",
+                    makingFee: "Making Fee/g (Optional)",
+                    totalCost: "Total Cost (Auto/Manual)",
+                    itemImage: "Item Photo (Optional)",
+                    notes: "Notes (Optional)",
+                    addBtn: "Save Item",
+                    summaryTitle: "Summary & Profit (Excl. Making Fees on Sale)",
+                    totalWeight: "Total Weight",
+                    totalCostSAR: "Total Cost (SAR)",
+                    totalCostEGP: "Total Cost (EGP)",
+                    currentValSAR: "Current Raw Value (SAR)",
+                    currentValEGP: "Current Raw Value (EGP)",
+                    profitSAR: "Total Profit/Loss (SAR)",
+                    profitEGP: "Total Profit/Loss (EGP)",
+                    zakatTitle: "Zakat Calculation",
+                    zakatNisabMsg: "Total Pure Gold (24K Equivalent): ",
+                    zakatEligible: "Reached Nisab threshold (85g 24K). Due Zakat (2.5%):",
+                    zakatNotEligible: "Below Nisab threshold (85g 24K pure gold).",
+                    yearCompareTitle: "Yearly Comparison",
+                    selectYear: "Select Year:",
+                    yearSummary: "Gold Balance for year",
+                    printBtn: "Print Report / PDF",
+                    noItems: "No items registered in this category.",
+                    delete: "Delete",
+                    types: {
+                        'أسورة': 'Bracelet',
+                        'خاتم': 'Ring',
+                        'حلق': 'Earring',
+                        'غويشة': 'Bangle',
+                        'سلسلة': 'Necklace',
+                        'انسيال': 'Anklet-Chain'
+                    }
+                }
+            };
+
+            const curT = t[lang];
+
+            // Image Handlers
+            const handleImageUpload = (e, setImgFunc) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => setImgFunc(reader.result);
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            // Form Submit
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!form.weight) return;
+
+                const weightNum = parseFloat(form.weight) || 0;
+                const gramPriceNum = parseFloat(form.gramBuyPrice) || 0;
+                const feeNum = parseFloat(form.makingFee) || 0;
+                
+                let calculatedTotal = 0;
+                if (gramPriceNum > 0 || feeNum > 0) {
+                    calculatedTotal = (gramPriceNum + feeNum) * weightNum;
+                } else {
+                    calculatedTotal = parseFloat(form.totalCostManual) || 0;
+                }
+
+                const newItem = {
+                    id: Date.now(),
+                    category: activeCategory,
+                    type: form.type,
+                    typeEn: curT.types[form.type] || form.type,
+                    karat: parseInt(form.karat),
+                    weight: weightNum,
+                    date: form.date || new Date().toISOString().split('T')[0],
+                    gramBuyPrice: gramPriceNum,
+                    makingFee: feeNum,
+                    totalCost: calculatedTotal,
+                    image: form.image,
+                    notes: form.notes
+                };
+
+                setItems([...items, newItem]);
+                setForm({
+                    type: 'خاتم',
+                    karat: 21,
+                    weight: '',
+                    date: new Date().toISOString().split('T')[0],
+                    gramBuyPrice: '',
+                    makingFee: '',
+                    totalCostManual: '',
+                    image: null,
+                    notes: ''
+                });
+            };
+
+            const handleDelete = (id) => {
+                setItems(items.filter(item => item.id !== id));
+            };
+
+            // Calculations
+            const categoryItems = items.filter(item => item.category === activeCategory);
+            
+            const totalWeight = categoryItems.reduce((acc, item) => acc + item.weight, 0);
+            const totalCostSAR = categoryItems.reduce((acc, item) => acc + item.totalCost, 0);
+            
+            // Calculate 24K equivalent weight for current category
+            const totalPureWeight24 = categoryItems.reduce((acc, item) => {
+                return acc + (item.weight * (item.karat / 24));
+            }, 0);
+
+            // Current Raw Market Value (Excluding making fees)
+            const marketRate24 = parseFloat(screenPrice24) || 0;
+            const currentRawValSAR = categoryItems.reduce((acc, item) => {
+                const itemRate = marketRate24 * (item.karat / 24);
+                return acc + (item.weight * itemRate);
+            }, 0);
+
+            const egpRate = parseFloat(sarToEgp) || 0;
+            const totalCostEGP = totalCostSAR * egpRate;
+            const currentRawValEGP = currentRawValSAR * egpRate;
+
+            const profitSAR = currentRawValSAR - totalCostSAR;
+            const profitEGP = currentRawValEGP - totalCostEGP;
+
+            // Yearly Comparison Data
+            const yearItems = categoryItems.filter(item => new Date(item.date).getFullYear() === parseInt(selectedYear));
+            const yearTotalWeight = yearItems.reduce((acc, item) => acc + item.weight, 0);
+            const yearTotalCost = yearItems.reduce((acc, item) => acc + item.totalCost, 0);
+
+            return (
+                <div class="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
+                    
+                    {/* Header Controls */}
+                    <header class="flex flex-wrap justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-xl shadow no-print gap-4">
+                        <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                            <h1 class="text-2xl font-bold text-gold-600 dark:text-gold-400">{curT.title}</h1>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')} class="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg text-sm font-semibold">
+                                {curT.langToggle}
+                            </button>
+                            <button onClick={() => setIsDark(!isDark)} class="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg text-sm font-semibold">
+                                {isDark ? '☀️ Light' : '🌙 Dark'}
+                            </button>
+                            <button onClick={() => window.print()} class="px-4 py-1.5 bg-gold-500 hover:bg-gold-600 text-black font-bold rounded-lg text-sm">
+                                {curT.printBtn}
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Categories Navigation */}
+                    <div class="flex justify-center gap-4 no-print">
+                        {['Gold yassmin', 'Karam Gold'].map(cat => (
+                            <button 
+                                key={cat}
+                                onClick={() => setActiveCategory(cat)}
+                                class={`px-6 py-3 rounded-xl font-bold transition-all shadow-md ${
+                                    activeCategory === cat 
+                                    ? 'bg-gold-500 text-black scale-105' 
+                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'
+                                }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Market Rates Section */}
+                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow no-print space-y-4">
+                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400 border-b pb-2 border-gray-200 dark:border-gray-700">
+                            {curT.marketHeader}
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.screenPriceLabel}</label>
+                                <input 
+                                    type="number" 
+                                    value={screenPrice24} 
+                                    onChange={(e) => setScreenPrice24(e.target.value)}
+                                    placeholder="مثال: 320"
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <a 
+                                    href="https://sbaik.sa/%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%B0%D9%87%D8%A8/page-236935306" 
+                                    target="_blank" 
+                                    rel="noreferrer"
+                                    class="text-xs text-blue-500 underline mt-1 block"
+                                >
+                                    🔗 {curT.sbaikLink}
+                                </a>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.sarToEgpLabel}</label>
+                                <input 
+                                    type="number" 
+                                    value={sarToEgp} 
+                                    onChange={(e) => setSarToEgp(e.target.value)}
+                                    placeholder="مثال: 13.0"
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.uploadSheet}</label>
+                                <input 
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e, setPriceSheetImg)}
+                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-600"
+                                />
+                                {priceSheetImg && (
+                                    <div class="mt-2">
+                                        <img src={priceSheetImg} alt="Gold Rates" class="h-16 rounded object-cover border" />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Summary Cards */}
+                    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 border-gold-500">
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.totalWeight}</p>
+                            <p class="text-2xl font-bold">{totalWeight.toFixed(2)} <span class="text-sm">جرام</span></p>
+                        </div>
+                        
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 border-blue-500">
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.totalCostSAR}</p>
+                            <p class="text-xl font-bold">{totalCostSAR.toLocaleString()} SAR</p>
+                            {egpRate > 0 && <p class="text-xs text-gray-400">{totalCostEGP.toLocaleString()} EGP</p>}
+                        </div>
+
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 border-amber-500">
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.currentValSAR}</p>
+                            <p class="text-xl font-bold">{currentRawValSAR.toLocaleString()} SAR</p>
+                            {egpRate > 0 && <p class="text-xs text-gray-400">{currentRawValEGP.toLocaleString()} EGP</p>}
+                        </div>
+
+                        <div class={`bg-white dark:bg-gray-800 p-4 rounded-xl shadow border-r-4 ${profitSAR >= 0 ? 'border-green-500' : 'border-red-500'}`}>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{curT.profitSAR}</p>
+                            <p class={`text-xl font-bold ${profitSAR >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                {profitSAR.toLocaleString()} SAR
+                            </p>
+                            {egpRate > 0 && (
+                                <p class={`text-xs ${profitEGP >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                    {profitEGP.toLocaleString()} EGP
+                                </p>
+                            )}
+                        </div>
+                    </section>
+
+                    {/* Add Item Form */}
+                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow no-print">
+                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400 mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                            {curT.addItemTitle} ({activeCategory})
+                        </h2>
+                        <form onSubmit={handleSubmit} class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.itemType} *</label>
+                                <select 
+                                    value={form.type} 
+                                    onChange={(e) => setForm({...form, type: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                    {Object.keys(curT.types).map(tKey => (
+                                        <option key={tKey} value={tKey}>{curT.types[tKey]}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.karat} *</label>
+                                <select 
+                                    value={form.karat} 
+                                    onChange={(e) => setForm({...form, karat: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                    <option value="18">18</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="24">24</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.weight} *</label>
+                                <input 
+                                    type="number" 
+                                    step="0.01" 
+                                    required
+                                    value={form.weight} 
+                                    onChange={(e) => setForm({...form, weight: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.date}</label>
+                                <input 
+                                    type="date" 
+                                    value={form.date} 
+                                    onChange={(e) => setForm({...form, date: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.buyPrice}</label>
+                                <input 
+                                    type="number" 
+                                    step="0.1" 
+                                    value={form.gramBuyPrice} 
+                                    onChange={(e) => setForm({...form, gramBuyPrice: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.makingFee}</label>
+                                <input 
+                                    type="number" 
+                                    step="0.1" 
+                                    value={form.makingFee} 
+                                    onChange={(e) => setForm({...form, makingFee: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.totalCost}</label>
+                                <input 
+                                    type="number" 
+                                    placeholder="يدوي في حال ترك الأعلاه فارغاً"
+                                    value={form.totalCostManual} 
+                                    onChange={(e) => setForm({...form, totalCostManual: e.target.value})}
+                                    disabled={form.gramBuyPrice > 0 || form.makingFee > 0}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600 disabled:opacity-50"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.itemImage}</label>
+                                <input 
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={(e) => handleImageUpload(e, (img) => setForm({...form, image: img}))}
+                                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gold-500 file:text-black hover:file:bg-gold-600"
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">{curT.notes}</label>
+                                <input 
+                                    type="text" 
+                                    value={form.notes} 
+                                    onChange={(e) => setForm({...form, notes: e.target.value})}
+                                    class="w-full p-2 rounded-lg border dark:bg-gray-700 dark:border-gray-600"
+                                />
+                            </div>
+
+                            <div class="md:col-span-3 flex justify-end">
+                                <button type="submit" class="px-6 py-2.5 bg-gold-500 hover:bg-gold-600 text-black font-bold rounded-lg shadow">
+                                    {curT.addBtn}
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+
+                    {/* Zakat Section */}
+                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow space-y-2 border-l-4 border-emerald-500">
+                        <h2 class="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                            {curT.zakatTitle}
+                        </h2>
+                        <p class="text-sm">
+                            {curT.zakatNisabMsg} <strong>{totalPureWeight24.toFixed(2)} جرام</strong>
+                        </p>
+                        {totalPureWeight24 >= 85 ? (
+                            <div class="p-3 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 rounded-lg text-sm">
+                                ✅ {curT.zakatEligible} 
+                                <strong class="block text-base mt-1">
+                                    {(totalPureWeight24 * 0.025).toFixed(2)} جرام عيار 24 
+                                    {marketRate24 > 0 && ` ≈ ${(totalPureWeight24 * 0.025 * marketRate24).toFixed(2)} SAR`}
+                                    {marketRate24 > 0 && egpRate > 0 && ` (≈ ${(totalPureWeight24 * 0.025 * marketRate24 * egpRate).toFixed(2)} EGP)`}
+                                </strong>
+                            </div>
+                        ) : (
+                            <div class="p-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg text-sm">
+                                ℹ️ {curT.zakatNotEligible}
+                            </div>
+                        )}
+                    </section>
+
+                    {/* Yearly Comparison Tool */}
+                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow no-print space-y-3">
+                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400">
+                            {curT.yearCompareTitle}
+                        </h2>
+                        <div class="flex items-center gap-4">
+                            <label class="text-sm font-medium">{curT.selectYear}</label>
+                            <input 
+                                type="number" 
+                                value={selectedYear} 
+                                onChange={(e) => setSelectedYear(e.target.value)}
+                                class="p-2 border rounded-lg w-28 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-sm space-y-1">
+                            <p><strong>{curT.yearSummary} {selectedYear}:</strong></p>
+                            <p>إجمالي الوزن: {yearTotalWeight.toFixed(2)} جرام</p>
+                            <p>إجمالي التكلفة: {yearTotalCost.toLocaleString()} SAR</p>
+                        </div>
+                    </section>
+
+                    {/* Registered Items List / Cards */}
+                    <section class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow space-y-4">
+                        <h2 class="text-lg font-bold text-gold-600 dark:text-gold-400 border-b pb-2 border-gray-200 dark:border-gray-700">
+                            سجل القطع المسجلة ({activeCategory})
+                        </h2>
+
+                        {categoryItems.length === 0 ? (
+                            <p class="text-gray-500 text-center py-6">{curT.noItems}</p>
+                        ) : (
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {categoryItems.map(item => (
+                                    <div key={item.id} class="border dark:border-gray-700 rounded-xl p-4 flex flex-col justify-between bg-gray-50 dark:bg-gray-900/50 shadow-sm">
+                                        <div class="space-y-2">
+                                            {item.image && (
+                                                <img src={item.image} alt="Gold Item" class="w-full h-40 object-cover rounded-lg mb-2" />
+                                            )}
+                                            <div class="flex justify-between items-center border-b dark:border-gray-700 pb-2">
+                                                <span class="font-bold text-gold-600 dark:text-gold-400">
+                                                    {lang === 'ar' ? item.type : item.typeEn}
+                                                </span>
+                                                <span class="text-xs bg-gold-500 text-black px-2 py-0.5 rounded font-bold">
+                                                    عيار {item.karat}
+                                                </span>
+                                            </div>
+                                            <p class="text-sm">الوزن: <strong>{item.weight} جرام</strong></p>
+                                            <p class="text-sm">التاريخ: {item.date}</p>
+                                            {item.gramBuyPrice > 0 && <p class="text-xs text-gray-500">سعر الجرام: {item.gramBuyPrice} SAR</p>}
+                                            {item.makingFee > 0 && <p class="text-xs text-gray-500">المصنعية: {item.makingFee} SAR</p>}
+                                            <p class="text-sm font-bold text-gray-700 dark:text-gray-200">
+                                                إجمالي التكلفة: {item.totalCost.toLocaleString()} SAR
+                                            </p>
+                                            {item.notes && <p class="text-xs text-gray-400 italic">ملاحظات: {item.notes}</p>}
+                                        </div>
+
+                                        <div class="mt-4 pt-2 border-t dark:border-gray-700 flex justify-end no-print">
+                                            <button 
+                                                onClick={() => handleDelete(item.id)}
+                                                class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold rounded"
+                                            >
+                                                {curT.delete}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </section>
+
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<GoldApp />);
+    </script>
+</body>
+</html>
