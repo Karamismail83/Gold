@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>سجل مشتريات الذهب</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f2f0ea;--surface:#ffffff;--ink:#1a1a1a;--muted:#6e6a5e;--line:#ddd8c8;--accent:#151515;--accent-ink:#f0d17a;--brass:#b8912f;--pos:#1d7a4a;--neg:#b3392f;--k24:#c9a227;--k21:#1f8f7f;--k18:#c0456f;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}}
-:root[data-theme="dark"]{--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Cairo",system-ui,sans-serif}
-h1,h2,.num-lg{font-family:"Amiri","Cairo",sans-serif;font-weight:600;margin:0}
-h2{font-size:1.3rem;margin-bottom:14px}
-:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
-button,input,select,textarea{font:inherit;color:inherit}
-.wrap{max-width:860px;margin:0 auto;padding:12px 16px 110px}
-header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:6px 0 12px}
-header h1{font-size:1.4rem}
-.tools{display:flex;gap:8px}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:40px}
-.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
-.btn[disabled]{opacity:.6;cursor:progress}
-.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:18px}
-.seg button{border:0;background:none;padding:11px;cursor:pointer;font-weight:600}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
-nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
-nav button{flex:1;border:0;background:none;padding:12px 2px;cursor:pointer;font-size:.82rem;color:var(--muted);border-top:3px solid transparent}
+$("sheet").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;const t=T[S.lang];
+  read(f,d=>{sheetData=d;render()});
+  pmsg=t.reading;render();
+  try{
+    const sample=window.claude?await window.claude.use("sample"):null;
+    if(!sample){pmsg=t.noAI;return}
+    const r=await sample.json(PROMPT,{images:await shrink(f),modelTier:"default"});
+    const num=v=>{v=parseFloat(v);return v>0?String(v):""};
+    const v={p24:num(r.p24),p21:num(r.p21),p18:num(r.p18)};
+    if(!Object.values(v).some(Boolean)){pmsg=t.fail;return}
+    Object.assign(S,v,{pdate:/^\d{4}-\d\d-\d\d$/.test(r.date||"")?r.date:new Date().toISOString().slice(0,10)});
+    pmsg=t.done+(r.basis?" - "+r.basis:"");save();
+  }catch(err){pmsg=err&&err.code==="not_granted"?t.noAI:t.fail}
+  finally{render();e.target.value=""}
+};
+$("photo").onchange=e=>read(e.target.files[0],d=>photoData=d);
+$("list").onclick=e=>{const id=e.target.dataset.d;if(id){idb("del",+id);S.items=S.items.filter(i=>i.id!=id);save();render()}};
+$("form").onsubmit=e=>{
+  e.preventDefault();
+  const w=parseFloat($("weight").value)||0;if(!w)return;
+  const gp=parseFloat($("gp").value)||0,fee=parseFloat($("fee").value)||0;
+  const totalCost=(gp||fee)?(gp+fee)*w:(parseFloat($("total").value)||0),id=Date.now();
+  if(photoData)idb("put",id,photoData);
+  S.items.push({id,category:S.cat,type:$("type").value,karat:+$("karat").value,weight:w,date:$("date").value,gramBuyPrice:gp,makingFee:fee,totalCost,image:photoData,notes:$("notes").value.trim()});
+  photoData=null;$("form").reset();$("date").value=new Date().toISOString().slice(0,10);$("karat").value=21;
+  save();render();go("items");
+};
+$("date").value=new Date().toISOString().slice(0,10);
+render();go("home");
+</script>
+</body>
+</html>
