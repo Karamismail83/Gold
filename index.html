@@ -3,80 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a3f82">
 <title>سجل مشتريات الذهب</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f2f0ea;--surface:#ffffff;--ink:#1a1a1a;--muted:#6e6a5e;--line:#ddd8c8;--accent:#151515;--accent-ink:#f0d17a;--brass:#b8912f;--pos:#1d7a4a;--neg:#b3392f;--k24:#c9a227;--k21:#1f8f7f;--k18:#c0456f;
+:root{--bg:#eef3f9;--surface:#ffffff;--ink:#0d2745;--muted:#6a7f98;--line:#e0e8f2;--accent:#0b5cb5;--accent2:#0a3f82;--accent-ink:#ffffff;--brass:#0b5cb5;--soft:#e8f1fc;--pos:#16895a;--neg:#d23c3c;--k24:#d99a1e;--k21:#10a08a;--k18:#e0527c;--sh:0 4px 16px rgba(10,60,130,.08);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}}
-:root[data-theme="dark"]{--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#061426;--surface:#0e2644;--ink:#e8f1fc;--muted:#8fa7c4;--line:#1c3a60;--accent:#3b97f2;--accent2:#1c6fc4;--brass:#3b97f2;--soft:#12335c;--pos:#4fd39a;--neg:#ff7b7b;--k24:#f0b13a;--k21:#2fd0b8;--k18:#f27a9d;--sh:0 4px 16px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#061426;--surface:#0e2644;--ink:#e8f1fc;--muted:#8fa7c4;--line:#1c3a60;--accent:#3b97f2;--accent2:#1c6fc4;--brass:#3b97f2;--soft:#12335c;--pos:#4fd39a;--neg:#ff7b7b;--k24:#f0b13a;--k21:#2fd0b8;--k18:#f27a9d;--sh:0 4px 16px rgba(0,0,0,.35)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Cairo",system-ui,sans-serif}
-h1,h2,.num-lg{font-family:"Amiri","Cairo",sans-serif;font-weight:600;margin:0}
-h2{font-size:1.3rem;margin-bottom:14px}
+h1,h2,.num-lg{font-family:"Cairo",system-ui,sans-serif;font-weight:700;margin:0}
+h2{font-size:1.1rem;margin-bottom:14px}
 :focus-visible{outline:3px solid var(--brass);outline-offset:2px}
 button,input,select,textarea{font:inherit;color:inherit}
 .wrap{max-width:860px;margin:0 auto;padding:12px 16px 110px}
-header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:6px 0 12px}
-header h1{font-size:1.4rem}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:16px;margin-bottom:14px;border-radius:22px;background:linear-gradient(135deg,#0b5cb5 0%,#0a3f82 60%,#072c5c 100%);color:#fff;box-shadow:var(--sh)}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.logo svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+header h1{font-size:1.2rem;line-height:1.3}
+.sub{font-size:.76rem;opacity:.8;line-height:1.4}
 .tools{display:flex;gap:8px}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:40px}
-.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.tools .btn{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;border-radius:20px;padding:6px 12px;min-height:36px;font-size:.85rem}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 14px;cursor:pointer;min-height:42px}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;font-weight:700}
 .btn[disabled]{opacity:.6;cursor:progress}
-.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:18px}
-.seg button{border:0;background:none;padding:11px;cursor:pointer;font-weight:600}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
-nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
-nav button{flex:1;border:0;background:none;padding:12px 2px;cursor:pointer;font-size:.82rem;color:var(--muted);border-top:3px solid transparent}
-nav button[aria-current="page"]{color:var(--accent);font-weight:600;border-top-color:var(--brass)}
-@media(min-width:800px){nav{position:static;border:1px solid var(--line);border-radius:10px;margin-bottom:20px;padding:0;overflow:hidden}nav button{font-size:1rem;border-top:0;border-bottom:3px solid transparent}nav button[aria-current="page"]{border-bottom-color:var(--brass)}.wrap{padding-bottom:40px}}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:var(--soft);margin-bottom:18px}
+.seg button{border:0;background:none;padding:10px;cursor:pointer;font-weight:600;border-radius:11px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--accent);box-shadow:var(--sh)}
+nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -4px 20px rgba(10,60,130,.14);padding:6px 6px env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;padding:6px 2px;cursor:pointer;font-size:.74rem;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:14px}
+nav button *{pointer-events:none}
+nav button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button[aria-current="page"]{color:var(--accent);font-weight:700;background:var(--soft)}
+@media(min-width:800px){nav{position:static;border-radius:16px;margin-bottom:20px;padding:4px;box-shadow:var(--sh)}nav button{flex-direction:row;justify-content:center;gap:8px;font-size:1rem;padding:8px}.wrap{padding-bottom:40px}}
 .view[hidden]{display:none}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--sh)}
 label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:4px}
-input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .full{grid-column:1/-1}
 .k3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .k3 label{font-size:.82rem}
-.k4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.k4 label{font-size:1.1rem;white-space:nowrap;text-align:center;font-weight:600;margin-bottom:6px}.k4 input{text-align:center;padding:10px 4px}.tval{display:block;padding:10px 4px;border:1px solid var(--brass);border-radius:8px;background:color-mix(in srgb,var(--brass) 16%,var(--surface));font-weight:600;font-size:.85rem;text-align:center;overflow-wrap:anywhere;min-height:44px}
+.k4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.k4 label{font-size:1.1rem;white-space:nowrap;text-align:center;font-weight:700;margin-bottom:6px}.k4 input{text-align:center;padding:10px 4px}.tval{display:block;padding:10px 4px;border:1px solid var(--brass);border-radius:12px;background:var(--soft);font-weight:700;font-size:.85rem;text-align:center;overflow-wrap:anywhere;min-height:44px;color:var(--accent)}
 .hint{font-size:.8rem;color:var(--muted);margin-top:4px}
 a{color:var(--accent)}
 .ledger{width:100%;border-collapse:collapse}
 .ledger td{padding:11px 0;border-bottom:1px solid var(--line)}
 .ledger tr:last-child td{border:0}
-.ledger td:last-child{text-align:start;font-weight:600;font-variant-numeric:tabular-nums}
+.ledger td:last-child{text-align:start;font-weight:700;font-variant-numeric:tabular-nums}
 .ledger small{color:var(--muted);font-weight:400;display:block}
 .pos{color:var(--pos)}.neg{color:var(--neg)}
 .item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .item:last-child{border:0}
-.thumb{width:56px;height:56px;border-radius:8px;background:var(--ph,var(--bg));border:1px solid var(--line);object-fit:cover;display:grid;place-items:center;color:var(--brass);font-family:"Amiri";font-size:1.1rem}
+.thumb{width:56px;height:56px;border-radius:14px;background:var(--soft);border:1px solid var(--line);object-fit:cover;display:grid;place-items:center;color:var(--brass);font-family:"Cairo";font-weight:700;font-size:1.1rem}
 .item b{display:block}.item span{color:var(--muted);font-size:.88rem}
 .del{border:0;background:none;color:var(--neg);cursor:pointer;padding:8px}
 .empty{color:var(--muted);padding:12px 0}
-.verdict{padding:14px;border-radius:8px;border-inline-start:4px solid var(--brass);background:var(--bg)}
+.verdict{padding:14px;border-radius:14px;border-inline-start:4px solid var(--brass);background:var(--soft)}
 .sheet{max-width:100%;border-radius:8px;margin-top:10px;border:1px solid var(--line)}
 .kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
-.kcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;padding:10px 8px;background-image:linear-gradient(color-mix(in srgb,var(--c) 12%,transparent),color-mix(in srgb,var(--c) 12%,transparent))}
-.kcard b{display:flex;align-items:center;gap:5px;font-weight:600;font-size:.9rem}
+.kcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:16px;padding:10px 8px;box-shadow:var(--sh);background-image:linear-gradient(color-mix(in srgb,var(--c) 10%,transparent),color-mix(in srgb,var(--c) 10%,transparent))}
+.kcard b{display:flex;align-items:center;gap:5px;font-weight:700;font-size:.9rem}
 .kcard b::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
 .kcard .num-lg{font-size:1.4rem}
 .kcard small{display:inline;font-size:.9rem;margin-inline-start:4px;font-family:Cairo;color:var(--muted)}
 .kcard span{display:block;color:var(--muted);font-size:.75rem;line-height:1.4}
 .grp{margin-bottom:14px}
-.gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-radius:8px;border-inline-start:6px solid var(--c);background:color-mix(in srgb,var(--c) 18%,var(--surface));font-weight:600}
+.gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-radius:12px;border-inline-start:6px solid var(--c);background:color-mix(in srgb,var(--c) 16%,var(--surface));font-weight:700}
 .gh span{font-weight:400;color:var(--muted);font-size:.9rem}
-.grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:600}
-.seg button[data-c="Gold yassmin"][aria-pressed="true"]{background:#9b2f48;color:#fff}.seg button[data-c="Karam Gold"][aria-pressed="true"]{background:#1f56a8;color:#fff}
+.grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:700}
 .btns{display:flex;gap:10px;flex-wrap:wrap}.item,.thumb{cursor:pointer}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <h1 data-i="title"></h1>
+  <div class="brand"><span class="logo"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 6 3-6M12 21 9 9m3 12 3-12"/></svg></span><div><h1 data-i="title"></h1><div class="sub" data-i="sub"></div></div></div>
   <div class="tools">
     <button class="btn" id="lang"></button>
     <button class="btn" id="theme"></button>
@@ -88,7 +96,7 @@ a{color:var(--accent)}
 <section class="view" data-v="home">
   <div class="kgrid" id="kgrid"></div>
   <div class="panel"><h2 data-i="rateTitle"></h2><div class="k3 k4"><div><label for="h24" class="kl" style="color:var(--k24)">24</label><input id="h24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h21" class="kl" style="color:var(--k21)">21</label><input id="h21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h18" class="kl" style="color:var(--k18)">18</label><input id="h18" type="number" min="0" step="any" inputmode="decimal"></div><div><label class="kl" data-i="totalVal"></label><output id="tval" class="tval">-</output></div></div></div>
-  <div class="panel"><div class="fields"><div><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="sar" data-i="sarRate"></label><input id="sar" type="number" min="0" step="any" inputmode="decimal"></div><div class="full hint" data-i="pHint"></div></div></div>
+  <div class="panel"><div class="fields"><div class="full"><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div><div class="full hint" data-i="pHint"></div></div></div>
   <div class="panel"><table class="ledger" id="ledger"></table></div>
   <div class="panel"><label for="scope" data-i="scope"></label><select id="scope"></select></div>
   <div class="btns"><button class="btn primary" id="pdf" data-i="savePdf"></button><button class="btn" id="png" data-i="savePng"></button></div>
@@ -132,6 +140,7 @@ en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"T
 const SEED=[]; // بيانات ياسمين الأولية (الصور) موجودة في الملف الكامل فقط
 const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["zakat","nZakat"]];
 const $=id=>document.getElementById(id);
+const IC={home:'<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/>',add:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',items:'<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>',zakat:'<path d="M12 3v18M5 7h14M5 7l-3 8a4 3 0 0 0 6 0zM19 7l-3 8a4 3 0 0 0 6 0z"/>'};
 const K=[24,21,18],KC={24:"#f5a623",21:"#33c47a",18:"#e8566e"};
 let S={lang:"ar",theme:"",cat:CATS[0],p24:"",p21:"",p18:"",pdate:"",egp:"",items:[],year:new Date().getFullYear(),prev:{"Gold yassmin":{"18":59.56,"21":187.44,"24":69.1}}};
 let photoData=null,view="home",editId=null,pickId=null;
@@ -157,11 +166,10 @@ function render(){
   document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t[e.dataset.i]);
   document.title=t.title;$("lang").textContent=t.lang;$("theme").textContent=isDark()?t.light:t.dark;
   $("seg").innerHTML=CATS.map(c=>`<button type="button" aria-pressed="${c===S.cat}" data-c="${c}">${c}</button>`).join("");
-  document.documentElement.style.setProperty("--ph",S.cat===CATS[0]?"#5a1a2c":"#0b4a34");
   $("seedBtn").hidden=!SEED.length;$("scope").innerHTML=[[CATS[0],t.scY],[CATS[1],t.scK],["both",t.scB]].map(([v,l])=>`<option value="${v}">${l}</option>`).join("");$("scope").value=S.scope||S.cat;
-  $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}>${t[k]}</button>`).join("");
+  $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}><svg viewBox="0 0 24 24">${IC[v]}</svg><span>${t[k]}</span></button>`).join("");
   const tv=$("type").value;$("type").innerHTML=Object.entries(t.types).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");if(tv)$("type").value=tv;
-  ["egp","sar"].forEach(id=>{if(document.activeElement!==$(id))$(id).value=S[id]||""});
+  if(document.activeElement!==$("egp"))$("egp").value=S.egp||"";
   [24,21,18].forEach(k=>{const e=$("h"+k);if(document.activeElement!==e)e.value=S["p"+k]||""});
   const its=S.items.filter(i=>i.category===S.cat);
   const pure=its.reduce((a,i)=>a+i.weight*i.karat/24,0);
@@ -201,7 +209,6 @@ const enhance=async src=>{
   a.set(o);const k=.45,w4=w*4;
   for(let yy=1;yy<h-1;yy++)for(let xx=1;xx<w-1;xx++){const p=yy*w4+xx*4;for(let j=0;j<3;j++)a[p+j]=o[p+j]*(1+4*k)-k*(o[p-4+j]+o[p+4+j]+o[p-w4+j]+o[p+w4+j])}
   x.putImageData(d,0,0);return c.toDataURL("image/jpeg",.95)};
-
 $("seedBtn").onclick=async()=>{if(seedNow()){for(const i of S.items)if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);S.cat=CATS[0];S.scope=CATS[0];save();render()}else $("busy2").textContent=T[S.lang].seedHas};
 $("enh").onclick=async e=>{const b=e.currentTarget,t=T[S.lang],L=S.items.filter(i=>i.image&&!i.enh);b.disabled=true;let k=0;for(const i of L){$("busy2").textContent=t.enhing+" "+(++k)+"/"+L.length;try{i.image=await enhance(i.image);i.enh=1;await idb("put",i.id,i.image)}catch(x){}}$("busy2").textContent="";b.disabled=false;save();render()};
 const THEMES={"Gold yassmin":{a:"#2b0c17",b:"#0e0407",p:"#3a1420",t:"#4a1626",ph:"#5a1a2c",r:"#4d1c2c",c:"#5a2335"},"Karam Gold":{a:"#0d1f3c",b:"#040a16",p:"#12294a",t:"#10223f",ph:"#0b4a34",r:"#1a3a66",c:"#1c4a7a"}};
@@ -315,7 +322,7 @@ $("png").onclick=e=>busy(e.currentTarget,async()=>{
 });
 $("bak").onclick=()=>dl("gold-backup.json",new Blob([JSON.stringify(S)],{type:"application/json"}));
 $("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result);if(Array.isArray(o.items)){for(const i of o.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=null}Object.assign(S,o);save();render()}}catch(x){}};r.readAsText(f);e.target.value=""};
-["egp","sar"].forEach(id=>{$(id).oninput=e=>{const v=parseFloat(e.target.value);S[id]=e.target.value;if(id==="egp")S.sar=v>0?String(+(1/v).toFixed(6)):"";if(id==="sar")S.egp=v>0?String(+(1/v).toFixed(4)):"";save();render()}});
+$("egp").oninput=e=>{S.egp=e.target.value;save();render()};
 [24,21,18].forEach(k=>{$("h"+k).oninput=e=>{S["p"+k]=e.target.value;save();render()}});
 $("year").onchange=e=>{S.year=+e.target.value;save();render()};
 let photoP=null;$("photo").onchange=e=>read(e.target.files[0],d=>{photoData=null;photoP=d?enhance(d):null});
