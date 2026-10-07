@@ -83,9 +83,7 @@ a{color:var(--accent)}
   </div>
 </header>
 <div class="seg" role="group" id="seg"></div>
-
 <nav id="nav"></nav>
-
 <main>
 <section class="view" data-v="home">
   <div class="kgrid" id="kgrid"></div>
@@ -95,7 +93,6 @@ a{color:var(--accent)}
   <div class="btns"><button class="btn primary" id="pdf" data-i="savePdf"></button><button class="btn" id="png" data-i="savePng"></button></div>
   <div class="hint" id="busy" aria-live="polite"></div>
 </section>
-
 <section class="view" data-v="add" hidden>
   <div class="panel">
     <h2 data-i="add"></h2>
@@ -113,11 +110,9 @@ a{color:var(--accent)}
     </form>
   </div>
 </section>
-
 <section class="view" data-v="items" hidden>
-  <div class="panel"><h2 data-i="items"></h2><div class="btns" style="margin-bottom:10px"><button class="btn" id="enh" data-i="enh"></button><button class="btn" id="seedBtn" data-i="seedBtn"></button></div><div class="hint" id="busy2" aria-live="polite"></div><div id="list"></div></div>
+  <div class="panel"><h2 data-i="items"></h2><div class="btns" style="margin-bottom:10px"><button class="btn" id="enh" data-i="enh"></button><button class="btn" id="bgb" data-i="bgBtn"></button><button class="btn" id="seedBtn" data-i="seedBtn"></button></div><div class="hint" id="busy2" aria-live="polite"></div><div id="list"></div></div>
 </section>
-
 <section class="view" data-v="rates" hidden>
   <div class="panel">
     <h2 data-i="market"></h2>
@@ -130,12 +125,11 @@ a{color:var(--accent)}
   <details class="panel" open><summary data-i="manual"></summary><div class="fields" style="margin-top:12px">
     <div class="full k3"><div><label for="p24" data-i="price24"></label><input id="p24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p21" data-i="price21"></label><input id="p21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p18" data-i="price18"></label><input id="p18" type="number" min="0" step="any" inputmode="decimal"></div></div>
     <div><label for="pdate" data-i="pdate"></label><input id="pdate" type="date"></div>
-    <div><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div>
+    <div><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="sar" data-i="sarRate"></label><input id="sar" type="number" min="0" step="any" inputmode="decimal"></div>
     <div class="full hint" data-i="pHint"></div>
     <div class="full btns"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div>
   </div></details>
 </section>
-
 <section class="view" data-v="zakat" hidden>
   <div class="panel"><h2 data-i="zakat"></h2><div class="verdict" id="zakat"></div></div>
   <div class="panel">
@@ -146,11 +140,10 @@ a{color:var(--accent)}
 </section>
 </main>
 </div>
-
 <script>
 const T={
-ar:{title:"سجل مشتريات الذهب",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",seedBtn:"استرجاع قطع ياسمين الأساسية",seedHas:"قطع ياسمين موجودة بالفعل.",enh:"تحسين جودة كل الصور",enhing:"جارٍ تحسين الصور",scope:"التقرير لـ",scY:"ياسمين",scK:"كرم",scB:"ياسمين وكرم معًا (ملف واحد)",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
-en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP rate",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",seedBtn:"Restore Yassmin base pieces",seedHas:"Yassmin pieces already exist.",enh:"Enhance all photos",enhing:"Enhancing photos",scope:"Report for",scY:"Yassmin",scK:"Karam",scB:"Yassmin and Karam together (one file)",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
+ar:{title:"سجل مشتريات الذهب",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه (١ ريال = ؟ جنيه)",sarRate:"سعر الجنيه بالريال (١ جنيه = ؟ ريال)",cost:"تكلفة الشراء",bgBtn:"توحيد الخلفيات تلقائيًا",bgBusy:"جارٍ توحيد الخلفيات",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",seedBtn:"استرجاع قطع ياسمين الأساسية",seedHas:"قطع ياسمين موجودة بالفعل.",enh:"تحسين جودة كل الصور",enhing:"جارٍ تحسين الصور",scope:"التقرير لـ",scY:"ياسمين",scK:"كرم",scB:"ياسمين وكرم معًا (ملف واحد)",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
+en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP (1 SAR = ? EGP)",sarRate:"EGP to SAR (1 EGP = ? SAR)",cost:"Purchase cost",bgBtn:"Unify backgrounds (auto)",bgBusy:"Unifying backgrounds",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",seedBtn:"Restore Yassmin base pieces",seedHas:"Yassmin pieces already exist.",enh:"Enhance all photos",enhing:"Enhancing photos",scope:"Report for",scY:"Yassmin",scK:"Karam",scB:"Yassmin and Karam together (one file)",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
 };
 const SEED=[]; // بيانات ياسمين الأولية (الصور) موجودة في الملف الكامل فقط
 const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["rates","nRates"],["zakat","nZakat"]];
@@ -171,9 +164,7 @@ const n=(v,d=2)=>Number(v).toLocaleString("en-US",{maximumFractionDigits:d});
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const read=(f,cb)=>{if(!f)return cb(null);const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)};
 const isDark=()=>S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
-
 function go(v){view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.dataset.v!==v);document.querySelectorAll("#nav button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});window.scrollTo(0,0)}
-
 function render(){
   const t=T[S.lang];
   document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==="ar"?"rtl":"ltr";
@@ -181,41 +172,36 @@ function render(){
   document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t[e.dataset.i]);
   document.title=t.title;$("lang").textContent=t.lang;$("theme").textContent=isDark()?t.light:t.dark;
   $("seg").innerHTML=CATS.map(c=>`<button type="button" aria-pressed="${c===S.cat}" data-c="${c}">${c}</button>`).join("");
-  document.documentElement.style.setProperty("--ph",S.cat===CATS[0]?"#a3304d":"#1f5db0");
+  document.documentElement.style.setProperty("--ph",S.cat===CATS[0]?"#5a1a2c":"#0b4a34");
   $("seedBtn").hidden=!SEED.length;$("scope").innerHTML=[[CATS[0],t.scY],[CATS[1],t.scK],["both",t.scB]].map(([v,l])=>`<option value="${v}">${l}</option>`).join("");$("scope").value=S.scope||S.cat;
   $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}>${t[k]}</button>`).join("");
   const tv=$("type").value;$("type").innerHTML=Object.entries(t.types).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");if(tv)$("type").value=tv;
-  ["p24","p21","p18","egp","pdate"].forEach(id=>{if(document.activeElement!==$(id))$(id).value=S[id]||""});
+  ["p24","p21","p18","egp","sar","pdate"].forEach(id=>{if(document.activeElement!==$(id))$(id).value=S[id]||""});
   [24,21,18].forEach(k=>{const e=$("h"+k);if(document.activeElement!==e)e.value=S["p"+k]||""});
   $("sheetImg").hidden=!sheetData;if(sheetData)$("sheetImg").src=sheetData;
-
   $("ptbl").innerHTML=K.map(k=>`<tr><td><span style="color:var(--k${k})">●</span> ${t.karat2} ${k}</td><td>${price(k)?n(price(k))+" SAR":"-"}</td></tr>`).join("");
   $("pstat").textContent=pmsg||(S.pdate?t.updated+" "+S.pdate:t.noPrices);
   const its=S.items.filter(i=>i.category===S.cat);
   const pure=its.reduce((a,i)=>a+i.weight*i.karat/24,0);
   const cost=its.reduce((a,i)=>a+i.totalCost,0),p=parseFloat(S.p24)||0,r=parseFloat(S.egp)||0;
   const val=its.reduce((a,i)=>a+i.weight*price(i.karat),0),pr=val-cost,hasP=K.some(k=>price(k)>0);
-  $("tval").textContent=hasP?n(val):"-";
-  $("kgrid").innerHTML=K.map(k=>{const g=its.filter(i=>i.karat===k),gw=g.reduce((a,i)=>a+i.weight,0),pk=price(k);return `<div class="kcard" style="--c:var(--k${k})"><b>${t.karat2} ${k}</b><div class="num-lg">${n(gw)}<small>${t.g}</small></div><span>${g.length} ${t.pcs}${pk&&gw?" · "+n(gw*pk)+" SAR":""}</span></div>`}).join("");
+  $("tval").innerHTML=hasP?n(val)+(r?`<br><small>${n(val*r)} EGP</small>`:""):"-";
+  $("kgrid").innerHTML=K.map(k=>{const g=its.filter(i=>i.karat===k),gw=g.reduce((a,i)=>a+i.weight,0),pk=price(k);return `<div class="kcard" style="--c:var(--k${k})"><b>${t.karat2} ${k}</b><div class="num-lg">${n(gw)}<small>${t.g}</small></div><span>${g.length} ${t.pcs}${pk&&gw?" · "+n(gw*pk)+" SAR"+(r?" · "+n(gw*pk*r)+" EGP":""):""}</span></div>`}).join("");
   const both=x=>n(x)+" SAR"+(r?`<small>${n(x*r)} EGP</small>`:"");
-  $("ledger").innerHTML=(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr>${cost>0?`<tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:""}`:"");
-
-  const row=i=>`<div class="item">${i.image?`<img class="thumb" src="${i.image}" alt="">`:`<div class="thumb">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
+  $("ledger").innerHTML=(cost>0?`<tr><td>${t.cost}</td><td>${both(cost)}</td></tr>`:"")+(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr>${cost>0?`<tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:""}`:"");
+  const row=i=>`<div class="item">${i.image?`<img class="thumb" src="${i.image}" alt="">`:`<div class="thumb">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${r?" · "+n(i.totalCost*r)+" EGP":""}${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
   $("list").innerHTML=its.length?K.map(k=>{const g=its.filter(i=>i.karat===k).sort((a,b)=>b.date.localeCompare(a.date));if(!g.length)return"";return `<div class="grp" style="--c:var(--k${k})"><div class="gh"><b>${t.karat2} ${k}</b><span>${g.length} ${t.pcs} · ${n(g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>${g.map(row).join("")}</div>`}).join(""):`<div class="empty">${t.none}</div>`;
-
-  $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR)`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
+  $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR${r?" · "+n(pure*.025*p*r)+" EGP":""})`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
   const ys=[...new Set([new Date().getFullYear(),...S.items.map(i=>new Date(i.date).getFullYear())])].sort((a,b)=>b-a);
   $("year").innerHTML=ys.map(y=>`<option ${y==S.year?"selected":""}>${y}</option>`).join("");
   const yi=its.filter(i=>new Date(i.date).getFullYear()==S.year);
-  $("yearTbl").innerHTML=`<tr><td>${t.yCount}</td><td>${yi.length}</td></tr><tr><td>${t.yWeight}</td><td>${n(yi.reduce((a,i)=>a+i.weight,0))} ${t.g}</td></tr><tr><td>${t.yCost}</td><td>${n(yi.reduce((a,i)=>a+i.totalCost,0))} SAR</td></tr>`;
+  $("yearTbl").innerHTML=`<tr><td>${t.yCount}</td><td>${yi.length}</td></tr><tr><td>${t.yWeight}</td><td>${n(yi.reduce((a,i)=>a+i.weight,0))} ${t.g}</td></tr><tr><td>${t.yCost}</td><td>${n(yi.reduce((a,i)=>a+i.totalCost,0))} SAR${r?" · "+n(yi.reduce((a,i)=>a+i.totalCost,0)*r)+" EGP":""}</td></tr>`;
 }
-
 $("seg").onclick=e=>{const c=e.target.dataset.c;if(c){S.cat=c;S.scope=c;save();render()}};
 $("scope").onchange=e=>{S.scope=e.target.value;save()};
 $("nav").onclick=e=>{const v=e.target.dataset.v;if(v)go(v)};
 $("lang").onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";save();render()};
 $("theme").onclick=()=>{S.theme=isDark()?"light":"dark";save();render()};
-
 /* ================= التقرير: صفحات A4 داكنة، الصور بدقتها الأصلية ================= */
 const TG={"سلسلة":"neck","انسيال":"neck","غويشة":"brace","أسورة":"brace","خاتم":"ring","حلق":"ear","سبيكة":"bar"},SECS=["neck","brace","ring","ear","bar"];
 const W=1240,H=1754,SC=2,GOLD="#f0d17a",LINE="#c9a24a",PANEL="#2e1623";
@@ -233,9 +219,45 @@ const enhance=async src=>{
   a.set(o);const k=.45,w4=w*4;
   for(let yy=1;yy<h-1;yy++)for(let xx=1;xx<w-1;xx++){const p=yy*w4+xx*4;for(let j=0;j<3;j++)a[p+j]=o[p+j]*(1+4*k)-k*(o[p-4+j]+o[p+4+j]+o[p-w4+j]+o[p+w4+j])}
   x.putImageData(d,0,0);return c.toDataURL("image/jpeg",.95)};
+
+/* ===== توحيد الخلفية تلقائيًا: ياسمين = قطيفة عنابي، كرم = قطيفة أخضر ===== */
+const BGS={"Gold yassmin":["#7a2640","#3a0f1d"],"Karam Gold":["#127a54","#04281c"]};let aiOK=true;
+const aiBox=async src=>{if(!aiOK||!window.claude)return null;try{const sm=await window.claude.use("sample");if(!sm||!(await sm.limits()).images){aiOK=false;return null}
+ const im=await loadImg(src),k=Math.min(1,768/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement("canvas");c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+ const b=await new Promise(r=>c.toBlob(r,"image/jpeg",.85)),r=await sm.json('Jewelry photo. Reply with only JSON {"box":[x0,y0,x1,y1]|null}: tight box around ALL jewelry pieces as fractions 0-1 of image width/height. null if unsure. Never guess.',{images:[b],modelTier:"quick"});
+ const a=r&&r.box;if(Array.isArray(a)&&a.length==4&&a.every(v=>typeof v=="number")&&a[0]<a[2]&&a[1]<a[3]&&(a[2]-a[0])*(a[3]-a[1])>.03)return a;return null}catch(e){aiOK=false;return null}};
+const unify=async(src,cat,box)=>{
+ const im=await loadImg(src);if(!im)return src;
+ const iw=im.naturalWidth,ih=im.naturalHeight,f=Math.min(1,2000/Math.max(iw,ih)),w=Math.round(iw*f),h=Math.round(ih*f),m=Math.min(1,480/Math.max(iw,ih)),mw=Math.max(8,Math.round(iw*m)),mh=Math.max(8,Math.round(ih*m)),N=mw*mh;
+ const sc=document.createElement("canvas");sc.width=mw;sc.height=mh;const sx=sc.getContext("2d",{willReadFrequently:true});sx.drawImage(im,0,0,mw,mh);
+ let D;try{D=sx.getImageData(0,0,mw,mh).data}catch(e){return src}
+ const bd=[];for(let x=0;x<mw;x++)bd.push(x,(mh-1)*mw+x);for(let y=0;y<mh;y++)bd.push(y*mw,y*mw+mw-1);
+ const med=c=>{const a=bd.map(i=>D[i*4+c]).sort((p,q)=>p-q);return a[a.length>>1]},ref=[med(0),med(1),med(2)];
+ const ds=i=>Math.hypot(D[i*4]-ref[0],D[i*4+1]-ref[1],D[i*4+2]-ref[2]),T=46;
+ if(bd.filter(i=>ds(i)<T).length<bd.length*.55)return src;
+ const bg=new Uint8Array(N),st=[];
+ const out0=i=>{if(!box)return false;const x=(i%mw)/mw,y=Math.floor(i/mw)/mh,e=.08;return x<box[0]-e||x>box[2]+e||y<box[1]-e||y>box[3]+e};
+ for(let i=0;i<N;i++)if(out0(i)||(bd.includes&&false)){bg[i]=1;st.push(i)}
+ bd.forEach(i=>{if(!bg[i]&&ds(i)<T){bg[i]=1;st.push(i)}});
+ const nb=i=>{const x=i%mw,a=[];if(x>0)a.push(i-1);if(x<mw-1)a.push(i+1);if(i>=mw)a.push(i-mw);if(i<N-mw)a.push(i+mw);return a};
+ const dd=(i,j)=>Math.hypot(D[i*4]-D[j*4],D[i*4+1]-D[j*4+1],D[i*4+2]-D[j*4+2]);
+ while(st.length){const i=st.pop();for(const j of nb(i))if(!bg[j]&&(ds(j)<T||(dd(i,j)<6&&ds(j)<T*2))){bg[j]=1;st.push(j)}}
+ /* فراغات داخلية (داخل الخاتم/السوار) */
+ const seen=new Uint8Array(N);for(let i=0;i<N;i++){if(bg[i]||seen[i]||ds(i)>=T*.6)continue;const c=[i];seen[i]=1;for(let k=0;k<c.length;k++)for(const j of nb(c[k]))if(!bg[j]&&!seen[j]&&ds(j)<T*.6){seen[j]=1;c.push(j)}if(c.length>N*.004)c.forEach(j=>bg[j]=1)}
+ const b2=bg.slice();for(let i=0;i<N;i++)if(!bg[i]&&ds(i)<T*1.4&&nb(i).some(j=>bg[j]))b2[i]=1;
+ let cnt=0;for(let i=0;i<N;i++)cnt+=b2[i];if(cnt<N*.08||cnt>N*.93)return src;
+ const mc=document.createElement("canvas");mc.width=mw;mc.height=mh;const mx=mc.getContext("2d"),md=mx.createImageData(mw,mh);for(let i=0;i<N;i++){md.data[i*4+3]=b2[i]?0:255}mx.putImageData(md,0,0);
+ const o=document.createElement("canvas");o.width=w;o.height=h;const x=o.getContext("2d"),[c1,c2]=BGS[cat]||BGS[CATS[0]],g=x.createRadialGradient(w/2,h*.42,0,w/2,h/2,Math.hypot(w,h)*.55);
+ g.addColorStop(0,c1);g.addColorStop(1,c2);x.fillStyle=g;x.fillRect(0,0,w,h);
+ const bi=x.getImageData(0,0,w,h),b=bi.data;for(let i=0;i<b.length;i+=4){const r=(Math.random()-.5)*14;b[i]+=r;b[i+1]+=r;b[i+2]+=r}x.putImageData(bi,0,0);
+ const sj=document.createElement("canvas");sj.width=w;sj.height=h;const s=sj.getContext("2d");s.imageSmoothingQuality="high";s.drawImage(im,0,0,w,h);s.globalCompositeOperation="destination-in";if("filter"in s)s.filter="blur(1.2px)";s.drawImage(mc,0,0,w,h);
+ x.shadowColor="rgba(0,0,0,.5)";x.shadowBlur=w*.02;x.shadowOffsetY=w*.01;x.drawImage(sj,0,0);
+ return o.toDataURL("image/jpeg",.95)};
+const bgFix=async i=>{let o=await idb("get","o"+i.id);if(!o){o=i.image;await idb("put","o"+i.id,o)}i.image=await unify(o,i.category,await aiBox(o));i.bg=1;await idb("put",i.id,i.image)};
+$("bgb").onclick=async e=>{const b=e.currentTarget,t=T[S.lang],L=S.items.filter(i=>i.image);b.disabled=true;let k=0;for(const i of L){$("busy2").textContent=t.bgBusy+" "+(++k)+"/"+L.length;try{await bgFix(i)}catch(x){}}$("busy2").textContent="";b.disabled=false;save();render()};
 $("seedBtn").onclick=async()=>{if(seedNow()){for(const i of S.items)if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);S.cat=CATS[0];S.scope=CATS[0];save();render()}else $("busy2").textContent=T[S.lang].seedHas};
 $("enh").onclick=async e=>{const b=e.currentTarget,t=T[S.lang],L=S.items.filter(i=>i.image&&!i.enh);b.disabled=true;let k=0;for(const i of L){$("busy2").textContent=t.enhing+" "+(++k)+"/"+L.length;try{i.image=await enhance(i.image);i.enh=1;await idb("put",i.id,i.image)}catch(x){}}$("busy2").textContent="";b.disabled=false;save();render()};
-const THEMES={"Gold yassmin":{a:"#2b0c17",b:"#0e0407",p:"#3a1420",t:"#4a1626",ph:"#a3304d",r:"#4d1c2c",c:"#5a2335"},"Karam Gold":{a:"#0d1f3c",b:"#040a16",p:"#12294a",t:"#10223f",ph:"#1f5db0",r:"#1a3a66",c:"#1c4a7a"}};
+const THEMES={"Gold yassmin":{a:"#2b0c17",b:"#0e0407",p:"#3a1420",t:"#4a1626",ph:"#5a1a2c",r:"#4d1c2c",c:"#5a2335"},"Karam Gold":{a:"#0d1f3c",b:"#040a16",p:"#12294a",t:"#10223f",ph:"#0b4a34",r:"#1a3a66",c:"#1c4a7a"}};
 const buildReport=async cat=>{
   const TH=THEMES[cat]||THEMES[CATS[0]];
   const t=T[S.lang],rtl=S.lang==="ar",its=S.items.filter(i=>i.category===cat);if(!its.length)return null;
@@ -313,7 +335,7 @@ const buildReport=async cat=>{
   tx(t.tot,sx+(rtl?-30:30),y+30,al,F(600,16),GOLD,rtl?"0px":"4px");
   tx((yr-1)+"",sx+(rtl?-30:30),y+68,al,F(500,18),"#d8c49a");tx(n(pw)+" g",ex+(rtl?30:-30),y+68,ol,SER(34),"#fbeec6");
   tx(yr+"",sx+(rtl?-30:30),y+104,al,F(500,18),"#d8c49a");tx(n(tw)+" g",ex+(rtl?30:-30),y+104,ol,SER(44),GOLD);
-  if(tv)tx(t.val+": "+n(tv)+" SAR",sx+(rtl?-30:30),y+136,al,F(600,15),"#d8c49a");
+  if(tv)tx(t.val+": "+n(tv)+" SAR"+(+S.egp?" · "+n(tv*S.egp)+" EGP":""),sx+(rtl?-30:30),y+136,al,F(600,15),"#d8c49a");
   /* تذييل */
   pages.forEach((p,k)=>{pg=p;tx("YASSMIN GOLD · "+yr,sx,H-64,al,F(500,14),"#a98f55","4px");tx((k+1)+" / "+pages.length,ex,H-64,ol,F(500,14),"#a98f55","3px");
     p.x.globalAlpha=.7;p.x.fillStyle=GOLD;p.x.beginPath();p.x.moveTo(W/2,H-72);p.x.lineTo(W/2+6,H-66);p.x.lineTo(W/2,H-60);p.x.lineTo(W/2-6,H-66);p.x.fill();p.x.globalAlpha=1});
@@ -346,7 +368,7 @@ $("png").onclick=e=>busy(e.currentTarget,async()=>{
 });
 $("bak").onclick=()=>dl("gold-backup.json",new Blob([JSON.stringify(S)],{type:"application/json"}));
 $("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result);if(Array.isArray(o.items)){for(const i of o.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=null}Object.assign(S,o);save();render()}}catch(x){}};r.readAsText(f);e.target.value=""};
-["p24","p21","p18","egp","pdate"].forEach(id=>{$(id).oninput=e=>{S[id]=e.target.value;save();render()}});
+["p24","p21","p18","egp","sar","pdate"].forEach(id=>{$(id).oninput=e=>{const v=parseFloat(e.target.value);S[id]=e.target.value;if(id==="egp")S.sar=v>0?String(+(1/v).toFixed(6)):"";if(id==="sar")S.egp=v>0?String(+(1/v).toFixed(4)):"";save();render()}});
 [24,21,18].forEach(k=>{$("h"+k).oninput=e=>{S["p"+k]=e.target.value;save();render()}});
 $("year").onchange=e=>{S.year=+e.target.value;save();render()};
 const shrink=f=>new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const q=Math.min(1,1800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*q);c.height=Math.round(im.height*q);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(),"image/jpeg",.85)};im.onerror=rej;im.src=u});
@@ -358,7 +380,7 @@ $("sheet").onchange=async e=>{
   try{
     const sample=window.claude?await window.claude.use("sample"):null;
     if(!sample){pmsg=t.noAI;return}
-    const r=await sample.json(PROMPT,{images:await shrink(f),modelTier:"default"});
+    const r=await sample.json(PROMPT,{images:[await shrink(f)],modelTier:"default"});
     const num=v=>{v=parseFloat(v);return v>0?String(v):""};
     const v={p24:num(r.p24),p21:num(r.p21),p18:num(r.p18)};
     if(!Object.values(v).some(Boolean)){pmsg=t.fail;return}
@@ -368,13 +390,13 @@ $("sheet").onchange=async e=>{
   finally{render();e.target.value=""}
 };
 let photoP=null;$("photo").onchange=e=>read(e.target.files[0],d=>{photoData=null;photoP=d?enhance(d):null});
-$("list").onclick=e=>{const id=e.target.dataset.d;if(id){idb("del",+id);S.items=S.items.filter(i=>i.id!=id);save();render()}};
+$("list").onclick=e=>{const id=e.target.dataset.d;if(id){idb("del",+id);idb("del","o"+id);S.items=S.items.filter(i=>i.id!=id);save();render()}};
 $("form").onsubmit=async e=>{
   e.preventDefault();if(photoP){try{photoData=await photoP}catch(x){}}photoP=null;
   const w=parseFloat($("weight").value)||0;if(!w)return;
   const gp=parseFloat($("gp").value)||0,fee=parseFloat($("fee").value)||0;
   const totalCost=(gp||fee)?(gp+fee)*w:(parseFloat($("total").value)||0),id=Date.now();
-  if(photoData)idb("put",id,photoData);
+  if(photoData){const it0={id,category:S.cat,image:photoData};try{await bgFix(it0);photoData=it0.image}catch(x){}}if(photoData)idb("put",id,photoData);
   S.items.push({id,category:S.cat,type:$("type").value,karat:+$("karat").value,weight:w,date:$("date").value,gramBuyPrice:gp,makingFee:fee,totalCost,image:photoData,enh:photoData?1:0,notes:$("notes").value.trim()});
   photoData=null;$("form").reset();$("date").value=new Date().toISOString().slice(0,10);$("karat").value=21;
   save();render();go("items");
