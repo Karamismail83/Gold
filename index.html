@@ -3,108 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a3f82">
 <title>سجل مشتريات الذهب</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef3f9;--surface:#ffffff;--ink:#0d2745;--muted:#6a7f98;--line:#e0e8f2;--accent:#0b5cb5;--accent2:#0a3f82;--accent-ink:#ffffff;--brass:#0b5cb5;--soft:#e8f1fc;--pos:#16895a;--neg:#d23c3c;--k24:#d99a1e;--k21:#10a08a;--k18:#e0527c;--sh:0 4px 16px rgba(10,60,130,.08);
+:root{--bg:#f2f0ea;--surface:#ffffff;--ink:#1a1a1a;--muted:#6e6a5e;--line:#ddd8c8;--accent:#151515;--accent-ink:#f0d17a;--brass:#b8912f;--pos:#1d7a4a;--neg:#b3392f;--k24:#c9a227;--k21:#1f8f7f;--k18:#c0456f;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#061426;--surface:#0e2644;--ink:#e8f1fc;--muted:#8fa7c4;--line:#1c3a60;--accent:#3b97f2;--accent2:#1c6fc4;--brass:#3b97f2;--soft:#12335c;--pos:#4fd39a;--neg:#ff7b7b;--k24:#f0b13a;--k21:#2fd0b8;--k18:#f27a9d;--sh:0 4px 16px rgba(0,0,0,.35)}}
-:root[data-theme="dark"]{--bg:#061426;--surface:#0e2644;--ink:#e8f1fc;--muted:#8fa7c4;--line:#1c3a60;--accent:#3b97f2;--accent2:#1c6fc4;--brass:#3b97f2;--soft:#12335c;--pos:#4fd39a;--neg:#ff7b7b;--k24:#f0b13a;--k21:#2fd0b8;--k18:#f27a9d;--sh:0 4px 16px rgba(0,0,0,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}}
+:root[data-theme="dark"]{--bg:#0c0c0c;--surface:#171717;--ink:#efe9d6;--muted:#a39b84;--line:#2e2b22;--accent:#d4af37;--accent-ink:#121212;--brass:#d4af37;--pos:#5fcf92;--neg:#ee7d72;--k24:#e6c04a;--k21:#3cc2ae;--k18:#ef6f98}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Cairo",system-ui,sans-serif}
-h1,h2,.num-lg{font-family:"Cairo",system-ui,sans-serif;font-weight:700;margin:0}
-h2{font-size:1.1rem;margin-bottom:14px}
+h1,h2,.num-lg{font-family:"Amiri","Cairo",sans-serif;font-weight:600;margin:0}
+h2{font-size:1.3rem;margin-bottom:14px}
 :focus-visible{outline:3px solid var(--brass);outline-offset:2px}
 button,input,select,textarea{font:inherit;color:inherit}
 .wrap{max-width:860px;margin:0 auto;padding:12px 16px 110px}
-header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:16px;margin-bottom:14px;border-radius:22px;background:linear-gradient(135deg,#0b5cb5 0%,#0a3f82 60%,#072c5c 100%);color:#fff;box-shadow:var(--sh)}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
-.logo svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-header h1{font-size:1.2rem;line-height:1.3}
-.sub{font-size:.76rem;opacity:.8;line-height:1.4}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:6px 0 12px}
+header h1{font-size:1.4rem}
 .tools{display:flex;gap:8px}
-.tools .btn{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;border-radius:20px;padding:6px 12px;min-height:36px;font-size:.85rem}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 14px;cursor:pointer;min-height:42px}
-.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;font-weight:700}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
 .btn[disabled]{opacity:.6;cursor:progress}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:var(--soft);margin-bottom:18px}
-.seg button{border:0;background:none;padding:10px;cursor:pointer;font-weight:600;border-radius:11px;color:var(--muted)}
-.seg button[aria-pressed="true"]{background:var(--surface);color:var(--accent);box-shadow:var(--sh)}
-nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -4px 20px rgba(10,60,130,.14);padding:6px 6px env(safe-area-inset-bottom,0px);z-index:5}
-nav button{flex:1;border:0;background:none;padding:6px 2px;cursor:pointer;font-size:.74rem;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:14px}
-nav button *{pointer-events:none}
-nav button svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-nav button[aria-current="page"]{color:var(--accent);font-weight:700;background:var(--soft)}
-@media(min-width:800px){nav{position:static;border-radius:16px;margin-bottom:20px;padding:4px;box-shadow:var(--sh)}nav button{flex-direction:row;justify-content:center;gap:8px;font-size:1rem;padding:8px}.wrap{padding-bottom:40px}}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-bottom:18px}
+.seg button{border:0;background:none;padding:11px;cursor:pointer;font-weight:600}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+nav{position:fixed;inset-inline:0;bottom:0;display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;padding:12px 2px;cursor:pointer;font-size:.82rem;color:var(--muted);border-top:3px solid transparent}
+nav button[aria-current="page"]{color:var(--accent);font-weight:600;border-top-color:var(--brass)}
+@media(min-width:800px){nav{position:static;border:1px solid var(--line);border-radius:10px;margin-bottom:20px;padding:0;overflow:hidden}nav button{font-size:1rem;border-top:0;border-bottom:3px solid transparent}nav button[aria-current="page"]{border-bottom-color:var(--brass)}.wrap{padding-bottom:40px}}
 .view[hidden]{display:none}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--sh)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
 label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:4px}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
-input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .full{grid-column:1/-1}
 .k3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .k3 label{font-size:.82rem}
-.k4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.k4 label{font-size:1.1rem;white-space:nowrap;text-align:center;font-weight:700;margin-bottom:6px}.k4 input{text-align:center;padding:10px 4px}.tval{display:block;padding:10px 4px;border:1px solid var(--brass);border-radius:12px;background:var(--soft);font-weight:700;font-size:.85rem;text-align:center;overflow-wrap:anywhere;min-height:44px;color:var(--accent)}
+.k4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.k4 label{font-size:1.1rem;white-space:nowrap;text-align:center;font-weight:600;margin-bottom:6px}.k4 input{text-align:center;padding:10px 4px}.tval{display:block;padding:10px 4px;border:1px solid var(--brass);border-radius:8px;background:color-mix(in srgb,var(--brass) 16%,var(--surface));font-weight:600;font-size:.85rem;text-align:center;overflow-wrap:anywhere;min-height:44px}
 .hint{font-size:.8rem;color:var(--muted);margin-top:4px}
 a{color:var(--accent)}
 .ledger{width:100%;border-collapse:collapse}
 .ledger td{padding:11px 0;border-bottom:1px solid var(--line)}
 .ledger tr:last-child td{border:0}
-.ledger td:last-child{text-align:start;font-weight:700;font-variant-numeric:tabular-nums}
+.ledger td:last-child{text-align:start;font-weight:600;font-variant-numeric:tabular-nums}
 .ledger small{color:var(--muted);font-weight:400;display:block}
 .pos{color:var(--pos)}.neg{color:var(--neg)}
 .item{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
 .item:last-child{border:0}
-.thumb{width:56px;height:56px;border-radius:14px;background:var(--soft);border:1px solid var(--line);object-fit:cover;display:grid;place-items:center;color:var(--brass);font-family:"Cairo";font-weight:700;font-size:1.1rem}
+.thumb{width:56px;height:56px;border-radius:8px;background:var(--ph,var(--bg));border:1px solid var(--line);object-fit:cover;display:grid;place-items:center;color:var(--brass);font-family:"Amiri";font-size:1.1rem}
 .item b{display:block}.item span{color:var(--muted);font-size:.88rem}
 .del{border:0;background:none;color:var(--neg);cursor:pointer;padding:8px}
 .empty{color:var(--muted);padding:12px 0}
-.verdict{padding:14px;border-radius:14px;border-inline-start:4px solid var(--brass);background:var(--soft)}
+.verdict{padding:14px;border-radius:8px;border-inline-start:4px solid var(--brass);background:var(--bg)}
 .sheet{max-width:100%;border-radius:8px;margin-top:10px;border:1px solid var(--line)}
 .kgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
-.kcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:16px;padding:10px 8px;box-shadow:var(--sh);background-image:linear-gradient(color-mix(in srgb,var(--c) 10%,transparent),color-mix(in srgb,var(--c) 10%,transparent))}
-.kcard b{display:flex;align-items:center;gap:5px;font-weight:700;font-size:.9rem}
+.kcard{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:12px;padding:10px 8px;background-image:linear-gradient(color-mix(in srgb,var(--c) 12%,transparent),color-mix(in srgb,var(--c) 12%,transparent))}
+.kcard b{display:flex;align-items:center;gap:5px;font-weight:600;font-size:.9rem}
 .kcard b::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
 .kcard .num-lg{font-size:1.4rem}
 .kcard small{display:inline;font-size:.9rem;margin-inline-start:4px;font-family:Cairo;color:var(--muted)}
 .kcard span{display:block;color:var(--muted);font-size:.75rem;line-height:1.4}
 .grp{margin-bottom:14px}
-.gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-radius:12px;border-inline-start:6px solid var(--c);background:color-mix(in srgb,var(--c) 16%,var(--surface));font-weight:700}
+.gh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;border-radius:8px;border-inline-start:6px solid var(--c);background:color-mix(in srgb,var(--c) 18%,var(--surface));font-weight:600}
 .gh span{font-weight:400;color:var(--muted);font-size:.9rem}
-.grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:700}
-.btns{display:flex;gap:10px;flex-wrap:wrap}.item,.thumb{cursor:pointer}
+.grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:600}
+.seg button[data-c="Gold yassmin"][aria-pressed="true"]{background:#9b2f48;color:#fff}.seg button[data-c="Karam Gold"][aria-pressed="true"]{background:#1f56a8;color:#fff}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div class="brand"><span class="logo"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 6 3-6M12 21 9 9m3 12 3-12"/></svg></span><div><h1 data-i="title"></h1><div class="sub" data-i="sub"></div></div></div>
+  <h1 data-i="title"></h1>
   <div class="tools">
     <button class="btn" id="lang"></button>
     <button class="btn" id="theme"></button>
   </div>
 </header>
 <div class="seg" role="group" id="seg"></div>
+
 <nav id="nav"></nav>
+
 <main>
 <section class="view" data-v="home">
   <div class="kgrid" id="kgrid"></div>
   <div class="panel"><h2 data-i="rateTitle"></h2><div class="k3 k4"><div><label for="h24" class="kl" style="color:var(--k24)">24</label><input id="h24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h21" class="kl" style="color:var(--k21)">21</label><input id="h21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="h18" class="kl" style="color:var(--k18)">18</label><input id="h18" type="number" min="0" step="any" inputmode="decimal"></div><div><label class="kl" data-i="totalVal"></label><output id="tval" class="tval">-</output></div></div></div>
-  <div class="panel"><div class="fields"><div class="full"><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div><div class="full hint" data-i="pHint"></div></div></div>
   <div class="panel"><table class="ledger" id="ledger"></table></div>
   <div class="panel"><label for="scope" data-i="scope"></label><select id="scope"></select></div>
   <div class="btns"><button class="btn primary" id="pdf" data-i="savePdf"></button><button class="btn" id="png" data-i="savePng"></button></div>
   <div class="hint" id="busy" aria-live="polite"></div>
 </section>
+
 <section class="view" data-v="add" hidden>
   <div class="panel">
-    <h2 id="addH" data-i="add"></h2>
+    <h2 data-i="add"></h2>
     <form id="form" class="fields">
       <div><label for="type" data-i="type"></label><select id="type"></select></div>
       <div><label for="karat" data-i="karat"></label><select id="karat"><option>18</option><option selected>21</option><option>24</option></select></div>
@@ -115,13 +109,33 @@ a{color:var(--accent)}
       <div class="full"><label for="total" data-i="total"></label><input id="total" type="number" min="0" step="any" inputmode="decimal"><div class="hint" data-i="totalHint"></div></div>
       <div class="full"><label for="photo" data-i="photo"></label><input id="photo" type="file" accept="image/*"></div>
       <div class="full"><label for="notes" data-i="notes"></label><textarea id="notes" rows="2"></textarea></div>
-      <button class="btn primary full" id="sbtn" type="submit" data-i="save"></button><button class="btn full" id="cancelEdit" type="button" data-i="cancel" hidden></button>
+      <button class="btn primary full" type="submit" data-i="save"></button>
     </form>
   </div>
 </section>
+
 <section class="view" data-v="items" hidden>
-  <div class="panel"><h2 data-i="items"></h2><div class="btns" style="margin-bottom:10px"><button class="btn" id="enh" data-i="enh"></button><button class="btn" id="seedBtn" data-i="seedBtn"></button></div><div class="hint" id="busy2" aria-live="polite"></div><div class="hint" data-i="tapHint" style="margin-bottom:8px"></div><div id="list"></div><div class="btns" style="margin-top:16px"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div><input id="pick" type="file" accept="image/*" hidden></div>
+  <div class="panel"><h2 data-i="items"></h2><div class="btns" style="margin-bottom:10px"><button class="btn" id="enh" data-i="enh"></button><button class="btn" id="seedBtn" data-i="seedBtn"></button></div><div class="hint" id="busy2" aria-live="polite"></div><div id="list"></div></div>
 </section>
+
+<section class="view" data-v="rates" hidden>
+  <div class="panel">
+    <h2 data-i="market"></h2>
+    <label for="sheet" data-i="sheet"></label><input id="sheet" type="file" accept="image/*">
+    <div class="verdict" id="pstat" style="margin-top:10px" aria-live="polite"></div>
+    <table class="ledger" id="ptbl" style="margin-top:8px"></table>
+    <img id="sheetImg" class="sheet" alt="" hidden>
+    <div class="hint"><a href="https://sbaik.sa/%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%B0%D9%87%D8%A8/page-236935306" target="_blank" rel="noreferrer" data-i="rateLink"></a></div>
+  </div>
+  <details class="panel" open><summary data-i="manual"></summary><div class="fields" style="margin-top:12px">
+    <div class="full k3"><div><label for="p24" data-i="price24"></label><input id="p24" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p21" data-i="price21"></label><input id="p21" type="number" min="0" step="any" inputmode="decimal"></div><div><label for="p18" data-i="price18"></label><input id="p18" type="number" min="0" step="any" inputmode="decimal"></div></div>
+    <div><label for="pdate" data-i="pdate"></label><input id="pdate" type="date"></div>
+    <div><label for="egp" data-i="egpRate"></label><input id="egp" type="number" min="0" step="any" inputmode="decimal"></div>
+    <div class="full hint" data-i="pHint"></div>
+    <div class="full btns"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div>
+  </div></details>
+</section>
+
 <section class="view" data-v="zakat" hidden>
   <div class="panel"><h2 data-i="zakat"></h2><div class="verdict" id="zakat"></div></div>
   <div class="panel">
@@ -132,18 +146,18 @@ a{color:var(--accent)}
 </section>
 </main>
 </div>
+
 <script>
 const T={
-ar:{title:"سجل مشتريات الذهب",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه (١ ريال = ؟ جنيه)",sarRate:"سعر الجنيه بالريال (١ جنيه = ؟ ريال)",cost:"تكلفة الشراء",edit:"تعديل قطعة",saveEdit:"حفظ التعديل",cancel:"إلغاء",tapHint:"اضغط على القطعة لتعديلها، أو على صورتها لتغييرها.",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",seedBtn:"استرجاع قطع ياسمين الأساسية",seedHas:"قطع ياسمين موجودة بالفعل.",enh:"تحسين جودة كل الصور",enhing:"جارٍ تحسين الصور",scope:"التقرير لـ",scY:"ياسمين",scK:"كرم",scB:"ياسمين وكرم معًا (ملف واحد)",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",asOf:"بتاريخ",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
-en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP (1 SAR = ? EGP)",sarRate:"EGP to SAR (1 EGP = ? SAR)",cost:"Purchase cost",edit:"Edit item",saveEdit:"Save changes",cancel:"Cancel",tapHint:"Tap an item to edit it, or its photo to change the photo.",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",seedBtn:"Restore Yassmin base pieces",seedHas:"Yassmin pieces already exist.",enh:"Enhance all photos",enhing:"Enhancing photos",scope:"Report for",scY:"Yassmin",scK:"Karam",scB:"Yassmin and Karam together (one file)",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",asOf:"As of",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
+ar:{title:"سجل مشتريات الذهب",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",seedBtn:"استرجاع قطع ياسمين الأساسية",seedHas:"قطع ياسمين موجودة بالفعل.",enh:"تحسين جودة كل الصور",enhing:"جارٍ تحسين الصور",scope:"التقرير لـ",scY:"ياسمين",scK:"كرم",scB:"ياسمين وكرم معًا (ملف واحد)",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
+en:{title:"Gold Purchase Ledger",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP rate",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",seedBtn:"Restore Yassmin base pieces",seedHas:"Yassmin pieces already exist.",enh:"Enhance all photos",enhing:"Enhancing photos",scope:"Report for",scY:"Yassmin",scK:"Karam",scB:"Yassmin and Karam together (one file)",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
 };
 const SEED=[]; // بيانات ياسمين الأولية (الصور) موجودة في الملف الكامل فقط
-const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["zakat","nZakat"]];
+const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["rates","nRates"],["zakat","nZakat"]];
 const $=id=>document.getElementById(id);
-const IC={home:'<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/>',add:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',items:'<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>',zakat:'<path d="M12 3v18M5 7h14M5 7l-3 8a4 3 0 0 0 6 0zM19 7l-3 8a4 3 0 0 0 6 0z"/>'};
 const K=[24,21,18],KC={24:"#f5a623",21:"#33c47a",18:"#e8566e"};
 let S={lang:"ar",theme:"",cat:CATS[0],p24:"",p21:"",p18:"",pdate:"",egp:"",items:[],year:new Date().getFullYear(),prev:{"Gold yassmin":{"18":59.56,"21":187.44,"24":69.1}}};
-let photoData=null,view="home",editId=null,pickId=null;
+let sheetData=null,photoData=null,view="home",pmsg="";
 try{const r=localStorage.getItem("gold-v2");if(r)Object.assign(S,JSON.parse(r))}catch(e){}
 /* الصور تُحفظ بالجودة الأصلية في IndexedDB (لا حد صغير مثل localStorage) */
 const IDB=new Promise(res=>{try{const q=indexedDB.open("gold-img",1);q.onupgradeneeded=()=>q.result.createObjectStore("i");q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)}catch(e){res(null)}});
@@ -157,41 +171,51 @@ const n=(v,d=2)=>Number(v).toLocaleString("en-US",{maximumFractionDigits:d});
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const read=(f,cb)=>{if(!f)return cb(null);const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)};
 const isDark=()=>S.theme?S.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+
 function go(v){view=v;document.querySelectorAll(".view").forEach(s=>s.hidden=s.dataset.v!==v);document.querySelectorAll("#nav button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});window.scrollTo(0,0)}
+
 function render(){
   const t=T[S.lang];
-  $("addH").dataset.i=editId?"edit":"add";$("sbtn").dataset.i=editId?"saveEdit":"save";$("cancelEdit").hidden=!editId;
   document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==="ar"?"rtl":"ltr";
   if(S.theme)document.documentElement.dataset.theme=S.theme;
   document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t[e.dataset.i]);
   document.title=t.title;$("lang").textContent=t.lang;$("theme").textContent=isDark()?t.light:t.dark;
   $("seg").innerHTML=CATS.map(c=>`<button type="button" aria-pressed="${c===S.cat}" data-c="${c}">${c}</button>`).join("");
+  document.documentElement.style.setProperty("--ph",S.cat===CATS[0]?"#a3304d":"#1f5db0");
   $("seedBtn").hidden=!SEED.length;$("scope").innerHTML=[[CATS[0],t.scY],[CATS[1],t.scK],["both",t.scB]].map(([v,l])=>`<option value="${v}">${l}</option>`).join("");$("scope").value=S.scope||S.cat;
-  $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}><svg viewBox="0 0 24 24">${IC[v]}</svg><span>${t[k]}</span></button>`).join("");
+  $("nav").innerHTML=VIEWS.map(([v,k])=>`<button type="button" data-v="${v}" ${v===view?'aria-current="page"':""}>${t[k]}</button>`).join("");
   const tv=$("type").value;$("type").innerHTML=Object.entries(t.types).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");if(tv)$("type").value=tv;
-  if(document.activeElement!==$("egp"))$("egp").value=S.egp||"";
+  ["p24","p21","p18","egp","pdate"].forEach(id=>{if(document.activeElement!==$(id))$(id).value=S[id]||""});
   [24,21,18].forEach(k=>{const e=$("h"+k);if(document.activeElement!==e)e.value=S["p"+k]||""});
+  $("sheetImg").hidden=!sheetData;if(sheetData)$("sheetImg").src=sheetData;
+
+  $("ptbl").innerHTML=K.map(k=>`<tr><td><span style="color:var(--k${k})">●</span> ${t.karat2} ${k}</td><td>${price(k)?n(price(k))+" SAR":"-"}</td></tr>`).join("");
+  $("pstat").textContent=pmsg||(S.pdate?t.updated+" "+S.pdate:t.noPrices);
   const its=S.items.filter(i=>i.category===S.cat);
   const pure=its.reduce((a,i)=>a+i.weight*i.karat/24,0);
   const cost=its.reduce((a,i)=>a+i.totalCost,0),p=parseFloat(S.p24)||0,r=parseFloat(S.egp)||0;
   const val=its.reduce((a,i)=>a+i.weight*price(i.karat),0),pr=val-cost,hasP=K.some(k=>price(k)>0);
-  $("tval").innerHTML=hasP?n(val)+(r?`<br><small>${n(val*r)} EGP</small>`:""):"-";
-  $("kgrid").innerHTML=K.map(k=>{const g=its.filter(i=>i.karat===k),gw=g.reduce((a,i)=>a+i.weight,0),pk=price(k);return `<div class="kcard" style="--c:var(--k${k})"><b>${t.karat2} ${k}</b><div class="num-lg">${n(gw)}<small>${t.g}</small></div><span>${g.length} ${t.pcs}${pk&&gw?" · "+n(gw*pk)+" SAR"+(r?" · "+n(gw*pk*r)+" EGP":""):""}</span></div>`}).join("");
+  $("tval").textContent=hasP?n(val):"-";
+  $("kgrid").innerHTML=K.map(k=>{const g=its.filter(i=>i.karat===k),gw=g.reduce((a,i)=>a+i.weight,0),pk=price(k);return `<div class="kcard" style="--c:var(--k${k})"><b>${t.karat2} ${k}</b><div class="num-lg">${n(gw)}<small>${t.g}</small></div><span>${g.length} ${t.pcs}${pk&&gw?" · "+n(gw*pk)+" SAR":""}</span></div>`}).join("");
   const both=x=>n(x)+" SAR"+(r?`<small>${n(x*r)} EGP</small>`:"");
-  $("ledger").innerHTML=(cost>0?`<tr><td>${t.cost}</td><td>${both(cost)}</td></tr>`:"")+(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr>${cost>0?`<tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:""}`:"");
-  const row=i=>`<div class="item" data-id="${i.id}">${i.image?`<img class="thumb" data-p="1" src="${i.image}" alt="">`:`<div class="thumb" data-p="1">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${r?" · "+n(i.totalCost*r)+" EGP":""}${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
+  $("ledger").innerHTML=(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr>${cost>0?`<tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:""}`:"");
+
+  const row=i=>`<div class="item">${i.image?`<img class="thumb" src="${i.image}" alt="">`:`<div class="thumb">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
   $("list").innerHTML=its.length?K.map(k=>{const g=its.filter(i=>i.karat===k).sort((a,b)=>b.date.localeCompare(a.date));if(!g.length)return"";return `<div class="grp" style="--c:var(--k${k})"><div class="gh"><b>${t.karat2} ${k}</b><span>${g.length} ${t.pcs} · ${n(g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>${g.map(row).join("")}</div>`}).join(""):`<div class="empty">${t.none}</div>`;
-  $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR${r?" · "+n(pure*.025*p*r)+" EGP":""})`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
+
+  $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR)`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
   const ys=[...new Set([new Date().getFullYear(),...S.items.map(i=>new Date(i.date).getFullYear())])].sort((a,b)=>b-a);
   $("year").innerHTML=ys.map(y=>`<option ${y==S.year?"selected":""}>${y}</option>`).join("");
   const yi=its.filter(i=>new Date(i.date).getFullYear()==S.year);
-  $("yearTbl").innerHTML=`<tr><td>${t.yCount}</td><td>${yi.length}</td></tr><tr><td>${t.yWeight}</td><td>${n(yi.reduce((a,i)=>a+i.weight,0))} ${t.g}</td></tr><tr><td>${t.yCost}</td><td>${n(yi.reduce((a,i)=>a+i.totalCost,0))} SAR${r?" · "+n(yi.reduce((a,i)=>a+i.totalCost,0)*r)+" EGP":""}</td></tr>`;
+  $("yearTbl").innerHTML=`<tr><td>${t.yCount}</td><td>${yi.length}</td></tr><tr><td>${t.yWeight}</td><td>${n(yi.reduce((a,i)=>a+i.weight,0))} ${t.g}</td></tr><tr><td>${t.yCost}</td><td>${n(yi.reduce((a,i)=>a+i.totalCost,0))} SAR</td></tr>`;
 }
+
 $("seg").onclick=e=>{const c=e.target.dataset.c;if(c){S.cat=c;S.scope=c;save();render()}};
 $("scope").onchange=e=>{S.scope=e.target.value;save()};
 $("nav").onclick=e=>{const v=e.target.dataset.v;if(v)go(v)};
 $("lang").onclick=()=>{S.lang=S.lang==="ar"?"en":"ar";save();render()};
 $("theme").onclick=()=>{S.theme=isDark()?"light":"dark";save();render()};
+
 /* ================= التقرير: صفحات A4 داكنة، الصور بدقتها الأصلية ================= */
 const TG={"سلسلة":"neck","انسيال":"neck","غويشة":"brace","أسورة":"brace","خاتم":"ring","حلق":"ear","سبيكة":"bar"},SECS=["neck","brace","ring","ear","bar"];
 const W=1240,H=1754,SC=2,GOLD="#f0d17a",LINE="#c9a24a",PANEL="#2e1623";
@@ -211,13 +235,13 @@ const enhance=async src=>{
   x.putImageData(d,0,0);return c.toDataURL("image/jpeg",.95)};
 $("seedBtn").onclick=async()=>{if(seedNow()){for(const i of S.items)if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);S.cat=CATS[0];S.scope=CATS[0];save();render()}else $("busy2").textContent=T[S.lang].seedHas};
 $("enh").onclick=async e=>{const b=e.currentTarget,t=T[S.lang],L=S.items.filter(i=>i.image&&!i.enh);b.disabled=true;let k=0;for(const i of L){$("busy2").textContent=t.enhing+" "+(++k)+"/"+L.length;try{i.image=await enhance(i.image);i.enh=1;await idb("put",i.id,i.image)}catch(x){}}$("busy2").textContent="";b.disabled=false;save();render()};
-const THEMES={"Gold yassmin":{a:"#2b0c17",b:"#0e0407",p:"#3a1420",t:"#4a1626",ph:"#5a1a2c",r:"#4d1c2c",c:"#5a2335"},"Karam Gold":{a:"#0d1f3c",b:"#040a16",p:"#12294a",t:"#10223f",ph:"#0b4a34",r:"#1a3a66",c:"#1c4a7a"}};
+const THEMES={"Gold yassmin":{a:"#2b0c17",b:"#0e0407",p:"#3a1420",t:"#4a1626",ph:"#a3304d",r:"#4d1c2c",c:"#5a2335"},"Karam Gold":{a:"#0d1f3c",b:"#040a16",p:"#12294a",t:"#10223f",ph:"#1f5db0",r:"#1a3a66",c:"#1c4a7a"}};
 const buildReport=async cat=>{
   const TH=THEMES[cat]||THEMES[CATS[0]];
   const t=T[S.lang],rtl=S.lang==="ar",its=S.items.filter(i=>i.category===cat);if(!its.length)return null;
   try{await Promise.all(["700 20px Cairo","400 16px Cairo","600 16px Cairo","700 20px Amiri"].map(f=>document.fonts.load(f,"عAa")))}catch(e){}
   const imgs={};for(const i of its.filter(i=>i.image)){const im=await loadImg(i.image);if(im)imgs[i.id]=crop(im).toDataURL("image/jpeg",.98)}
-  const M=70,G=14,CO=7,cw=(W-2*M-G*(CO-1))/CO,th=cw+46+(+S.egp?76:52),today=new Date().toISOString().slice(0,10),LIM=H-110,yr=new Date().getFullYear();
+  const M=70,G=14,CO=7,cw=(W-2*M-G*(CO-1))/CO,th=cw+46,LIM=H-110,yr=new Date().getFullYear();
   const al=rtl?"right":"left",ol=rtl?"left":"right",sx=rtl?W-M:M,ex=rtl?M:W-M;
   const F=(w,s)=>`${w} ${s}px "Cairo",system-ui,sans-serif`,SER=(s)=>`700 ${s}px ${rtl?'"Amiri","Cairo"':'Georgia,"Times New Roman"'},serif`;
   const pages=[];let pg,y;
@@ -232,7 +256,7 @@ const buildReport=async cat=>{
     const hh=first?180:96;x.lineWidth=1.5;x.strokeStyle=LINE;rr(M-14,64,W-2*M+28,hh,26);x.stroke();
     tx(cat.toUpperCase(),sx,64+(first?66:hh/2),al,SER(first?58:36),GOLD,rtl?"0px":"8px");
     if(first){tx(t.sub,sx,64+128,al,F(500,15),"#d8c49a",rtl?"0px":"5px");
-      rr(ex-(rtl?0:270),84,270,64,18);x.fillStyle=GOLD;x.fill();tx(today.split("-").reverse().join(" / "),ex+(rtl?135:-135),117,"center",F(700,34),"#1a0a12");
+      rr(ex-(rtl?0:150),84,150,64,18);x.fillStyle=GOLD;x.fill();tx(String(yr),ex+(rtl?75:-75),117,"center",SER(40),"#1a0a12");
       [18,21,24].forEach((k,i)=>pill(ex+(rtl?1:-1)*(i*52+26)+(rtl?0:0)-(rtl?-0:0),176,46,26,KC[k],k+"K",14))}
     else tx(yr+"",ex,64+hh/2,ol,F(600,18),"#d8c49a","3px");
     y=64+hh+40;
@@ -248,10 +272,6 @@ const buildReport=async cat=>{
     rr(X+6,y+6,s,s,10);x.fillStyle=TH.ph;x.fill();
     if(imgs[i.id])pg.photos.push({id:i.id,x:X+6,y:y+6,s});else tx(String(i.karat),X+cw/2,y+6+s/2,"center",SER(44),col);
     pill(X+cw/2,y+cw+18,cw-26,30,col,(i.weight?n(i.weight):"—")+" g",18);
-    const rt=+S.egp||0,v=(i.weight*price(i.karat))||i.totalCost||0;
-    tx(n(v,0)+" SAR",X+cw/2,y+cw+56,"center",F(700,14),"#f3e2b0");
-    if(rt)tx(n(v*rt,0)+" EGP",X+cw/2,y+cw+80,"center",F(700,14),"#f3e2b0");
-    tx(i.date,X+cw/2,y+cw+(rt?104:80),"center",F(500,13),"#d8c49a");
   };
   newPage(true);
   SECS.forEach(sec=>{
@@ -289,11 +309,11 @@ const buildReport=async cat=>{
   });
   y+=360;
   const tw=its.reduce((a,i)=>a+i.weight,0),pw=its.filter(i=>new Date(i.date).getFullYear()<=yr-1).reduce((a,i)=>a+i.weight,0),tv=its.reduce((a,i)=>a+i.weight*price(i.karat),0);
-  rr(M,y,W-2*M,tv?184:120,22);x.fillStyle=TH.p;x.fill();x.strokeStyle=GOLD;x.lineWidth=2;x.stroke();
+  rr(M,y,W-2*M,tv?150:120,22);x.fillStyle=TH.p;x.fill();x.strokeStyle=GOLD;x.lineWidth=2;x.stroke();
   tx(t.tot,sx+(rtl?-30:30),y+30,al,F(600,16),GOLD,rtl?"0px":"4px");
   tx((yr-1)+"",sx+(rtl?-30:30),y+68,al,F(500,18),"#d8c49a");tx(n(pw)+" g",ex+(rtl?30:-30),y+68,ol,SER(34),"#fbeec6");
   tx(yr+"",sx+(rtl?-30:30),y+104,al,F(500,18),"#d8c49a");tx(n(tw)+" g",ex+(rtl?30:-30),y+104,ol,SER(44),GOLD);
-  if(tv){tx(t.val+": "+n(tv)+" SAR"+(+S.egp?" · "+n(tv*S.egp)+" EGP":""),sx+(rtl?-30:30),y+136,al,F(600,15),"#d8c49a");tx(t.asOf+": "+today,sx+(rtl?-30:30),y+166,al,F(500,15),"#d8c49a")}
+  if(tv)tx(t.val+": "+n(tv)+" SAR",sx+(rtl?-30:30),y+136,al,F(600,15),"#d8c49a");
   /* تذييل */
   pages.forEach((p,k)=>{pg=p;tx("YASSMIN GOLD · "+yr,sx,H-64,al,F(500,14),"#a98f55","4px");tx((k+1)+" / "+pages.length,ex,H-64,ol,F(500,14),"#a98f55","3px");
     p.x.globalAlpha=.7;p.x.fillStyle=GOLD;p.x.beginPath();p.x.moveTo(W/2,H-72);p.x.lineTo(W/2+6,H-66);p.x.lineTo(W/2,H-60);p.x.lineTo(W/2-6,H-66);p.x.fill();p.x.globalAlpha=1});
@@ -326,32 +346,38 @@ $("png").onclick=e=>busy(e.currentTarget,async()=>{
 });
 $("bak").onclick=()=>dl("gold-backup.json",new Blob([JSON.stringify(S)],{type:"application/json"}));
 $("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const o=JSON.parse(r.result);if(Array.isArray(o.items)){for(const i of o.items){if(typeof i.image==="string"&&i.image.length>8)await idb("put",i.id,i.image);else i.image=null}Object.assign(S,o);save();render()}}catch(x){}};r.readAsText(f);e.target.value=""};
-$("egp").oninput=e=>{S.egp=e.target.value;save();render()};
+["p24","p21","p18","egp","pdate"].forEach(id=>{$(id).oninput=e=>{S[id]=e.target.value;save();render()}});
 [24,21,18].forEach(k=>{$("h"+k).oninput=e=>{S["p"+k]=e.target.value;save();render()}});
 $("year").onchange=e=>{S.year=+e.target.value;save();render()};
+const shrink=f=>new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const q=Math.min(1,1800/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*q);c.height=Math.round(im.height*q);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(),"image/jpeg",.85)};im.onerror=rej;im.src=u});
+const PROMPT='This image is a screenshot of current gold prices in Saudi Arabia. Extract the price per gram in Saudi riyals for 24K, 21K and 18K. If both buy and sell prices appear, use the sell price. If prices are per ounce, tola or gold pound (8 g of 21K), convert to per gram. Reply with only JSON: {"p24":number|null,"p21":number|null,"p18":number|null,"date":"YYYY-MM-DD"|null,"basis":"one short Arabic phrase saying which price you used"}. Use null for anything not visible. Never guess.';
+$("sheet").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;const t=T[S.lang];
+  read(f,d=>{sheetData=d;render()});
+  pmsg=t.reading;render();
+  try{
+    const sample=window.claude?await window.claude.use("sample"):null;
+    if(!sample){pmsg=t.noAI;return}
+    const r=await sample.json(PROMPT,{images:await shrink(f),modelTier:"default"});
+    const num=v=>{v=parseFloat(v);return v>0?String(v):""};
+    const v={p24:num(r.p24),p21:num(r.p21),p18:num(r.p18)};
+    if(!Object.values(v).some(Boolean)){pmsg=t.fail;return}
+    Object.assign(S,v,{pdate:/^\d{4}-\d\d-\d\d$/.test(r.date||"")?r.date:new Date().toISOString().slice(0,10)});
+    pmsg=t.done+(r.basis?" - "+r.basis:"");save();
+  }catch(err){pmsg=err&&err.code==="not_granted"?t.noAI:t.fail}
+  finally{render();e.target.value=""}
+};
 let photoP=null;$("photo").onchange=e=>read(e.target.files[0],d=>{photoData=null;photoP=d?enhance(d):null});
-$("list").onclick=e=>{
-  const dd=e.target.dataset.d;
-  if(dd){idb("del",+dd);S.items=S.items.filter(i=>i.id!=dd);save();render();return}
-  const row=e.target.closest(".item");if(!row)return;const id=+row.dataset.id;
-  if(e.target.dataset.p){pickId=id;$("pick").click();return}
-  const i=S.items.find(x=>x.id===id);if(!i)return;
-  editId=id;photoP=null;photoData=null;$("photo").value="";
-  $("type").value=i.type;$("karat").value=i.karat;$("weight").value=i.weight;$("date").value=i.date;
-  $("gp").value=i.gramBuyPrice||"";$("fee").value=i.makingFee||"";$("total").value=(i.gramBuyPrice||i.makingFee)?"":(i.totalCost||"");$("notes").value=i.notes||"";
-  render();go("add")};
-$("pick").onchange=e=>read(e.target.files[0],async d=>{const i=S.items.find(x=>x.id===pickId);if(i&&d){try{i.image=await enhance(d);i.enh=1;await idb("put",i.id,i.image);save();render()}catch(x){}}$("pick").value=""});
-const clearForm=()=>{editId=null;photoP=null;photoData=null;$("form").reset();$("date").value=new Date().toISOString().slice(0,10);$("karat").value=21};
-$("cancelEdit").onclick=()=>{clearForm();render();go("items")};
+$("list").onclick=e=>{const id=e.target.dataset.d;if(id){idb("del",+id);S.items=S.items.filter(i=>i.id!=id);save();render()}};
 $("form").onsubmit=async e=>{
   e.preventDefault();if(photoP){try{photoData=await photoP}catch(x){}}photoP=null;
   const w=parseFloat($("weight").value)||0;if(!w)return;
   const gp=parseFloat($("gp").value)||0,fee=parseFloat($("fee").value)||0;
-  const totalCost=(gp||fee)?(gp+fee)*w:(parseFloat($("total").value)||0);
-  const f={type:$("type").value,karat:+$("karat").value,weight:w,date:$("date").value,gramBuyPrice:gp,makingFee:fee,totalCost,notes:$("notes").value.trim()};
-  if(editId){const i=S.items.find(x=>x.id===editId);if(i){Object.assign(i,f);if(photoData){i.image=photoData;i.enh=1;idb("put",i.id,photoData)}}}
-  else{const id=Date.now();if(photoData)idb("put",id,photoData);S.items.push({id,category:S.cat,...f,image:photoData,enh:photoData?1:0})}
-  clearForm();save();render();go("items");
+  const totalCost=(gp||fee)?(gp+fee)*w:(parseFloat($("total").value)||0),id=Date.now();
+  if(photoData)idb("put",id,photoData);
+  S.items.push({id,category:S.cat,type:$("type").value,karat:+$("karat").value,weight:w,date:$("date").value,gramBuyPrice:gp,makingFee:fee,totalCost,image:photoData,enh:photoData?1:0,notes:$("notes").value.trim()});
+  photoData=null;$("form").reset();$("date").value=new Date().toISOString().slice(0,10);$("karat").value=21;
+  save();render();go("items");
 };
 $("date").value=new Date().toISOString().slice(0,10);
 render();go("home");
