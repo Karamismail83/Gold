@@ -86,7 +86,6 @@ a{color:var(--accent)}
 .gh span{font-weight:400;color:var(--muted);font-size:.9rem}
 .grp .thumb{border:2px solid var(--c);color:var(--c);font-weight:700}
 .btns{display:flex;gap:10px;flex-wrap:wrap}.item,.thumb{cursor:pointer}
-
 /* ===== eye-catching layer ===== */
 header h1{background:linear-gradient(180deg,#fffbe0 0%,#f6d567 50%,#d99a1e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45));font-size:1.7rem}
 .logo{animation:glow 3.2s ease-in-out infinite}
@@ -110,7 +109,6 @@ nav button[aria-current="page"]{background:linear-gradient(180deg,color-mix(in s
 .item:hover{background:color-mix(in srgb,var(--gold) 8%,transparent)}
 .verdict{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,var(--soft)),var(--soft))}
 @media (prefers-reduced-motion:reduce){.logo,.kcard,.btn.primary{animation:none}}
-
 /* ===== fit-to-screen layout ===== */
 html,body{height:100%}
 body{font-size:14px;line-height:1.4;overflow:hidden}
@@ -144,7 +142,6 @@ input,select,textarea{padding:4px 8px;font-size:.9rem;border-radius:10px}
 .item{padding:5px 0;grid-template-columns:44px 1fr auto;gap:8px}.thumb{width:44px;height:44px;border-radius:10px}
 .gh{padding:4px 8px;font-size:.85rem}.grp{margin-bottom:6px}
 textarea{rows:1}
-
 /* ===== velvet: one deep tone + gold accent ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#0a1a33;--surface:#10264a;--ink:#efe6cf;--muted:#9fb0c8;--line:rgba(214,176,84,.2);--accent:#d6b054;--accent2:#b8913a;--brass:#d6b054;--gold:#d6b054;--soft:#173560;--pos:#8fd1a8;--neg:#e58a8a;--k24:#e6c766;--k21:#c9a24a;--k18:#c28c70;--sh:0 10px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 28px rgba(0,0,0,.28)}
 :root[data-theme="light"]{--bg:#e9e2d2;--surface:#f6f0e2;--ink:#2b2418;--muted:#7a6d56;--line:rgba(150,115,40,.25);--accent:#9a7420;--accent2:#7d5d16;--brass:#9a7420;--gold:#b8913a;--soft:#ebe2cc;--pos:#2f7a54;--neg:#b34444;--k24:#b8860b;--k21:#9a7420;--k18:#a0624a;--sh:0 8px 18px rgba(80,60,20,.15),inset 0 1px 0 rgba(255,255,255,.6)}
@@ -173,7 +170,6 @@ input,select,textarea{background:rgba(0,0,0,.22);border-color:var(--line);box-sh
 .verdict{background:rgba(0,0,0,.22);box-shadow:inset 0 2px 6px rgba(0,0,0,.35)}
 :root[data-theme="light"] input,:root[data-theme="light"] select,:root[data-theme="light"] textarea,:root[data-theme="light"] .tval,:root[data-theme="light"] .verdict{background:rgba(255,255,255,.55);box-shadow:inset 0 1px 3px rgba(80,60,20,.15)}
 :root[data-theme="light"] header{background:linear-gradient(145deg,#173560,#0d2243)}
-
 /* ===== pampered velvet ===== */
 body{background-image:radial-gradient(700px 320px at 50% -60px,rgba(214,176,84,.2),transparent 70%),radial-gradient(circle at 12% 28%,rgba(240,214,140,.16) 0 1.5px,transparent 2px),radial-gradient(circle at 86% 18%,rgba(240,214,140,.14) 0 1.5px,transparent 2px),radial-gradient(circle at 72% 62%,rgba(240,214,140,.1) 0 1.5px,transparent 2px),radial-gradient(circle at 24% 80%,rgba(240,214,140,.12) 0 1.5px,transparent 2px),radial-gradient(rgba(255,255,255,.04) 1px,transparent 1.2px);background-size:auto,auto,auto,auto,auto,3px 3px;background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat;background-attachment:fixed}
 header{border-radius:22px;box-shadow:var(--sh),inset 0 0 0 3px #0d2243,inset 0 0 0 4px rgba(214,176,84,.45);padding:8px 14px}
@@ -201,7 +197,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:inse
 @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.view:not([hidden]){animation:none}}
 :root[data-theme="light"] body{background-image:radial-gradient(700px 320px at 50% -60px,rgba(184,145,58,.25),transparent 70%),radial-gradient(rgba(120,90,30,.05) 1px,transparent 1.2px);background-size:auto,3px 3px;background-repeat:no-repeat,repeat}
-
 /* ===== luxury: midnight + metallic gold ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#050f20;--surface:#0b1d3a;--soft:#122b52;--ink:#f1e8d0;--muted:#a3b2c9;--line:rgba(214,176,84,.3);--sh:0 12px 26px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,236,170,.1),inset 0 0 32px rgba(0,0,0,.35)}
 :root{--metal:linear-gradient(135deg,#fbefba 0%,#e6c766 28%,#a87c2a 55%,#e9d08a 78%,#b8913a 100%)}
@@ -243,7 +238,6 @@ input:focus,select:focus,textarea:focus{border-color:#e6c766;box-shadow:inset 0 
 :root[data-theme="light"] .btn{color:#6b4f12}
 :root[data-theme="light"] h2{color:#7d5d16}
 :root[data-theme="light"] .kcard b{color:#2b2418}
-
 /* ===== ultra luxury: onyx, engraved gold, arabesque ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#030a17;--surface:#081834;--soft:#0f2547}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d6b054' stroke-opacity='.11' stroke-width='1'%3E%3Crect x='15' y='15' width='30' height='30'/%3E%3Crect x='15' y='15' width='30' height='30' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3Cpath d='M0 0L15 15M60 0L45 15M0 60L15 45M60 60L45 45'/%3E%3C/g%3E%3C/svg%3E");background-size:60px 60px;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.25) 70%,#000 100%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.25) 70%,#000 100%)}
@@ -265,7 +259,6 @@ nav::before{content:"";position:absolute;inset-inline:0;top:-1px;height:1px;back
 .item{border-bottom:1px solid rgba(214,176,84,.18)}
 @media (prefers-reduced-motion:reduce){header h1{animation:none}}
 :root[data-theme="light"] body::before{opacity:.6}
-
 /* ===== contrasting karat colors ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--k24:#f7c948;--k21:#2fd6a3;--k18:#ff6f98}
 :root[data-theme="light"]{--k24:#c98f0a;--k21:#0f9f78;--k18:#d63f70}
@@ -278,7 +271,6 @@ nav::before{content:"";position:absolute;inset-inline:0;top:-1px;height:1px;back
 .gh b{color:var(--c)}
 .grp .thumb{border:2px solid var(--c);color:var(--c);box-shadow:0 0 10px color-mix(in srgb,var(--c) 40%,transparent)}
 .k4 .kl{text-shadow:0 0 10px color-mix(in srgb,currentColor 60%,transparent)}
-
 /* ===== no shadows ===== */
 *,*::before,*::after{box-shadow:none!important;text-shadow:none!important;filter:none!important}
 header{outline:1px solid rgba(230,199,102,.55);outline-offset:-5px}
@@ -286,8 +278,6 @@ header{outline:1px solid rgba(230,199,102,.55);outline-offset:-5px}
 nav button[aria-current="page"]{border-bottom:2px solid #d6b054}
 .seg{border:1px solid rgba(214,176,84,.4)}
 input:focus,select:focus,textarea:focus{border-color:#e6c766;outline:2px solid rgba(214,176,84,.4);outline-offset:1px}
-
-
 /* ===== each karat has its own colored field ===== */
 #h24{--c:var(--k24)}#h21{--c:var(--k21)}#h18{--c:var(--k18)}
 #h24,#h21,#h18{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 18%,#030a16);color:var(--c);font-weight:700;text-align:center}
@@ -296,14 +286,12 @@ input:focus,select:focus,textarea:focus{border-color:#e6c766;outline:2px solid r
 .k4 .kl{display:block;text-align:center;padding:2px 0;border-radius:8px;background:color-mix(in srgb,currentColor 18%,transparent)}
 .kcard{background-color:color-mix(in srgb,var(--c) 14%,var(--surface))}
 .kcard b{color:var(--c)}
-
 /* ===== Google colors for karats ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--k24:#FBBC05;--k21:#34A853;--k18:#EA4335}
 :root[data-theme="light"]{--k24:#F9AB00;--k21:#1E8E3E;--k18:#D93025}
 #h24,#h21,#h18{color:var(--c)}
 #h21{color:#5bd47a}#h18{color:#ff6b5e}
 :root[data-theme="light"] #h21{color:#1E8E3E}:root[data-theme="light"] #h18{color:#D93025}
-
 /* ===== reference palette: yellow / green / magenta / cyan ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--k24:#FACC16;--k21:#10B981;--k18:#D946EF}
 :root[data-theme="light"]{--k24:#EAB308;--k21:#059669;--k18:#C026D3}
@@ -311,7 +299,6 @@ input:focus,select:focus,textarea:focus{border-color:#e6c766;outline:2px solid r
 :root[data-theme="light"] #h21{color:#059669}:root[data-theme="light"] #h18{color:#C026D3}
 .tval{border-color:#06B6D4;color:#22d3ee}
 :root[data-theme="light"] .tval{color:#0891b2}
-
 /* ===== solid karat fills like the reference tiles ===== */
 [style*="--k24"],#h24{--f:#FACC16}[style*="--k21"],#h21{--f:#10B981}[style*="--k18"],#h18{--f:#D946EF}
 .kcard{background:var(--f)!important;border:1px solid color-mix(in srgb,#fff 30%,var(--f));color:#0f172a}
@@ -324,12 +311,10 @@ input:focus,select:focus,textarea:focus{border-color:#e6c766;outline:2px solid r
 .gh{background:var(--f)!important;border:1px solid color-mix(in srgb,#fff 30%,var(--f));border-inline-start-width:1px;color:#0f172a}
 .gh b,.gh span{color:#0f172a!important}
 .grp .thumb{border-color:var(--f);color:var(--f)}
-
 /* ===== softer pink for 18K ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"],:root[data-theme="light"]{--k18:#EC9DBF}
 [style*="--k18"],#h18{--f:#EC9DBF}
 .k4 .kl[for="h18"]{color:#EC9DBF!important}
-
 /* ===== FINAL: cohesive fintech system — navy base, one gold brand accent, 3 muted karat tones ===== */
 :root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#0B1220;--surface:#111B2E;--soft:#17243B;--ink:#F1F5F9;--muted:#94A3B8;--line:rgba(148,163,184,.2);--accent:#E2B84B;--accent2:#C99A2E;--brass:#E2B84B;--gold:#E2B84B;--pos:#34D399;--neg:#F87171;--k24:#E8B931;--k21:#3CB98F;--k18:#E7A4BE}
 :root[data-theme="light"]{--bg:#F3F0E8;--surface:#FFFFFF;--soft:#F0ECE0;--ink:#1E293B;--muted:#64748B;--line:rgba(30,41,59,.14);--accent:#8A6A1C;--accent2:#6E5314;--brass:#8A6A1C;--gold:#B8912F;--pos:#047857;--neg:#B91C1C;--k24:#A97C0A;--k21:#0F8A63;--k18:#BE5A84}
@@ -370,7 +355,6 @@ nav button[aria-current="page"]{background:color-mix(in srgb,var(--gold) 12%,tra
 :root[data-theme="light"] header h1{-webkit-text-fill-color:var(--accent2);color:var(--accent2)}
 :root[data-theme="light"] input,:root[data-theme="light"] select,:root[data-theme="light"] textarea{background:var(--bg);color:var(--ink)}
 :root[data-theme="light"] .seg{background:var(--soft)}
-
 /* ===== translucent karat tints ===== */
 .kcard{background:color-mix(in srgb,var(--f) 18%,transparent)!important;border:1px solid color-mix(in srgb,var(--f) 55%,transparent)!important}
 .kcard b,.kcard .num-lg{color:var(--c)!important;-webkit-text-fill-color:var(--c)!important}
@@ -383,6 +367,22 @@ nav button[aria-current="page"]{background:color-mix(in srgb,var(--gold) 12%,tra
 .gh{background:color-mix(in srgb,var(--f) 16%,transparent)!important;border:1px solid color-mix(in srgb,var(--f) 50%,transparent)!important;border-inline-start:4px solid var(--f)!important}
 .gh b{color:var(--c)!important}
 .gh span{color:var(--muted)!important}
+
+/* ===== sort + view toggle ===== */
+.vbar{display:flex;gap:8px;margin-bottom:8px}
+.vbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--accent);border-radius:12px;padding:4px 12px;min-height:34px;cursor:pointer;font-size:.82rem;font-weight:600;transition:transform .15s,box-shadow .2s}
+.vbtn:active{transform:scale(.95)}
+.vbtn:hover{box-shadow:0 0 10px rgba(214,176,84,.35)}
+.vbtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.vbtn *{pointer-events:none}
+.rows.g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:6px 0 2px}
+.rows.g .item{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:6px;position:relative;border:1px solid var(--line);border-radius:14px;text-align:center}
+.rows.g .item:last-child{border:1px solid var(--line)}
+.rows.g .thumb{width:100%;height:auto;aspect-ratio:1/1;border-radius:10px;font-size:1.4rem}
+.rows.g .item b{font-size:.78rem;line-height:1.25}
+.rows.g .item span{font-size:.72rem;display:block}
+.rows.g .del{position:absolute;top:2px;inset-inline-start:2px;width:24px;height:24px;padding:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;line-height:24px;font-size:.8rem}
+.grp.nt .gh{--c:var(--gold);--f:var(--gold)}
 </style>
 </head>
 <body>
@@ -421,7 +421,7 @@ nav button[aria-current="page"]{background:color-mix(in srgb,var(--gold) 12%,tra
   </div>
 </section>
 <section class="view" data-v="items" hidden>
-  <div class="panel"><h2 data-i="items"></h2><div class="btns" style="margin-bottom:10px"><button class="btn" id="seedBtn" data-i="seedBtn"></button></div><div class="hint" id="busy2" aria-live="polite"></div><div class="hint" data-i="tapHint" style="margin-bottom:8px"></div><div id="list"></div><div class="btns" style="margin-top:16px"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div><input id="pick" type="file" accept="image/*" hidden></div>
+  <div class="panel"><h2 data-i="items"></h2><div class="vbar"><button type="button" class="vbtn" id="sortBtn"></button><button type="button" class="vbtn" id="viewBtn"></button></div><div class="btns" style="margin-bottom:10px"><button class="btn" id="seedBtn" data-i="seedBtn"></button></div><div class="hint" id="busy2" aria-live="polite"></div><div class="hint" data-i="tapHint" style="margin-bottom:8px"></div><div id="list"></div><div class="btns" style="margin-top:16px"><button type="button" class="btn" id="bak" data-i="backup"></button><label class="btn" style="margin:0;display:inline-block"><span data-i="restore"></span><input id="imp" type="file" accept=".json,application/json" hidden></label></div><input id="pick" type="file" accept="image/*" hidden></div>
 </section>
 <section class="view" data-v="zakat" hidden>
   <div class="panel"><h2 data-i="zakat"></h2><div class="verdict" id="zakat"></div></div>
@@ -435,13 +435,14 @@ nav button[aria-current="page"]{background:color-mix(in srgb,var(--gold) 12%,tra
 </div>
 <script>
 const T={
-ar:{title:"ذهبي",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه (١ ريال = ؟ جنيه)",sarRate:"سعر الجنيه بالريال (١ جنيه = ؟ ريال)",cost:"تكلفة الشراء",edit:"تعديل قطعة",saveEdit:"حفظ التعديل",cancel:"إلغاء",tapHint:"اضغط على القطعة لتعديلها، أو على صورتها لتغييرها.",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",seedBtn:"استرجاع قطع ياسمين الأساسية",seedHas:"قطع ياسمين موجودة بالفعل.",enh:"تحسين جودة كل الصور",enhing:"جارٍ تحسين الصور",scope:"التقرير لـ",scY:"ياسمين",scK:"كرم",scB:"ياسمين وكرم معًا (ملف واحد)",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",asOf:"بتاريخ",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
-en:{title:"Dahabi",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP (1 SAR = ? EGP)",sarRate:"EGP to SAR (1 EGP = ? SAR)",cost:"Purchase cost",edit:"Edit item",saveEdit:"Save changes",cancel:"Cancel",tapHint:"Tap an item to edit it, or its photo to change the photo.",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",seedBtn:"Restore Yassmin base pieces",seedHas:"Yassmin pieces already exist.",enh:"Enhance all photos",enhing:"Enhancing photos",scope:"Report for",scY:"Yassmin",scK:"Karam",scB:"Yassmin and Karam together (one file)",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",asOf:"As of",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
+ar:{title:"ذهبي",rateTitle:"سعر الجرام لكل عيار",totalVal:"الإجمالي",lang:"English",savePdf:"حفظ PDF بأعلى جودة",manual:"إدخال يدوي (اختياري)",reading:"جارٍ قراءة الصورة وتحديث الأسعار…",done:"تم تحديث الأسعار",updated:"آخر تحديث للأسعار:",noPrices:"ارفع صورة قائمة الأسعار وسيتم تحديث الأسعار تلقائيًا.",fail:"تعذرت قراءة الأسعار من الصورة. جرّب صورة أوضح أو أدخلها يدويًا.",noAI:"قراءة الصور غير متاحة هنا. أدخل الأسعار يدويًا.",backup:"نسخ احتياطي للبيانات",restore:"استيراد نسخة",savePng:"حفظ كصورة",karat2:"عيار",pcs:"قطع",price21:"عيار 21 (ريال/جم)",price18:"عيار 18 (ريال/جم)",pdate:"تاريخ الأسعار",pHint:"إذا تركت عيار 18 أو 21 فارغًا يُحسب من سعر عيار 24 بنسبة النقاء.",grand:"الإجمالي",nHome:"الرئيسية",nAdd:"إضافة",nItems:"القطع",nRates:"الأسعار",nZakat:"الزكاة",market:"أسعار السوق",price24:"عيار 24 (ريال/جم)",rateLink:"أسعار الذهب في السعودية",egpRate:"سعر الريال بالجنيه (١ ريال = ؟ جنيه)",sarRate:"سعر الجنيه بالريال (١ جنيه = ؟ ريال)",cost:"تكلفة الشراء",edit:"تعديل قطعة",saveEdit:"حفظ التعديل",cancel:"إلغاء",tapHint:"اضغط على القطعة لتعديلها، أو على صورتها لتغييرها.",sheet:"ارفع صورة قائمة الأسعار (تُحدَّث الأسعار تلقائيًا)",add:"إضافة قطعة",type:"نوع القطعة",karat:"العيار",weight:"الوزن (جرام)",date:"تاريخ الشراء",gramPrice:"سعر الجرام الخام",fee:"المصنعية للجرام",total:"إجمالي الشراء (ريال)",totalHint:"يُحسب تلقائيًا من السعر والمصنعية، أو اكتبه يدويًا.",photo:"صورة القطعة",notes:"ملاحظات",save:"حفظ القطعة",items:"القطع المسجلة",none:"لا توجد قطع في هذه المحفظة. أضف أول قطعة من صفحة إضافة.",del:"حذف",value:"قيمة الذهب",profit:"الربح / الخسارة",zakat:"زكاة الذهب",years:"مقارنة السنوات",pickYear:"السنة",yWeight:"الوزن المشترى",yCost:"التكلفة",yCount:"عدد القطع",g:"جم",zYes:"بلغ النصاب. الزكاة المستحقة 2.5%:",zNo:"لم يبلغ النصاب (85 جرامًا من عيار 24). الناقص:",zEmpty:"لا توجد قطع بعد.",dark:"🌙 داكن",light:"☀️ فاتح",making:"جارٍ تجهيز التقرير بالجودة الكاملة…",sortK:"عيار",sortT:"نوع",sortD:"تاريخ",sortTip:"الترتيب: ",viewG:"مربعات",viewL:"قائمة",seedBtn:"استرجاع قطع ياسمين الأساسية",seedHas:"قطع ياسمين موجودة بالفعل.",enh:"تحسين جودة كل الصور",enhing:"جارٍ تحسين الصور",scope:"التقرير لـ",scY:"ياسمين",scK:"كرم",scB:"ياسمين وكرم معًا (ملف واحد)",sub:"مجموعة المجوهرات · جرد الذهب",glance:"المجموعة في لمحة",byKarat:"الذهب حسب العيار",tot:"إجمالي الذهب (كل العيارات)",val:"القيمة التقريبية",cont:"تابع",asOf:"بتاريخ",sec:{neck:"القلائد",brace:"الأساور",ring:"الخواتم",ear:"الحلقان",bar:"السبائك"},types:{"أسورة":"أسورة","خاتم":"خاتم","حلق":"حلق","غويشة":"غويشة","سلسلة":"سلسلة","انسيال":"انسيال","سبيكة":"سبيكة"}},
+en:{title:"Dahabi",rateTitle:"Price per gram by karat",totalVal:"Total",lang:"عربي",savePdf:"Save PDF (full quality)",manual:"Manual entry (optional)",reading:"Reading the image and updating prices…",done:"Prices updated",updated:"Prices last updated:",noPrices:"Upload a price sheet photo and prices update automatically.",fail:"Could not read prices from the image. Try a clearer one or enter them manually.",noAI:"Image reading is unavailable here. Enter prices manually.",backup:"Back up data",restore:"Import backup",savePng:"Save as image",karat2:"Karat",pcs:"pcs",price21:"21K (SAR/g)",price18:"18K (SAR/g)",pdate:"Prices date",pHint:"Leave 18K or 21K empty to derive it from the 24K price by purity.",grand:"Total",nHome:"Home",nAdd:"Add",nItems:"Items",nRates:"Rates",nZakat:"Zakat",market:"Market rates",price24:"24K (SAR/g)",rateLink:"Saudi gold rates",egpRate:"SAR to EGP (1 SAR = ? EGP)",sarRate:"EGP to SAR (1 EGP = ? SAR)",cost:"Purchase cost",edit:"Edit item",saveEdit:"Save changes",cancel:"Cancel",tapHint:"Tap an item to edit it, or its photo to change the photo.",sheet:"Upload the price sheet photo (prices update automatically)",add:"Add an item",type:"Item type",karat:"Karat",weight:"Weight (g)",date:"Purchase date",gramPrice:"Raw price per gram",fee:"Making fee per gram",total:"Total paid (SAR)",totalHint:"Calculated from price and fee, or enter it manually.",photo:"Item photo",notes:"Notes",save:"Save item",items:"Recorded items",none:"No items in this portfolio yet. Add the first one from the Add page.",del:"Delete",value:"Gold value",profit:"Profit / loss",zakat:"Zakat on gold",years:"Year comparison",pickYear:"Year",yWeight:"Weight bought",yCost:"Cost",yCount:"Items",g:"g",zYes:"Nisab reached. Zakat due at 2.5%:",zNo:"Below nisab (85 g of 24K). Short by:",zEmpty:"No items yet.",dark:"🌙 Dark",light:"☀️ Light",making:"Building the report at full quality…",sortK:"Karat",sortT:"Type",sortD:"Date",sortTip:"Sort by: ",viewG:"Grid",viewL:"List",seedBtn:"Restore Yassmin base pieces",seedHas:"Yassmin pieces already exist.",enh:"Enhance all photos",enhing:"Enhancing photos",scope:"Report for",scY:"Yassmin",scK:"Karam",scB:"Yassmin and Karam together (one file)",sub:"JEWELRY COLLECTION · GOLD INVENTORY",glance:"COLLECTION AT A GLANCE",byKarat:"GOLD BY KARAT",tot:"TOTAL GOLD (ALL KARATS)",val:"ESTIMATED VALUE",cont:"cont.",asOf:"As of",sec:{neck:"NECKLACES",brace:"BRACELETS",ring:"RINGS",ear:"EARRINGS",bar:"GOLD BARS"},types:{"أسورة":"Bracelet","خاتم":"Ring","حلق":"Earring","غويشة":"Bangle","سلسلة":"Necklace","انسيال":"Chain","سبيكة":"Gold bar"}}
 };
 const SEED=[]; // بيانات ياسمين الأولية (الصور) موجودة في الملف الكامل فقط
 const CATS=["Gold yassmin","Karam Gold"],VIEWS=[["home","nHome"],["add","nAdd"],["items","nItems"],["zakat","nZakat"]];
 const $=id=>document.getElementById(id);
 const IC={home:'<path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/>',add:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',items:'<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>',zakat:'<path d="M12 3v18M5 7h14M5 7l-3 8a4 3 0 0 0 6 0zM19 7l-3 8a4 3 0 0 0 6 0z"/>'};
+const SI={karat:'<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>',type:'<path d="M12 3 3 8l9 5 9-5z"/><path d="M3 13l9 5 9-5"/>',date:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'},VI={grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',list:'<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>'},SORTS=["karat","type","date"];
 const K=[24,21,18],KC={24:"#E8B931",21:"#3CB98F",18:"#E7A4BE"};
 let S={lang:"ar",theme:"",cat:CATS[0],p24:"",p21:"",p18:"",pdate:"",egp:"",items:[],year:new Date().getFullYear(),prev:{"Gold yassmin":{"18":59.56,"21":187.44,"24":69.1}}};
 let photoData=null,view="home",editId=null,pickId=null;
@@ -482,7 +483,17 @@ function render(){
   $("ledger").innerHTML=(cost>0?`<tr><td>${t.cost}</td><td>${both(cost)}</td></tr>`:"")+(hasP?`<tr><td>${t.value}</td><td>${both(val)}</td></tr>${cost>0?`<tr><td>${t.profit}</td><td class="${pr>=0?"pos":"neg"}">${both(pr)}</td></tr>`:""}`:"");
   $("ledger").parentElement.hidden=!$("ledger").innerHTML;
   const row=i=>`<div class="item" data-id="${i.id}">${i.image?`<img class="thumb" data-p="1" src="${i.image}" alt="">`:`<div class="thumb" data-p="1">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g} · ${i.date} · ${n(i.totalCost)} SAR${r?" · "+n(i.totalCost*r)+" EGP":""}${i.notes?" · "+esc(i.notes):""}</span></div><button class="del" data-d="${i.id}">${t.del}</button></div>`;
-  $("list").innerHTML=its.length?K.map(k=>{const g=its.filter(i=>i.karat===k).sort((a,b)=>b.date.localeCompare(a.date));if(!g.length)return"";return `<div class="grp" style="--c:var(--k${k})"><div class="gh"><b>${t.karat2} ${k}</b><span>${g.length} ${t.pcs} · ${n(g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>${g.map(row).join("")}</div>`}).join(""):`<div class="empty">${t.none}</div>`;
+  const sm=SORTS.includes(S.sort)?S.sort:"karat",gv=!!S.grid;
+  $("sortBtn").innerHTML=`<svg viewBox="0 0 24 24">${SI[sm]}</svg><span>${t[{karat:"sortK",type:"sortT",date:"sortD"}[sm]]}</span>`;$("sortBtn").title=$("sortBtn").ariaLabel=t.sortTip+t[{karat:"sortK",type:"sortT",date:"sortD"}[sm]];
+  $("viewBtn").innerHTML=`<svg viewBox="0 0 24 24">${gv?VI.list:VI.grid}</svg><span>${gv?t.viewL:t.viewG}</span>`;$("viewBtn").title=$("viewBtn").ariaLabel=gv?t.viewL:t.viewG;
+  const rowG=i=>`<div class="item" data-id="${i.id}">${i.image?`<img class="thumb" data-p="1" src="${i.image}" alt="">`:`<div class="thumb" data-p="1">${i.karat}</div>`}<div><b>${t.types[i.type]||i.type} · ${i.karat}K</b><span>${n(i.weight)} ${t.g}</span></div><button class="del" data-d="${i.id}" aria-label="${t.del}">✕</button></div>`;
+  const rw=gv?rowG:row,rows=a=>`<div class="rows${gv?" g":""}">${a.map(rw).join("")}</div>`;
+  const byD=(a,b)=>b.date.localeCompare(a.date);
+  let groups;
+  if(sm==="karat")groups=K.map(k=>({cls:"",st:`--c:var(--k${k})`,name:`${t.karat2} ${k}`,g:its.filter(i=>i.karat===k).sort(byD)}));
+  else if(sm==="type")groups=Object.keys(t.types).map(ty=>({cls:" nt",st:"",name:t.types[ty],g:its.filter(i=>i.type===ty).sort((a,b)=>b.karat-a.karat||byD(a,b))}));
+  else groups=[{cls:" nt",st:"",name:"",g:its.slice().sort(byD)}];
+  $("list").innerHTML=its.length?groups.map(o=>{if(!o.g.length)return"";return `<div class="grp${o.cls}" style="${o.st}">${o.name?`<div class="gh"><b>${o.name}</b><span>${o.g.length} ${t.pcs} · ${n(o.g.reduce((a,i)=>a+i.weight,0))} ${t.g}</span></div>`:""}${rows(o.g)}</div>`}).join(""):`<div class="empty">${t.none}</div>`;
   $("zakat").innerHTML=!its.length?t.zEmpty:pure>=85?`${t.zYes} <b>${n(pure*.025,3)} ${t.g}</b>${p?` (${n(pure*.025*p)} SAR${r?" · "+n(pure*.025*p*r)+" EGP":""})`:""}`:`${t.zNo} <b>${n(85-pure)} ${t.g}</b>`;
   const ys=[...new Set([new Date().getFullYear(),...S.items.map(i=>new Date(i.date).getFullYear())])].sort((a,b)=>b-a);
   $("year").innerHTML=ys.map(y=>`<option ${y==S.year?"selected":""}>${y}</option>`).join("");
@@ -633,6 +644,8 @@ $("egp").oninput=e=>{S.egp=e.target.value;save();render()};
 [24,21,18].forEach(k=>{$("h"+k).oninput=e=>{S["p"+k]=e.target.value;save();render()}});
 $("year").onchange=e=>{S.year=+e.target.value;save();render()};
 let photoP=null;$("photo").onchange=e=>read(e.target.files[0],d=>{photoData=null;photoP=d?enhance(d):null});
+$("sortBtn").onclick=()=>{const c=SORTS.indexOf(S.sort);S.sort=SORTS[(c+1)%SORTS.length];save();render()};
+$("viewBtn").onclick=()=>{S.grid=!S.grid;save();render()};
 $("list").onclick=e=>{
   const dd=e.target.dataset.d;
   if(dd){idb("del",+dd);S.items=S.items.filter(i=>i.id!=dd);save();render();return}
