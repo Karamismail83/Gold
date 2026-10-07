@@ -231,8 +231,8 @@ const buildReport=async cat=>{
     x.strokeStyle=LINE;x.lineWidth=2;rr(24,24,W-48,H-48,30);x.stroke();x.globalAlpha=.45;x.lineWidth=1;rr(36,36,W-72,H-72,22);x.stroke();x.globalAlpha=1;
     const hh=first?180:96;x.lineWidth=1.5;x.strokeStyle=LINE;rr(M-14,64,W-2*M+28,hh,26);x.stroke();
     tx(cat.toUpperCase(),sx,64+(first?66:hh/2),al,SER(first?58:36),GOLD,rtl?"0px":"8px");
-    if(first){tx(t.sub,sx,64+128,al,F(500,15),"#d8c49a",rtl?"0px":"5px");tx(today,ex+(rtl?75:-75),212,"center",F(600,17),"#f3e2b0");
-      rr(ex-(rtl?0:150),84,150,64,18);x.fillStyle=GOLD;x.fill();tx(String(yr),ex+(rtl?75:-75),117,"center",SER(40),"#1a0a12");
+    if(first){tx(t.sub,sx,64+128,al,F(500,15),"#d8c49a",rtl?"0px":"5px");
+      rr(ex-(rtl?0:270),84,270,64,18);x.fillStyle=GOLD;x.fill();tx(today.split("-").reverse().join(" / "),ex+(rtl?135:-135),117,"center",F(700,34),"#1a0a12");
       [18,21,24].forEach((k,i)=>pill(ex+(rtl?1:-1)*(i*52+26)+(rtl?0:0)-(rtl?-0:0),176,46,26,KC[k],k+"K",14))}
     else tx(yr+"",ex,64+hh/2,ol,F(600,18),"#d8c49a","3px");
     y=64+hh+40;
